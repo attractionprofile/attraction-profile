@@ -536,23 +536,118 @@ const QS = [
 const SCALE = ["非常不符合", "不太符合", "说不清 / 看情况", "比较符合", "非常符合"];
 
 /* ========== 状态 ========== */
-const state = { answers: new Array(QS.length).fill(null), idx: 0, result: null, unlocked: false };
+const state = { answers: new Array(QS.length).fill(null), idx: 0, result: null, unlocked: false, codeUsed: null };
 
-/* 付费墙：enabled 设为 true 并填好 code 后，完整档案会锁在「解锁」之后。
-   code 为空时视为未配置，页面自动保持全部开放。 */
-const PAYWALL = { enabled: false, price: "0.9", code: "", contact: "" };
+/* 付费墙配置
+   enabled 设为 true 后，深度解析锁在「解锁码」之后。
+   页面上不存明文码，只存码的 SHA-256 摘要：别人翻源码也拿不到能用的码。
+   卖家手里的明文码见本地「解锁码清单.csv」，一个码对应一位买家。
+   api：可选的一次性校验地址（需要一个小后端）。填上它，同一个码换设备打开就会失效；
+        留空则只在本机记住解锁状态。 */
+const PAYWALL = {
+  enabled: true,
+  price: "0.88",
+  contact: "",
+  api: "",
+  authorHash: "64fd87161efdb51b071bf3dd17ed91aef3de19a963fcdce4b145892b91cbf964",
+  codeHashes: [
+    "677a69900157c2cd7be4276ba52e7b25397c81606b7e75099f290c826e4d400d",
+    "10da26a747a31fbdf6968b3ef01a9c8a4f6776b42fb203b9ca81b1edfd24d02b",
+    "c265a61404c110f1bee536625b45394ff319856d0d35aaefcd4478cd45bef280",
+    "8ca5e67b842ea8295ca41583b806fd40f349969381a809fa57c1d4f92e124b62",
+    "c3d610b591761eb50164d780f451bde4c52bd0ed201a27a022d38c894032a0f4",
+    "baff543ab0ca787ed4c572515707b97e97ee0012934c36a4c196ebbda697f4da",
+    "c46337a77f916fa9e4f9224af5113fb55682b8375d849db66542f02cf38f9a4b",
+    "9cf475987873a7a9641123664d0823ef17c170efc13f359dbd7869ac48d50d0f",
+    "2e8194cb57160e3361c71ecc8ae9e3f40d4e72bf4cebf41a1ba32ec656649b4c",
+    "6fc46abf1aab40051786515266c8843647a55f734ddbf30576ab66c4b8bd327d",
+    "14d05a792a0297a48ef2ea47b71f66500d0cc0f70efca2648e9a9cbdbb01d7de",
+    "84093869e4e5c087fd1fa02b783db7d4292306990924aaf8dd5be9f86e294297",
+    "f2bc85cfc77cdc981cece28ac1569fdd997213268a10f412576802200330bd0b",
+    "bb598a3c25eb1a9aa9da4995d5bb79184039f07280bfe66a729b7b20654dbff4",
+    "cbe0852700281b036ccd4490a1ac8262de2a25f1e0d6e9ccabc2464eb7bc6e56",
+    "94eb3db1d6d72f6601b030ace7657f3eab9431384ccf9d5c6e15d4f3b6d220c5",
+    "322b20b159c95fa6f35b141e6b5acb93c307ccd19a38e31dbe5bdd6362d5521e",
+    "e33cd7e53a60796ca60a5e0c1585679854a3586f43da743348ab2fcf4616a624",
+    "347a7735c16fbf17d2b5f05b4b8142d82c90af82225c01eeb557f1ecdc455b51",
+    "7ea24037030798c3870312d2babe8cc12027853fb8ca444b75c4f24fc6e5d44c",
+    "7726a5fb1e910f1d60519ca9204fffd4187fa9216f2cf4f7e22dafed257af4bd",
+    "83cc7ce1ef73e4fd2bbc375f0409fe6939306616e4715310c8131bce95377f26",
+    "f4e202cdb5f03d0e84c799d836e0bd20dd03a7d1db3c28fcde85176f7266d5cb",
+    "eb3dd06a1a555acf38425fba0654ee276d8147aaaca0e04033239a52f543c75d",
+    "4e055ce6d2d70343f7527c81b8cd18d2b5c62fcbf98b50e7e1651ca9263725d0",
+    "765ab63aa37182d37aeb8d4316e67722270a36b78e77cc908d6be8c40a8825d6",
+    "b1a907f4ba14b7bedaca19b64eab185d6eb909c29eabfa5ea474deb2c9401a0c",
+    "aa015b20df7b6983af563b498b2a7dc7fcd014ec3ae271af4d1abed791ca8477",
+    "68ba2d9575870e23a47ef6d8139d449c33b59561eef642158cf085f00317e903",
+    "f6cd8a80f5c581fcba6019b7ae75921955c258cf6b829b8827b05d454fd4be5e"
+  ]
+};
 const STORE_KEY = "attr_progress_v1";
+const DEVICE_KEY = "attr_device_v1";
 
 function paywalled() {
-  return PAYWALL.enabled && PAYWALL.code.length > 0;
+  return PAYWALL.enabled && (PAYWALL.codeHashes.length > 0 || PAYWALL.authorHash.length > 0);
 }
 function isLocked() {
   return paywalled() && !state.unlocked;
 }
+function deviceId() {
+  try {
+    let id = localStorage.getItem(DEVICE_KEY);
+    if (!id) {
+      id = Math.random().toString(36).slice(2) + Date.now().toString(36);
+      localStorage.setItem(DEVICE_KEY, id);
+    }
+    return id;
+  } catch (e) { return "nocookie"; }
+}
+function normalizeCode(v) {
+  return (v || "").replace(/\s+/g, "").toUpperCase();
+}
+async function sha256Hex(str) {
+  const buf = new TextEncoder().encode(str);
+  const digest = await crypto.subtle.digest("SHA-256", buf);
+  return Array.from(new Uint8Array(digest))
+    .map(b => b.toString(16).padStart(2, "0")).join("");
+}
+async function codeInPool(v) {
+  const h = await sha256Hex(normalizeCode(v));
+  if (PAYWALL.authorHash && h === PAYWALL.authorHash) return true;
+  return PAYWALL.codeHashes.indexOf(h) > -1;
+}
+async function redeemCode(raw) {
+  const c = normalizeCode(raw);
+  if (!c) return { ok: false, msg: "先输入解锁码" };
+  let ok = false;
+  try {
+    ok = await codeInPool(c);
+  } catch (e) {
+    ok = false;
+  }
+  if (!ok) return { ok: false, msg: "这个码不在名单里，核对一下" };
+  if (PAYWALL.api) {
+    try {
+      const r = await fetch(PAYWALL.api, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: c, device: deviceId() })
+      });
+      const j = await r.json();
+      if (!j || !j.ok) return { ok: false, msg: (j && j.msg) || "这个码已经在别的设备上用过了" };
+    } catch (e) {
+      return { ok: false, msg: "网络没连上，稍后再试一次" };
+    }
+  }
+  state.unlocked = true;
+  state.codeUsed = c;
+  saveProgress();
+  return { ok: true, msg: "已解锁，深度解析已打开" };
+}
 function saveProgress() {
   try {
     localStorage.setItem(STORE_KEY, JSON.stringify({
-      answers: state.answers, idx: state.idx, unlocked: state.unlocked
+      answers: state.answers, idx: state.idx, unlocked: state.unlocked, code: state.codeUsed
     }));
   } catch (e) { }
 }
@@ -695,6 +790,7 @@ el("startBtn").addEventListener("click", () => {
   if (saved && saved.answers.some(v => v !== null)) {
     state.answers = saved.answers;
     state.unlocked = !!saved.unlocked;
+    state.codeUsed = saved.code || null;
     const last = saved.answers.findIndex(v => v === null);
     state.idx = last === -1 ? 0 : last;
     renderQuestion();
@@ -741,11 +837,15 @@ function renderReport() {
   })();
   const lockBlock = locked
     ? '<div class="lock"><div class="lock-card">' +
-        '<span class="lock-kicker">完整档案 · 尚未解锁</span>' +
-        '<h3>还有五个部分没打开</h3>' +
-        '<p>完整的吸引力解析、五维图谱、三处最迷人的地方、你容易被误解的地方、你容易吸引谁，以及那张可以存下来的档案卡。</p>' +
-        '<button class="btn-main" id="unlockBtn">解锁完整档案 · ' + PAYWALL.price + ' 元</button>' +
-        '<p class="lock-note">付款后输入解锁码即可打开；也可以先回到封面，把这次结果留到下次。</p>' +
+        '<span class="lock-kicker">深度解析 · 尚未解锁</span>' +
+        '<h3>深度解析还没打开</h3>' +
+        '<p>你的五维图谱、三处最迷人的地方、你容易被误解的地方、你容易吸引什么样的人、给你的一句话，以及那张可以存下来的档案卡。</p>' +
+        '<button class="btn-main" id="unlockBtn">解锁深度解析 · ' + PAYWALL.price + ' 元</button>' +
+        '<p class="lock-note">' +
+          (PAYWALL.api
+            ? '付款后向作者获取解锁码。一个码只对第一次打开的浏览器生效，转发给别人打不开。'
+            : '付款后向作者获取解锁码，解锁后这台设备会记住，不用再输。') +
+        '</p>' +
         '<div class="lock-input"><input id="unlockInput" placeholder="输入解锁码" autocomplete="off"><button id="unlockGo">打开</button></div>' +
       '</div></div>'
     : '';
@@ -767,7 +867,7 @@ function renderReport() {
 
       '<section class="sec">' +
         '<div class="sec-head"><span class="sec-num">01</span><h3 class="sec-title">你的核心吸引力</h3></div>' +
-        '<div class="prose">' + (locked ? [t.portrait[0]] : t.portrait).map(p => '<p>' + p + '</p>').join("") + '</div>' +
+        '<div class="prose">' + t.portrait.map(p => '<p>' + p + '</p>').join("") + '</div>' +
       '</section>' +
 
       '<div class="paid-zone' + (locked ? ' locked' : '') + '">' +
@@ -854,21 +954,22 @@ function renderReport() {
 }
 
 function bindUnlock() {
-  const go = () => {
-    const val = (el("unlockInput").value || "").trim();
-    if (val && val.toUpperCase() === PAYWALL.code.toUpperCase()) {
-      state.unlocked = true;
-      saveProgress();
-      renderReport();
-      toast("已解锁，完整档案已打开");
-    } else {
-      toast("解锁码不对，再核对一下");
-    }
+  let busy = false;
+  const go = async () => {
+    if (busy) return;
+    busy = true;
+    const btn = el("unlockGo");
+    btn.textContent = "…";
+    const r = await redeemCode(el("unlockInput").value);
+    btn.textContent = "打开";
+    busy = false;
+    toast(r.msg);
+    if (r.ok) renderReport();
   };
   el("unlockGo").addEventListener("click", go);
   el("unlockInput").addEventListener("keydown", e => { if (e.key === "Enter") go(); });
   el("unlockBtn").addEventListener("click", () => {
-    toast(PAYWALL.contact ? "联系作者获取解锁码：" + PAYWALL.contact : "输入付款后拿到的解锁码");
+    toast(PAYWALL.contact ? "付款后联系作者获取解锁码：" + PAYWALL.contact : "输入付款后拿到的解锁码");
     el("unlockInput").focus();
   });
 }
@@ -1070,7 +1171,10 @@ document.addEventListener("keydown", e => {
 /* 刷新后保留解锁状态 */
 try {
   const saved = loadProgress();
-  if (saved && saved.unlocked) state.unlocked = true;
+  if (saved && saved.unlocked) {
+    state.unlocked = true;
+    state.codeUsed = saved.code || null;
+  }
 } catch (e) { }
 </script>
 </body>
