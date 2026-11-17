@@ -126,6 +126,9 @@ h1,h2,h3,h4{margin:0}
 .reveal-ready .btn-main{background:#FFF;color:#0B0B0B}
 .reveal-ready .btn-main:active{background:#E6E4DF}
 .reveal-note{margin-top:14px;font-size:10.5px;color:#6E6E6E;letter-spacing:.06em}
+.reveal-hook{max-width:20em;margin:0 auto 30px;padding:18px 20px 20px;border:1px solid rgba(255,255,255,.16);text-align:left}
+.reveal-hook span{display:block;font-size:9.5px;letter-spacing:.26em;color:#8C8C8C;margin-bottom:9px}
+.reveal-hook p{font-size:13px;line-height:1.95;color:#C9C6C0}
 
 /* ===== 报告 ===== */
 #v-report{background:transparent;padding-bottom:40px}
@@ -156,6 +159,25 @@ h1,h2,h3,h4{margin:0}
 .res-dims{display:flex;flex-wrap:wrap;gap:8px 14px;padding-bottom:22px;border-bottom:1px solid var(--line)}
 .res-dims span{font-size:11px;letter-spacing:.14em;color:var(--muted)}
 .res-dims b{font-size:11px;letter-spacing:.14em;color:var(--ink);font-weight:500}
+.res-meta{display:flex;justify-content:space-between;gap:12px;padding:13px 0 0;font-size:9.5px;letter-spacing:.22em;color:var(--faint)}
+
+/* 付费墙 */
+.paid-zone{margin-top:0}
+.paid-zone .lock{display:none}
+.paid-zone.locked .paid-body{display:none}
+.paid-zone.locked .lock{display:block;padding-top:44px}
+.lock-card{padding:30px 24px 26px;background:#0B0B0B;color:#FFF}
+.lock-kicker{display:block;font-size:9.5px;letter-spacing:.26em;color:#E0311C;margin-bottom:16px}
+.lock-card h3{font-family:var(--serif);font-size:21px;line-height:1.62;font-weight:600;margin-bottom:12px;color:#FFF}
+.lock-card p{font-size:13px;line-height:1.95;color:#C9C6C0;margin-bottom:20px}
+.lock-card .btn-main{width:100%;background:#FFF;color:#0B0B0B;margin-bottom:16px}
+.lock-card .btn-main:active{background:#E6E4DF}
+.lock-note{font-size:10.5px;line-height:1.9;color:#8C8C8C;margin-bottom:14px}
+.lock-input{display:flex;gap:8px}
+.lock-input input{flex:1;min-width:0;min-height:48px;padding:0 13px;border:1px solid rgba(255,255,255,.26);background:transparent;color:#FFF;font-size:16px;font-family:var(--sans);letter-spacing:.08em}
+.lock-input input::placeholder{color:#6E6E6E;font-size:13px;letter-spacing:.04em}
+.lock-input button{min-height:48px;padding:0 18px;border:1px solid rgba(255,255,255,.26);color:#FFF;font-size:12px;letter-spacing:.12em}
+.lock-input button:active{background:rgba(255,255,255,.12)}
 
 .sec{padding:44px 0 0}
 .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:22px;padding-top:16px;border-top:1px solid var(--line)}
@@ -299,8 +321,12 @@ h1,h2,h3,h4{margin:0}
       <h2 class="reveal-name" id="rvName">清冷引力</h2>
       <p class="reveal-en" id="rvEn">The Quiet Magnetism</p>
       <p class="reveal-quote" id="rvQuote"></p>
+      <div class="reveal-hook">
+        <span>别人最容易误读你的一点</span>
+        <p id="rvHook"></p>
+      </div>
       <button class="btn-main" id="openReport" style="width:100%">打开完整吸引力档案</button>
-      <p class="reveal-note">体验版 · 完整档案已全部开放</p>
+      <p class="reveal-note">六部分完整档案 · 可存成一张卡片</p>
     </div>
   </div>
 </section>
@@ -313,8 +339,8 @@ h1,h2,h3,h4{margin:0}
 <div id="posterLayer" aria-hidden="true">
   <button class="btn-close" id="posterClose" aria-label="关闭">×</button>
   <div class="poster-inner">
-    <img class="poster-img" id="posterImg" alt="你的吸引力档案海报">
-    <p class="poster-tip">长按图片保存到相册；也可以复制链接，发给朋友一起测。</p>
+    <img class="poster-img" id="posterImg" alt="你的吸引力档案卡">
+    <p class="poster-tip">长按图片存进相册；也可以复制链接，发给朋友一起测。</p>
     <div class="poster-actions">
       <button class="btn-main" id="posterSave">保存海报</button>
       <button class="btn-ghost" id="posterShare">把链接发给朋友</button>
@@ -510,7 +536,35 @@ const QS = [
 const SCALE = ["非常不符合", "不太符合", "说不清 / 看情况", "比较符合", "非常符合"];
 
 /* ========== 状态 ========== */
-const state = { answers: new Array(QS.length).fill(null), idx: 0, result: null };
+const state = { answers: new Array(QS.length).fill(null), idx: 0, result: null, unlocked: false };
+
+/* 付费墙：enabled 设为 true 并填好 code 后，完整档案会锁在「解锁」之后。
+   code 为空时视为未配置，页面自动保持全部开放。 */
+const PAYWALL = { enabled: false, price: "0.9", code: "", contact: "" };
+const STORE_KEY = "attr_progress_v1";
+
+function paywalled() {
+  return PAYWALL.enabled && PAYWALL.code.length > 0;
+}
+function isLocked() {
+  return paywalled() && !state.unlocked;
+}
+function saveProgress() {
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify({
+      answers: state.answers, idx: state.idx, unlocked: state.unlocked
+    }));
+  } catch (e) { }
+}
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (!raw) return null;
+    const data = JSON.parse(raw);
+    if (!Array.isArray(data.answers) || data.answers.length !== QS.length) return null;
+    return data;
+  } catch (e) { return null; }
+}
 const el = id => document.getElementById(id);
 function show(view) {
   document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
@@ -557,6 +611,7 @@ function renderQuestion() {
       el("qBody").querySelectorAll(".tick").forEach(b => b.classList.remove("on"));
       btn.classList.add("on");
       state.answers[state.idx] = Number(btn.dataset.v);
+      saveProgress();
       const now = el("scaleNow");
       now.classList.add("on");
       now.innerHTML = '你的选择：<b>' + SCALE[Number(btn.dataset.v) - 1] + '</b>';
@@ -587,8 +642,10 @@ function finish() {
     el("rvName").textContent = t.name;
     el("rvEn").textContent = t.en;
     el("rvQuote").textContent = t.quote;
+    el("rvHook").textContent = t.mis;
     el("revealReady").classList.add("show");
   }, 2100);
+  saveProgress();
 }
 
 /* ========== 计分 ========== */
@@ -634,6 +691,17 @@ function levelOf(avg) {
 
 /* ========== 入口 ========== */
 el("startBtn").addEventListener("click", () => {
+  const saved = loadProgress();
+  if (saved && saved.answers.some(v => v !== null)) {
+    state.answers = saved.answers;
+    state.unlocked = !!saved.unlocked;
+    const last = saved.answers.findIndex(v => v === null);
+    state.idx = last === -1 ? 0 : last;
+    renderQuestion();
+    show("v-quiz");
+    toast(last === -1 ? "上次已经答完，重新测一次" : "已接上上次的进度");
+    return;
+  }
   state.idx = 0;
   state.answers = new Array(QS.length).fill(null);
   renderQuestion();
@@ -666,10 +734,26 @@ function renderReport() {
     '<div class="charm"><em>0' + (i + 1) + '</em><span>' + c + '</span></div>'
   ).join("");
 
+  const locked = isLocked();
+  const stamp = (() => {
+    const d = new Date();
+    return d.getFullYear() + "." + String(d.getMonth() + 1).padStart(2, "0") + "." + String(d.getDate()).padStart(2, "0");
+  })();
+  const lockBlock = locked
+    ? '<div class="lock"><div class="lock-card">' +
+        '<span class="lock-kicker">完整档案 · 尚未解锁</span>' +
+        '<h3>还有五个部分没打开</h3>' +
+        '<p>完整的吸引力解析、五维图谱、三处最迷人的地方、你容易被误解的地方、你容易吸引谁，以及那张可以存下来的档案卡。</p>' +
+        '<button class="btn-main" id="unlockBtn">解锁完整档案 · ' + PAYWALL.price + ' 元</button>' +
+        '<p class="lock-note">付款后输入解锁码即可打开；也可以先回到封面，把这次结果留到下次。</p>' +
+        '<div class="lock-input"><input id="unlockInput" placeholder="输入解锁码" autocomplete="off"><button id="unlockGo">打开</button></div>' +
+      '</div></div>'
+    : '';
+
   el("repRoot").innerHTML =
     '<div class="res-photo"><img src="' + t.img + '" alt="' + t.name + '的人物摄影"></div>' +
     '<div class="res-head">' +
-      '<div class="res-topline"><span>ATTRACTION ARCHIVE</span><span>NO.' + t.no + '</span></div>' +
+      '<div class="res-topline"><span>ATTRACTION ARCHIVE</span><span>NO.' + t.no + ' / 2026</span></div>' +
       '<h1 class="res-name">' + t.name + '</h1>' +
       '<p class="res-en">' + t.en + '</p>' +
       '<p class="res-quote">' + t.quote + '</p>' +
@@ -677,13 +761,18 @@ function renderReport() {
         '<span>主要吸引力 <b>' + topDim.name + ' × ' + secondDim.name + '</b></span>' +
         '<span>次要特质 <b>' + thirdDim.name + '</b></span>' +
       '</div>' +
+      '<div class="res-meta"><span>GENERATED ' + stamp + '</span><span>20 ITEMS · 5 DIMENSIONS</span></div>' +
     '</div>' +
     '<div class="wrap">' +
 
       '<section class="sec">' +
         '<div class="sec-head"><span class="sec-num">01</span><h3 class="sec-title">你的核心吸引力</h3></div>' +
-        '<div class="prose">' + t.portrait.map(p => '<p>' + p + '</p>').join("") + '</div>' +
+        '<div class="prose">' + (locked ? [t.portrait[0]] : t.portrait).map(p => '<p>' + p + '</p>').join("") + '</div>' +
       '</section>' +
+
+      '<div class="paid-zone' + (locked ? ' locked' : '') + '">' +
+      lockBlock +
+      '<div class="paid-body">' +
 
       '<section class="band band-gray"><div class="band-inner">' +
         '<div class="sec">' +
@@ -719,15 +808,18 @@ function renderReport() {
 
       '<div class="share">' +
         '<h4 class="share-title">把这份档案带走</h4>' +
-        '<p class="share-desc">生成一张吸引力海报，或者把测试发给朋友，看看他们眼中最迷人的部分是什么。</p>' +
+        '<p class="share-desc">生成一张档案卡存进相册，或者把测试发给朋友，看看他们眼中最迷人的部分是什么。</p>' +
         '<div class="share-actions">' +
-          '<button class="btn-main" id="makePoster">生成吸引力海报</button>' +
+          '<button class="btn-main" id="makePoster">生成吸引力档案卡</button>' +
           '<button class="btn-ghost" id="copyLink">复制链接</button>' +
         '</div>' +
-        '<div class="share-actions" style="margin-top:10px">' +
-          '<button class="btn-ghost" id="retake" style="flex:1">重新测一次</button>' +
-          '<button class="btn-ghost" id="toCover" style="flex:1">回到封面</button>' +
-        '</div>' +
+      '</div>' +
+
+      '</div></div>' +
+
+      '<div class="share-actions" style="margin-top:28px">' +
+        '<button class="btn-ghost" id="retake" style="flex:1">重新测一次</button>' +
+        '<button class="btn-ghost" id="toCover" style="flex:1">回到封面</button>' +
       '</div>' +
 
       '<div class="foot">' +
@@ -744,15 +836,41 @@ function renderReport() {
     }, 60);
   });
 
-  el("makePoster").addEventListener("click", openPoster);
-  el("copyLink").addEventListener("click", () => shareOrCopy(true));
+  if (locked) {
+    bindUnlock();
+  } else {
+    el("makePoster").addEventListener("click", openPoster);
+    el("copyLink").addEventListener("click", () => shareOrCopy(true));
+  }
   el("retake").addEventListener("click", () => {
     state.idx = 0;
     state.answers = new Array(QS.length).fill(null);
+    state.result = null;
+    saveProgress();
     renderQuestion();
     show("v-quiz");
   });
   el("toCover").addEventListener("click", () => show("v-cover"));
+}
+
+function bindUnlock() {
+  const go = () => {
+    const val = (el("unlockInput").value || "").trim();
+    if (val && val.toUpperCase() === PAYWALL.code.toUpperCase()) {
+      state.unlocked = true;
+      saveProgress();
+      renderReport();
+      toast("已解锁，完整档案已打开");
+    } else {
+      toast("解锁码不对，再核对一下");
+    }
+  };
+  el("unlockGo").addEventListener("click", go);
+  el("unlockInput").addEventListener("keydown", e => { if (e.key === "Enter") go(); });
+  el("unlockBtn").addEventListener("click", () => {
+    toast(PAYWALL.contact ? "联系作者获取解锁码：" + PAYWALL.contact : "输入付款后拿到的解锁码");
+    el("unlockInput").focus();
+  });
 }
 
 /* ========== 分享 ========== */
@@ -830,75 +948,64 @@ async function buildPoster() {
 
   ctx.fillStyle = "#F2F1EE";
   ctx.fillRect(0, 0, W, H);
-  ctx.fillStyle = "#0B0B0B";
-  ctx.fillRect(0, 0, W, 100);
 
-  // 顶部标签
-  ctx.fillStyle = "#FFFFFF";
-  ctx.font = '500 15px "Noto Sans SC", sans-serif';
-  ctx.textAlign = "left";
-  ctx.fillText("ATTRACTION PROFILE", 60, 66);
-  ctx.textAlign = "right";
-  ctx.fillStyle = "#A9A6A0";
-  ctx.fillText("NO." + t.no, W - 60, 66);
-
-  // 红色标线
-  ctx.fillStyle = "#E0311C";
-  ctx.fillRect(60, 108, W - 120, 3);
-
-  // 人物摄影
+  // 照片：整幅出血，成为卡片的主体
+  const PH = 700;
   const photo = await loadImage(t.img);
   if (photo) {
-    const px = 60, py = 134, pw = 600, ph = 360;
-    const sRatio = Math.max(pw / photo.width, ph / photo.height);
-    const sw = pw / sRatio, sh = ph / sRatio;
+    const sRatio = Math.max(W / photo.width, PH / photo.height);
+    const sw = W / sRatio, sh = PH / sRatio;
     const sx = (photo.width - sw) / 2;
-    const sy = (photo.height - sh) * 0.2;
-    ctx.drawImage(photo, sx, sy, sw, sh, px, py, pw, ph);
+    const sy = (photo.height - sh) * 0.18;
+    ctx.drawImage(photo, sx, sy, sw, sh, 0, 0, W, PH);
   }
+
+  // 照片下沿的红线
+  ctx.fillStyle = "#E0311C";
+  ctx.fillRect(0, PH, W, 3);
+
+  // 编号
+  ctx.textAlign = "left";
+  ctx.fillStyle = "#6B6B6B";
+  ctx.font = '500 14px "Noto Sans SC", sans-serif';
+  ctx.fillText("ATTRACTION ARCHIVE", 56, PH + 74);
+  ctx.textAlign = "right";
+  ctx.fillStyle = "#9C9C9C";
+  ctx.fillText("NO." + t.no, W - 56, PH + 74);
 
   // 类型名
   ctx.textAlign = "left";
   ctx.fillStyle = "#0B0B0B";
-  ctx.font = '700 92px "Noto Serif SC", serif';
-  ctx.fillText(t.name, 56, 566);
+  ctx.font = '700 96px "Noto Serif SC", serif';
+  ctx.fillText(t.name, 52, PH + 198);
 
   // 英文名
   ctx.fillStyle = "#6B6B6B";
   ctx.font = '400 17px "Noto Sans SC", sans-serif';
-  ctx.fillText(t.en, 60, 620);
+  ctx.fillText(t.en, 56, PH + 248);
 
   // 金句
-  ctx.fillStyle = "#333333";
-  ctx.font = '400 26px "Noto Serif SC", serif';
+  ctx.fillStyle = "#2E2E2E";
+  ctx.font = '400 27px "Noto Serif SC", serif';
   const qLines = wrapLines(ctx, t.quote, 600, 2);
-  qLines.forEach((ln, i) => ctx.fillText(ln, 60, 690 + i * 42));
-
-  // 五维
-  const baseY = 800;
-  const barX = 60, barW = 460;
-  res.list.slice().sort((a, b) => DIM_ORDER.indexOf(a.id) - DIM_ORDER.indexOf(b.id)).forEach((item, i) => {
-    const y = baseY + i * 46;
-    const isTop = item.id === res.top.id;
-    ctx.fillStyle = isTop ? "#0B0B0B" : "#6B6B6B";
-    ctx.font = '400 15px "Noto Sans SC", sans-serif';
-    ctx.textAlign = "left";
-    ctx.fillText(DIMS[item.id].name, 60, y + 4);
-
-    ctx.fillStyle = "#E3E3E1";
-    ctx.fillRect(150, y - 3, barW, 3);
-    ctx.fillStyle = isTop ? "#E0311C" : "#0B0B0B";
-    ctx.fillRect(150, y - 3, barW * item.percent / 100, 3);
-
-    ctx.fillStyle = isTop ? "#E0311C" : "#6B6B6B";
-    ctx.font = '400 14px "Noto Serif SC", serif';
-    ctx.textAlign = "right";
-    ctx.fillText(String(item.percent), W - 60, y + 4);
-  });
+  qLines.forEach((ln, i) => ctx.fillText(ln, 56, PH + 326 + i * 44));
 
   // 底部分隔线
   ctx.fillStyle = "rgba(11,11,11,.16)";
-  ctx.fillRect(60, 1070, W - 120, 1);
+  ctx.fillRect(56, 1116, W - 112, 1);
+
+  // 两个核心维度
+  const dimPair = [res.top.id, res.second.id]
+    .sort((a, b) => DIM_ORDER.indexOf(a) - DIM_ORDER.indexOf(b))
+    .map(k => DIMS[k].en).join("  ×  ");
+  ctx.textAlign = "left";
+  ctx.fillStyle = "#0B0B0B";
+  ctx.font = '500 15px "Noto Sans SC", sans-serif';
+  ctx.fillText(dimPair, 56, 1170);
+
+  ctx.fillStyle = "#9C9C9C";
+  ctx.font = '400 12px "Noto Sans SC", sans-serif';
+  ctx.fillText("A PERSONAL ATTRACTION PROFILE · 2026", 56, 1200);
 
   // 二维码
   let qrImg = null;
@@ -911,26 +1018,17 @@ async function buildPoster() {
     } catch (e) { qrImg = null; }
   }
   if (qrImg) {
-    ctx.drawImage(qrImg, 60, 1096, 92, 92);
-    ctx.textAlign = "left";
-    ctx.fillStyle = "#0B0B0B";
-    ctx.font = '400 17px "Noto Sans SC", sans-serif';
-    ctx.fillText("扫码测测你的吸引力", 172, 1132);
+    ctx.drawImage(qrImg, 558, 1136, 96, 96);
+    ctx.textAlign = "right";
     ctx.fillStyle = "#6B6B6B";
-    ctx.font = '400 14px "Noto Sans SC", sans-serif';
-    ctx.fillText("20 道题 · 3—4 分钟", 172, 1158);
+    ctx.font = '400 11px "Noto Sans SC", sans-serif';
+    ctx.fillText("扫码测测你的", W - 56, 1252);
   } else {
-    ctx.textAlign = "left";
-    ctx.fillStyle = "#6B6B6B";
-    ctx.font = '400 15px "Noto Sans SC", sans-serif';
-    ctx.fillText("把这份档案发给朋友，一起测", 60, 1132);
+    ctx.textAlign = "right";
+    ctx.fillStyle = "#9C9C9C";
+    ctx.font = '400 12px "Noto Sans SC", sans-serif';
+    ctx.fillText("把这张卡发给朋友，一起测", W - 56, 1200);
   }
-
-  ctx.textAlign = "right";
-  ctx.fillStyle = "#9C9C9C";
-  ctx.font = '400 13px "Noto Sans SC", sans-serif';
-  ctx.fillText("THE ART OF ATTRACTION", W - 60, 1132);
-  ctx.fillText("你身上最致命的吸引力是什么？", W - 60, 1158);
 
   posterCanvas = cv;
   return cv.toDataURL("image/png");
@@ -968,6 +1066,12 @@ el("posterShare").addEventListener("click", () => shareOrCopy(false));
 document.addEventListener("keydown", e => {
   if (e.key === "Escape" && el("posterLayer").classList.contains("show")) closePoster();
 });
+
+/* 刷新后保留解锁状态 */
+try {
+  const saved = loadProgress();
+  if (saved && saved.unlocked) state.unlocked = true;
+} catch (e) { }
 </script>
 </body>
 </html>
