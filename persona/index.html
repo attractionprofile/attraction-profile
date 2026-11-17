@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>双面人格档案 · 你藏起来的另一面是什么</title>
+<meta name="description" content="36 道题，揭开你的外在人格与隐藏人格。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230B1118'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23C0A062' stroke-width='1.6'/%3E%3Cline x1='16' y1='7' x2='16' y2='25' stroke='%23C0A062' stroke-width='1.2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://miaoda.feishu.cn">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap">
+<style>
+:root{
+  --night:#0B1118;
+  --night2:#101923;
+  --ink:#172029;
+  --paper:#F4EFE6;
+  --paper2:#EAE2D4;
+  --gold:#C0A062;
+  --gold2:#D8C08A;
+  --muted:#6E6A62;
+  --faint:#A09A8E;
+  --seal:#A33B2F;
+  --line:rgba(23,32,41,.14);
+  --line-dark:rgba(192,160,98,.28);
+  --serif:"Noto Serif SC","Songti SC","STSong",serif;
+  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:15px;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+button{font-family:inherit;border:none;background:none;cursor:pointer;color:inherit}
+input{border:none;outline:none;font-family:inherit;background:none;color:inherit}
+img{display:block;max-width:100%}
+::selection{background:var(--gold2);color:var(--night)}
+
+/* ===== 视图 ===== */
+.view{display:none;min-height:100vh}
+.view.active{display:block}
+
+/* ===== 封面 ===== */
+#v-cover{
+  background:var(--night);
+  color:var(--paper);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:22px 24px 30px;
+  position:relative;
+  overflow:hidden;
+}
+#v-cover::before{
+  content:"";
+  position:absolute;inset:14px;
+  border:1px solid rgba(192,160,98,.22);
+  pointer-events:none;
+}
+#v-cover::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(120% 70% at 50% -10%,rgba(192,160,98,.14),transparent 60%),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.028) 0 1px,transparent 1px 34px);
+  pointer-events:none;
+}
+.cover-top,.cover-meta{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:9.5px;letter-spacing:.24em;color:rgba(244,239,230,.55);
+  position:relative;z-index:2;
+}
+.cover-main{position:relative;z-index:2;padding:26px 0 0}
+.cover-kicker{
+  font-size:9.5px;letter-spacing:.42em;color:var(--gold);
+  margin-bottom:26px;
+}
+.cover-title{
+  font-family:var(--serif);
+  font-size:44px;
+  line-height:1.22;
+  font-weight:600;
+  letter-spacing:.06em;
+  color:var(--paper);
+}
+.cover-title span{display:block}
+.cover-en{
+  font-family:var(--serif);
+  font-size:10.5px;letter-spacing:.34em;color:var(--gold2);
+  margin-top:14px;
+}
+.cover-rule{
+  width:52px;height:1px;background:var(--gold);
+  margin:30px 0 24px;
+}
+.cover-lede{
+  font-family:var(--serif);
+  font-size:15px;line-height:2.05;color:rgba(244,239,230,.78);
+}
+.cover-cta{position:relative;z-index:2}
+.btn-gold{
+  display:block;width:100%;min-height:56px;
+  background:var(--paper);color:var(--night);
+  font-size:13.5px;letter-spacing:.28em;
+  transition:background .2s;
+}
+.btn-gold:active{background:var(--gold2)}
+.cover-note{
+  font-size:10.5px;line-height:1.9;color:rgba(244,239,230,.42);
+  margin-top:14px;text-align:center;letter-spacing:.04em;
+}
+
+/* ===== 答题 ===== */
+#v-quiz{background:var(--paper);padding:0 0 40px}
+.quiz-bar{height:2px;background:rgba(23,32,41,.1);position:sticky;top:0;z-index:5;background-color:#EAE2D4}
+.quiz-bar-fill{height:2px;width:0;background:var(--gold);transition:width .35s ease}
+.quiz-head{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  padding:22px 24px 0;
+}
+.q-count{font-family:var(--serif);font-size:30px;line-height:1;letter-spacing:.02em}
+.q-total{font-size:10px;color:var(--faint);letter-spacing:.16em;margin-left:6px}
+.quiz-right{font-size:9.5px;letter-spacing:.24em;color:var(--gold);text-align:right}
+.quiz-right em{display:block;font-style:normal;color:var(--faint);letter-spacing:.18em;margin-top:4px}
+.q-body{padding:30px 24px 0;min-height:calc(100vh - 260px)}
+.q-index{font-size:9.5px;letter-spacing:.3em;color:var(--faint);margin-bottom:14px}
+.q-text{
+  font-family:var(--serif);
+  font-size:22px;line-height:1.78;font-weight:500;
+  margin-bottom:8px;
+}
+.q-hint{font-size:11px;color:var(--faint);margin-bottom:26px;letter-spacing:.04em}
+.opts{display:flex;flex-direction:column;gap:11px}
+.opt{
+  display:flex;align-items:flex-start;gap:12px;
+  width:100%;text-align:left;
+  padding:17px 16px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.5);
+  font-size:14px;line-height:1.7;
+  transition:border-color .18s,background .18s,transform .18s;
+}
+.opt .tag{
+  font-family:var(--serif);font-size:11px;color:var(--gold);
+  letter-spacing:.1em;padding-top:3px;flex:0 0 auto;
+}
+.opt:active{transform:scale(.99)}
+.opt.on{border-color:var(--ink);background:var(--paper2)}
+.scale{display:flex;flex-direction:column;gap:0;margin-top:8px}
+.scale-ends{display:flex;justify-content:space-between;font-size:10px;letter-spacing:.08em;color:var(--faint);margin-bottom:12px}
+.scale-track{display:flex;justify-content:space-between;gap:8px}
+.tick{
+  flex:1;min-height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.5);
+  transition:border-color .18s,background .18s;
+}
+.tick i{display:block;width:9px;height:9px;border-radius:50%;border:1px solid var(--faint);transition:all .18s}
+.tick span{font-size:9.5px;letter-spacing:.02em;color:var(--muted);line-height:1.3;text-align:center}
+.tick.on{border-color:var(--ink);background:var(--paper2)}
+.tick.on i{background:var(--ink);border-color:var(--ink);width:11px;height:11px}
+.scale-now{text-align:center;font-size:11.5px;color:var(--faint);margin-top:16px;letter-spacing:.04em;min-height:20px}
+.scale-now b{color:var(--ink);font-weight:500}
+.quiz-nav{padding:26px 24px 0;display:flex;justify-content:space-between;align-items:center}
+.btn-text{font-size:11.5px;letter-spacing:.14em;color:var(--faint);padding:10px 0}
+.btn-text:disabled{opacity:.25}
+
+/* ===== 揭晓 ===== */
+#v-reveal{
+  background:var(--night);color:var(--paper);
+  padding:40px 26px 46px;
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:center;min-height:100vh;
+}
+#v-reveal::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(80% 50% at 50% 30%,rgba(192,160,98,.12),transparent 62%),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.02) 0 1px,transparent 1px 28px);
+  pointer-events:none;
+}
+.reveal-in{position:relative;z-index:2;max-width:520px;margin:0 auto;width:100%}
+.reveal-k{font-size:9.5px;letter-spacing:.32em;color:var(--gold);margin-bottom:30px;text-align:center}
+.reveal-small{font-size:11px;letter-spacing:.16em;color:rgba(244,239,230,.5);text-align:center;margin-bottom:12px}
+.reveal-name{
+  font-family:var(--serif);font-size:38px;font-weight:600;
+  letter-spacing:.1em;text-align:center;line-height:1.4;margin-bottom:10px;
+}
+.reveal-en{font-size:10px;letter-spacing:.32em;color:var(--gold2);text-align:center;margin-bottom:34px}
+.reveal-rule{width:100%;height:1px;background:var(--line-dark);margin:0 0 30px}
+.reveal-dims{display:flex;flex-direction:column;gap:13px;margin-bottom:34px}
+.rev-dim{display:flex;align-items:center;gap:12px}
+.rev-dim span{font-size:10px;letter-spacing:.14em;color:rgba(244,239,230,.55);flex:0 0 62px}
+.rev-dim i{flex:1;height:1px;background:rgba(244,239,230,.16);position:relative;display:block}
+.rev-dim i b{position:absolute;top:-1.5px;left:0;height:4px;background:var(--gold);display:block}
+.reveal-quote{
+  font-family:var(--serif);font-size:17px;line-height:2;color:rgba(244,239,230,.86);
+  text-align:center;margin-bottom:36px;
+}
+.reveal-sealed{
+  border:1px solid rgba(192,160,98,.34);
+  padding:18px 18px 16px;
+  margin-bottom:30px;
+  background:rgba(192,160,98,.05);
+}
+.reveal-sealed span{display:block;font-size:9.5px;letter-spacing:.3em;color:var(--seal);margin-bottom:10px}
+.reveal-sealed p{font-size:12.5px;line-height:1.95;color:rgba(244,239,230,.62)}
+
+/* ===== 报告 ===== */
+#v-report{background:var(--paper);padding:0}
+.rep-head{
+  background:var(--night);color:var(--paper);
+  padding:34px 24px 30px;
+  position:relative;overflow:hidden;
+}
+.rep-head::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(90% 60% at 50% 0%,rgba(192,160,98,.14),transparent 65%);
+  pointer-events:none;
+}
+.rep-topline{
+  display:flex;justify-content:space-between;
+  font-size:9px;letter-spacing:.24em;color:rgba(244,239,230,.5);
+  position:relative;z-index:2;margin-bottom:26px;
+}
+.rep-name{
+  font-family:var(--serif);font-size:34px;font-weight:600;letter-spacing:.08em;
+  line-height:1.45;position:relative;z-index:2;
+}
+.rep-en{font-size:9.5px;letter-spacing:.3em;color:var(--gold2);margin-top:10px;position:relative;z-index:2}
+.rep-quote{
+  font-family:var(--serif);font-size:15px;line-height:2;color:rgba(244,239,230,.8);
+  margin-top:20px;position:relative;z-index:2;
+}
+.rep-meta{
+  display:flex;justify-content:space-between;gap:10px;
+  margin-top:24px;padding-top:14px;
+  border-top:1px solid rgba(192,160,98,.2);
+  font-size:9px;letter-spacing:.18em;color:rgba(244,239,230,.42);
+  position:relative;z-index:2;
+}
+.rep-wrap{padding:0 24px 40px}
+
+.sec{padding:38px 0 0}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:18px}
+.sec-num{font-family:var(--serif);font-size:10px;letter-spacing:.2em;color:var(--gold)}
+.sec-title{font-family:var(--serif);font-size:18px;font-weight:600;letter-spacing:.04em}
+.sec-en{font-size:9px;letter-spacing:.2em;color:var(--faint);margin-left:auto;text-align:right}
+.prose p{font-size:14px;line-height:2.05;color:#2B333B;margin-bottom:15px}
+.prose p:last-child{margin-bottom:0}
+
+.band{background:var(--paper2);margin:36px -24px 0;padding:34px 24px}
+.band-dark{background:var(--night);color:var(--paper);margin:36px -24px 0;padding:34px 24px}
+.band-dark .sec-title{color:var(--paper)}
+.band-dark .sec-en{color:rgba(244,239,230,.35)}
+.band-dark .prose p{color:rgba(244,239,230,.82)}
+
+/* 四维 */
+.dims{display:flex;flex-direction:column;gap:20px}
+.dim-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+.dim-name{font-size:12.5px;letter-spacing:.06em}
+.dim-name em{font-style:normal;font-size:9px;color:var(--faint);margin-left:8px;letter-spacing:.14em}
+.dim-val{font-family:var(--serif);font-size:13px;color:var(--muted)}
+.dim-track{height:1px;background:rgba(23,32,41,.18);position:relative}
+.dim-track i{position:absolute;left:0;top:-1.5px;height:4px;width:0;background:var(--gold);transition:width .8s ease}
+
+/* 反差双栏 */
+.contrast{display:flex;flex-direction:column;gap:0}
+.contrast-col{padding:20px 0;border-top:1px solid var(--line)}
+.contrast-k{font-size:9px;letter-spacing:.24em;color:var(--gold);margin-bottom:12px}
+.contrast-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.contrast-col li{font-size:13.5px;line-height:1.7;color:#2B333B}
+.contrast-col li::before{content:"—";color:var(--faint);margin-right:9px}
+
+/* 数字分布 */
+.bars{display:flex;flex-direction:column;gap:14px}
+.bar-row{display:flex;align-items:center;gap:12px}
+.bar-name{font-size:12px;width:76px;flex:0 0 auto;letter-spacing:.04em}
+.bar-track{flex:1;height:1px;background:rgba(23,32,41,.16);position:relative}
+.bar-track i{position:absolute;left:0;top:-1.5px;height:4px;background:var(--gold);width:0;transition:width .9s ease}
+.bar-val{font-family:var(--serif);font-size:11.5px;color:var(--muted);width:26px;text-align:right;flex:0 0 auto}
+
+/* 段落组 */
+.block{background:rgba(255,255,255,.62);border:1px solid var(--line);padding:20px 18px;margin-bottom:14px}
+.block h4{font-family:var(--serif);font-size:14px;font-weight:600;margin-bottom:8px;letter-spacing:.04em}
+.block p{font-size:13.5px;line-height:1.95;color:#2B333B}
+.block em{font-style:normal;color:var(--gold);font-size:10px;letter-spacing:.18em;display:block;margin-bottom:6px}
+
+/* 练习清单 */
+.practices{display:flex;flex-direction:column;gap:12px}
+.practice{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+.practice em{font-family:var(--serif);font-style:normal;font-size:11px;color:var(--gold);flex:0 0 22px;padding-top:2px}
+.practice div b{display:block;font-size:13px;font-weight:500;margin-bottom:4px}
+.practice div p{font-size:12.5px;line-height:1.9;color:var(--muted)}
+
+/* 结语 */
+.final{
+  background:var(--night);color:var(--paper);
+  margin:40px -24px 0;padding:44px 24px 38px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.final::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(70% 50% at 50% 0%,rgba(192,160,98,.16),transparent 65%);
+}
+.final .label{font-size:9px;letter-spacing:.3em;color:var(--gold);position:relative;z-index:2}
+.final h3{font-family:var(--serif);font-size:19px;line-height:2;margin:18px 0 22px;font-weight:500;position:relative;z-index:2}
+.final .mark{font-size:8.5px;letter-spacing:.28em;color:rgba(244,239,230,.4);position:relative;z-index:2}
+
+/* 付费墙 */
+.paid-zone{margin-top:0}
+.paid-zone .lock{display:none}
+.paid-zone.locked .paid-body{display:none}
+.paid-zone.locked .lock{display:block;padding-top:36px}
+.lock-card{background:var(--night);color:var(--paper);padding:32px 22px 26px}
+.lock-kicker{display:block;font-size:9px;letter-spacing:.28em;color:var(--seal);margin-bottom:16px}
+.lock-card h3{font-family:var(--serif);font-size:20px;line-height:1.65;font-weight:600;margin-bottom:12px}
+.lock-card p{font-size:12.5px;line-height:1.95;color:rgba(244,239,230,.72);margin-bottom:20px}
+.lock-card .btn-gold{background:var(--paper);color:var(--night);margin-top:6px}
+.lock-note{font-size:10.5px;color:rgba(244,239,230,.42);margin-bottom:14px;line-height:1.9}
+.lock-input{display:flex;gap:8px}
+.lock-input input{flex:1;min-width:0;min-height:48px;padding:0 13px;border:1px solid rgba(244,239,230,.24);font-size:16px;letter-spacing:.08em;color:var(--paper)}
+.lock-input input::placeholder{color:rgba(244,239,230,.36);font-size:12.5px}
+.lock-input button{min-height:48px;padding:0 18px;border:1px solid rgba(244,239,230,.24);font-size:12px;letter-spacing:.12em;color:var(--paper)}
+.lock-buy{margin-top:24px;padding-top:22px;border-top:1px solid rgba(192,160,98,.22)}
+.lock-buy-k{display:block;font-size:9px;letter-spacing:.26em;color:var(--gold);margin-bottom:12px}
+.lock-buy-p{font-size:12px;line-height:1.9;color:rgba(244,239,230,.55);margin-bottom:14px}
+.lock-qr{width:132px;height:132px;background:#fff;margin-bottom:12px;border-radius:2px}
+.lock-shop{display:flex;align-items:center;justify-content:center;min-height:50px;border:1px solid rgba(244,239,230,.28);font-size:12.5px;letter-spacing:.14em;margin-bottom:10px;color:var(--paper);text-decoration:none}
+.lock-copy{display:block;width:100%;min-height:50px;border:1px solid rgba(244,239,230,.28);font-size:12.5px;letter-spacing:.1em;color:var(--paper)}
+
+/* 分享 */
+.share{padding:38px 0 0}
+.share h4{font-family:var(--serif);font-size:16px;font-weight:600;margin-bottom:10px}
+.share p{font-size:12.5px;line-height:1.95;color:var(--muted);margin-bottom:18px}
+.share-actions{display:flex;gap:10px}
+.btn-dark{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 22px;background:var(--ink);color:var(--paper);font-size:12.5px;letter-spacing:.16em;flex:1}
+.btn-ghost{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 18px;border:1px solid var(--ink);font-size:12px;letter-spacing:.12em;flex:1}
+.foot{padding:34px 0 10px;border-top:1px solid var(--line);margin-top:36px}
+.foot p{font-size:10.5px;line-height:1.95;color:var(--faint)}
+.foot .mark{display:block;font-size:8.5px;letter-spacing:.28em;color:var(--faint);margin-top:14px}
+
+/* 隐藏人格块 */
+.kicker{font-size:9px;letter-spacing:.26em;color:var(--gold);margin-bottom:14px}
+.hid-name{font-family:var(--serif);font-size:32px;font-weight:600;letter-spacing:.08em;line-height:1.5;margin-bottom:18px}
+.hid-name span{color:var(--gold);font-size:18px;margin:0 8px;font-weight:400}
+.hid-quote{font-family:var(--serif);font-size:16px;line-height:1.95;color:rgba(244,239,230,.86)}
+.hid-tip{font-size:10.5px;line-height:1.9;color:rgba(244,239,230,.4);margin-top:16px}
+.slist{list-style:none;margin-top:10px}
+.slist li{font-family:var(--serif);font-size:15px;line-height:1.9;color:rgba(244,239,230,.86);padding:13px 0;border-top:1px solid rgba(192,160,98,.18)}
+.pair-text{font-size:13px;line-height:2;color:rgba(244,239,230,.72);margin:0 auto 16px;text-align:left;max-width:460px;position:relative;z-index:2}
+
+/* toast */
+#toast{
+  position:fixed;left:50%;bottom:38px;transform:translate(-50%,20px);
+  background:rgba(11,17,24,.94);color:var(--paper);
+  padding:11px 20px;font-size:12.5px;letter-spacing:.06em;
+  opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;z-index:99;
+  max-width:82vw;text-align:center;
+}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* 海报弹层 */
+#posterLayer{
+  position:fixed;inset:0;background:rgba(8,12,17,.92);
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  padding:24px;z-index:100;
+}
+#posterLayer.show{display:flex}
+#posterImg{max-height:70vh;width:auto;border:1px solid rgba(192,160,98,.3)}
+.poster-tip{color:rgba(244,239,230,.6);font-size:11.5px;line-height:1.9;text-align:center;margin:18px 0 14px}
+.poster-actions{display:flex;gap:10px;width:100%;max-width:360px}
+.poster-actions .btn-dark{background:var(--paper);color:var(--night)}
+.poster-actions .btn-ghost{color:var(--paper);border-color:rgba(244,239,230,.35)}
+
+@media (min-width:768px){
+  .cover-title{font-size:56px}
+  .q-text{font-size:25px}
+  .rep-name{font-size:42px}
+  .cover-main{padding-top:40px}
+  .quiz-head,.q-body,.quiz-nav,.rep-wrap{padding-left:40px;padding-right:40px}
+  .band,.band-dark,.final{margin-left:-40px;margin-right:-40px;padding-left:40px;padding-right:40px}
+  .reveal-name{font-size:48px}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== 视图：封面 ===== -->
+<section class="view active" id="v-cover">
+  <div class="cover-top"><span>PERSONALITY ARCHIVE</span><span>NO.003 / 2026</span></div>
+  <div class="cover-main">
+    <p class="cover-kicker">THE DOUBLE SELF</p>
+    <h1 class="cover-title"><span>双面</span><span>人格档案</span></h1>
+    <p class="cover-en">A DUAL PERSONALITY ARCHIVE</p>
+    <div class="cover-rule"></div>
+    <p class="cover-lede">你以为你只有一面。<br>还有一份，你自己也不太敢承认的自己。<br>它一直住在你身上，只是很少被打开。</p>
+  </div>
+  <div class="cover-cta">
+    <div class="cover-meta"><span>36 ITEMS</span><span>16 × 8 TYPES</span><span>5–7 MIN</span></div>
+    <button class="btn-gold" id="startBtn" style="margin-top:24px">开始建档</button>
+    <p class="cover-note">18 道情境 + 18 道程度 · 中途退出，进度会保留</p>
+  </div>
+</section>
+
+<!-- ===== 视图：答题 ===== -->
+<section class="view" id="v-quiz">
+  <div class="quiz-bar"><div class="quiz-bar-fill" id="qBar"></div></div>
+  <div class="quiz-head">
+    <div><span class="q-count" id="qNow">01</span><span class="q-total">/ 36</span></div>
+    <div class="quiz-right"><span id="qPhase">外在人格</span><em id="qPhaseEn">OUTER SELF</em></div>
+  </div>
+  <div class="q-body" id="qBody"></div>
+  <div class="quiz-nav">
+    <button class="btn-text" id="qBack">← 上一题</button>
+    <button class="btn-text" id="qSkip" style="visibility:hidden">下一题 →</button>
+  </div>
+</section>
+
+<!-- ===== 视图：揭晓 ===== -->
+<section class="view" id="v-reveal">
+  <div class="reveal-in">
+    <p class="reveal-k">OUTER PERSONALITY · CONFIRMED</p>
+    <p class="reveal-small">你的外在人格是</p>
+    <h1 class="reveal-name" id="revName"></h1>
+    <p class="reveal-en" id="revEn"></p>
+    <div class="reveal-rule"></div>
+    <div class="reveal-dims" id="revDims"></div>
+    <p class="reveal-quote" id="revQuote"></p>
+    <div class="reveal-sealed">
+      <span>SEALED · 隐藏档案</span>
+      <p id="revSealed">你的另一面也已经有了轮廓。它被密封在档案的第二层，只有在完整档案里才会被打开。</p>
+    </div>
+    <button class="btn-gold" id="toReport">打开我的完整档案</button>
+  </div>
+</section>
+
+<!-- ===== 视图：报告 ===== -->
+<section class="view" id="v-report">
+  <div id="repRoot"></div>
+</section>
+
+<div id="toast"></div>
+
+<div id="posterLayer">
+  <img id="posterImg" alt="双面人格海报">
+  <p class="poster-tip">长按图片存进相册；也可以把链接发给朋友一起测。</p>
+  <div class="poster-actions">
+    <button class="btn-dark" id="posterClose">关闭</button>
+  </div>
+</div>
+
+<script>
+/* ============ 维度定义 ============ */
+const DIMS = {
+  analysis: { name: "判断方式", en: "JUDGEMENT", pos: "析理", neg: "感知", posCode: "A", negCode: "S" },
+  drive:    { name: "行动方式", en: "ACTION",    pos: "推进", neg: "应变", posCode: "P", negCode: "F" },
+  express:  { name: "表达方式", en: "EXPRESSION",pos: "外显", neg: "内敛", posCode: "O", negCode: "I" },
+  relation: { name: "关系取向", en: "BOND",      pos: "联结", neg: "自主", posCode: "B", negCode: "U" }
+};
+const DIM_ORDER = ["analysis", "drive", "express", "relation"];
+
+/* ============ 题库 ============ */
+/* k: sit 情境四选一（v=1..5，越高越靠正极）；scale 五级量表（rev 反向） */
+const QS = [
+  /* --- 外在人格：判断方式 --- */
+  { n:1, k:"sit", d:"analysis", phase:"outer",
+    q:"朋友突然告诉你，他准备辞掉一份稳定的工作，去做一件风险很高的事。你的第一反应更接近：",
+    opts:[
+      { t:"A", label:"先问清楚他的计划、成本和风险。", v:5 },
+      { t:"B", label:"想知道他为什么突然做出这样的决定。", v:3 },
+      { t:"C", label:"觉得既然他认真考虑过，就应该试一试。", v:2 },
+      { t:"D", label:"有些担心，但不想太快评价他。", v:3 }
+    ]},
+  { n:2, k:"scale", d:"analysis", phase:"outer",
+    q:"遇到一件复杂的事情时，我通常会先弄清楚它的原因、逻辑和实际情况，再考虑自己的感受。", rev:false },
+  { n:3, k:"sit", d:"analysis", phase:"outer",
+    q:"你和朋友发生争执，对方说了一句让你很不舒服的话。你更可能：",
+    opts:[
+      { t:"A", label:"分析对方这句话究竟有没有道理。", v:5 },
+      { t:"B", label:"先意识到自己为什么会这么难受。", v:2 },
+      { t:"C", label:"直接指出对方的问题。", v:3 },
+      { t:"D", label:"等情绪平复后，再决定怎么回应。", v:3 }
+    ]},
+  { n:4, k:"scale", d:"analysis", phase:"outer",
+    q:"即使我很喜欢一个人或一件事，我也会尝试区分自己的情绪和客观事实，不希望感受完全替我做决定。", rev:false },
+
+  /* --- 外在人格：行动方式 --- */
+  { n:5, k:"sit", d:"drive", phase:"outer",
+    q:"小组任务迟迟没有人负责，你更可能：",
+    opts:[
+      { t:"A", label:"主动把任务拆开，推动大家开始。", v:5 },
+      { t:"B", label:"观察一下其他人的状态，再决定是否接手。", v:3 },
+      { t:"C", label:"先做好自己那一部分。", v:2 },
+      { t:"D", label:"等一个更明确的安排。", v:1 }
+    ]},
+  { n:6, k:"scale", d:"drive", phase:"outer",
+    q:"当我想要完成一件事时，我更喜欢主动创造机会，而不是一直等待合适的时机。", rev:false },
+  { n:7, k:"sit", d:"drive", phase:"outer",
+    q:"周末突然空出一天，没有任何安排，你会：",
+    opts:[
+      { t:"A", label:"立刻安排一件自己想做的事。", v:5 },
+      { t:"B", label:"看当天的心情和状态再决定。", v:3 },
+      { t:"C", label:"先休息，等有想法再说。", v:2 },
+      { t:"D", label:"看看有没有人提出有趣的计划。", v:1 }
+    ]},
+  { n:8, k:"scale", d:"drive", phase:"outer",
+    q:"如果原本的计划发生变化，我通常能迅速调整，不会特别执着于最初的安排。", rev:true },
+
+  /* --- 外在人格：表达方式 --- */
+  { n:9, k:"sit", d:"express", phase:"outer",
+    q:"你最近心情很差，朋友问你怎么了，你会：",
+    opts:[
+      { t:"A", label:"直接告诉对方发生了什么。", v:5 },
+      { t:"B", label:"简单说一点，但不展开。", v:3 },
+      { t:"C", label:"说没事，自己慢慢消化。", v:1 },
+      { t:"D", label:"看对方是不是真的愿意听，再决定说多少。", v:3 }
+    ]},
+  { n:10, k:"scale", d:"express", phase:"outer",
+    q:"我更习惯通过和别人交流来整理自己的想法，而不是一个人在脑子里反复想。", rev:false },
+  { n:11, k:"sit", d:"express", phase:"outer",
+    q:"在一群不太熟的人中间，你通常：",
+    opts:[
+      { t:"A", label:"主动找话题，让气氛先活起来。", v:5 },
+      { t:"B", label:"有话就说，不刻意表现。", v:4 },
+      { t:"C", label:"更多时候先听别人说。", v:2 },
+      { t:"D", label:"熟悉之后才会明显放开。", v:2 }
+    ]},
+  { n:12, k:"scale", d:"express", phase:"outer",
+    q:"即使心里有很多想法，我也不一定会马上表达出来。", rev:true },
+
+  /* --- 外在人格：关系取向 --- */
+  { n:13, k:"sit", d:"relation", phase:"outer",
+    q:"好朋友突然好几天没有联系你，你更可能：",
+    opts:[
+      { t:"A", label:"主动问候一下，看看是不是发生了什么。", v:5 },
+      { t:"B", label:"有些在意，但不一定主动联系。", v:3 },
+      { t:"C", label:"觉得大家都有自己的生活，不必多想。", v:1 },
+      { t:"D", label:"先观察对方之后的态度。", v:2 }
+    ]},
+  { n:14, k:"scale", d:"relation", phase:"outer",
+    q:"即使是最亲近的人，我也需要保留一块只属于自己的空间，不希望每件事都被分享。", rev:true },
+  { n:15, k:"sit", d:"relation", phase:"outer",
+    q:"和亲近的人发生矛盾时，你最不能接受的是：",
+    opts:[
+      { t:"A", label:"对方不愿意把问题讲清楚。", v:3 },
+      { t:"B", label:"对方没有理解我的感受。", v:5 },
+      { t:"C", label:"我的个人空间被干涉。", v:1 },
+      { t:"D", label:"明明关系很近，却像陌生人一样。", v:2 }
+    ]},
+  { n:16, k:"scale", d:"relation", phase:"outer",
+    q:"遇到重要的事情时，身边重要的人的态度和回应，会明显影响我的感受。", rev:false },
+
+  /* --- 隐藏人格：掌控与完美 --- */
+  { n:17, k:"sit", phase:"hidden", group:"掌控 / 完美",
+    q:"你已经安排好了一天的计划，结果别人临时改变了安排。你更可能：",
+    opts:[
+      { t:"A", label:"有些烦躁，希望事情尽量回到原来的计划。", s:{ ctrl:3 } },
+      { t:"B", label:"重新调整安排，先解决眼前的问题。", s:{} },
+      { t:"C", label:"不太高兴，但不想表现出来。", s:{ ctrl:2 } },
+      { t:"D", label:"觉得没什么，反正还有别的选择。", s:{} }
+    ]},
+  { n:18, k:"scale", phase:"hidden", group:"掌控 / 完美",
+    q:"当一件重要的事交给别人处理时，我经常会忍不住关注细节，担心对方没有按我认为合适的方式完成。", h:"ctrl" },
+  { n:19, k:"sit", phase:"hidden", group:"掌控 / 完美",
+    q:"一份你已经完成的作品，别人觉得很好，但你自己总觉得还有问题。你会：",
+    opts:[
+      { t:"A", label:"继续修改，直到自己觉得足够满意。", s:{ perf:3 } },
+      { t:"B", label:"听听别人的意见，再决定是否修改。", s:{ perf:1 } },
+      { t:"C", label:"达到要求就可以，不必过度纠结。", s:{} },
+      { t:"D", label:"先放下，等以后有空再完善。", s:{ perf:1 } }
+    ]},
+  { n:20, k:"scale", phase:"hidden", group:"掌控 / 完美",
+    q:"如果一件事没有达到我心中的标准，即使别人都觉得已经不错，我也很难真正满意。", h:"perf" },
+
+  /* --- 隐藏人格：认可与竞争 --- */
+  { n:21, k:"sit", phase:"hidden", group:"认可 / 竞争",
+    q:"你认真准备了很久的一件事，最后被一个你认为能力不如你的人抢先拿到了机会。你的第一反应更接近：",
+    opts:[
+      { t:"A", label:"想知道自己究竟输在了哪里。", s:{ approve:2, compete:1 } },
+      { t:"B", label:"有些不甘心，想证明自己也做得到。", s:{ approve:2, compete:2 } },
+      { t:"C", label:"表面没什么，心里却会反复想这件事。", s:{ approve:2 } },
+      { t:"D", label:"觉得没必要继续纠结，换个方向。", s:{} }
+    ]},
+  { n:22, k:"scale", phase:"hidden", group:"认可 / 竞争",
+    q:"当我付出很多努力却没有得到任何回应时，我会比自己预想的更失落。", h:"approve" },
+  { n:23, k:"sit", phase:"hidden", group:"认可 / 竞争",
+    q:"你发现身边一个和你条件相近的人，最近进步很快，甚至超过了你。你更可能：",
+    opts:[
+      { t:"A", label:"受到刺激，想让自己也变得更好。", s:{ compete:3 } },
+      { t:"B", label:"真心为对方高兴，不太会比较。", s:{} },
+      { t:"C", label:"有些羡慕，也有一点不甘心。", s:{ compete:2 } },
+      { t:"D", label:"表面没什么，之后却不自觉地关注对方。", s:{ compete:1 } }
+    ]},
+  { n:24, k:"scale", phase:"hidden", group:"认可 / 竞争",
+    q:"在自己真正重视的领域，我会不自觉地关注自己和同龄人、朋友或竞争者之间的差距。", h:"compete" },
+
+  /* --- 隐藏人格：防御与依恋 --- */
+  { n:25, k:"sit", phase:"hidden", group:"防御 / 依恋",
+    q:"一个你很在意的人，无意间说了一句话，让你感到受伤。你更可能：",
+    opts:[
+      { t:"A", label:"直接告诉对方自己不舒服。", s:{} },
+      { t:"B", label:"假装没什么，不想让对方知道。", s:{ defend:3 } },
+      { t:"C", label:"暂时减少交流，让自己先冷静下来。", s:{ defend:2 } },
+      { t:"D", label:"反复想对方为什么会这么说。", s:{ defend:2, attach:1 } }
+    ]},
+  { n:26, k:"scale", phase:"hidden", group:"防御 / 依恋",
+    q:"当我感到脆弱、失落或受到伤害时，我通常不太愿意主动让别人看见这一面。", h:"defend" },
+  { n:27, k:"sit", phase:"hidden", group:"防御 / 依恋",
+    q:"一个关系很好的人最近明显变得冷淡，你却不知道原因。你会：",
+    opts:[
+      { t:"A", label:"主动询问，想把这段关系弄清楚。", s:{ attach:3 } },
+      { t:"B", label:"观察对方一段时间，再决定怎么做。", s:{ attach:1, defend:1 } },
+      { t:"C", label:"也逐渐减少联系，不想显得自己太在意。", s:{ defend:2 } },
+      { t:"D", label:"表面照常相处，内心却反复琢磨。", s:{ attach:2, defend:1 } }
+    ]},
+  { n:28, k:"scale", phase:"hidden", group:"防御 / 依恋",
+    q:"对于重要关系里的细微变化，比如回复速度、说话语气、主动程度，我往往比较敏感。", h:"attach" },
+
+  /* --- 隐藏人格：逃离与反叛 --- */
+  { n:29, k:"sit", phase:"hidden", group:"逃离 / 反叛",
+    q:"有一件非常重要但很棘手的事一直没有解决，你更可能：",
+    opts:[
+      { t:"A", label:"先做最容易完成的部分，慢慢推进。", s:{ escape:1, ctrl:1 } },
+      { t:"B", label:"一直想着它，却迟迟不想开始。", s:{ escape:3 } },
+      { t:"C", label:"先转移注意力，等状态好一点再处理。", s:{ escape:2 } },
+      { t:"D", label:"直接面对，先解决最关键的部分。", s:{ ctrl:2 } }
+    ]},
+  { n:30, k:"scale", phase:"hidden", group:"逃离 / 反叛",
+    q:"当一件事让我持续感到压力时，我有时会靠刷手机、娱乐或别的事情转移注意力，即使我知道问题还在。", h:"escape" },
+  { n:31, k:"sit", phase:"hidden", group:"逃离 / 反叛",
+    q:"有人对你说：“你就应该按照大家认为合适的方式生活。”你更可能：",
+    opts:[
+      { t:"A", label:"先听听对方为什么这样认为。", s:{} },
+      { t:"B", label:"觉得每个人有自己的选择，不必争论。", s:{} },
+      { t:"C", label:"内心明显抵触，不喜欢别人替自己决定。", s:{ rebel:3 } },
+      { t:"D", label:"表面接受，最后还是按自己的想法来。", s:{ rebel:2 } }
+    ]},
+  { n:32, k:"scale", phase:"hidden", group:"逃离 / 反叛",
+    q:"即使别人给的建议确实有道理，只要我感觉自己被强迫、被安排，就可能产生抵触。", h:"rebel" },
+
+  /* --- 隐藏人格：交叉验证 --- */
+  { n:33, k:"scale", phase:"hidden", group:"交叉验证",
+    q:"有时候，我会因为害怕做得不够好，而迟迟不愿意开始一件重要的事。", h:["perf","escape"] },
+  { n:34, k:"scale", phase:"hidden", group:"交叉验证",
+    q:"我并不希望自己依赖别人，但当重要的人没有给出回应时，我仍然会感到失落。", h:"attach" },
+  { n:35, k:"sit", phase:"hidden", group:"交叉验证",
+    q:"当你发现别人误解了自己，你更可能：",
+    opts:[
+      { t:"A", label:"解释清楚，不希望自己的形象受到影响。", s:{ approve:2 } },
+      { t:"B", label:"不急着解释，觉得时间会说明一切。", s:{} },
+      { t:"C", label:"会很在意，但不一定表现出来。", s:{ approve:1 } },
+      { t:"D", label:"觉得没必要让所有人都理解自己。", s:{ rebel:1 } }
+    ]},
+  { n:36, k:"scale", phase:"hidden", group:"交叉验证",
+    q:"我有时会发现，自己嘴上说着无所谓，心里却反复想起某些事。", h:"defend" }
+];
+
+const SCALE_LABELS = ["非常不同意","比较不同意","看情况","比较同意","非常同意"];
+
+/* ============ 16 种外在人格 ============ */
+const TYPES = {
+  'A-P-O-B': {
+    no:'01', name:'清醒的领航者', en:'THE LUCID NAVIGATOR',
+    line:'你知道方向在哪，也知道怎么让一群人朝那里走。',
+    desc:[
+      '你处理事情的方式偏理性：先看清结构，再决定动作。你不喜欢在没有把握的时候贸然开始，但一旦开始，你往往是那个把局面往前推的人。',
+      '你并不冷漠。你愿意为身边的人负责，只是你表达在意的方式是「把事情安排好」，而不是把情绪说出来。别人容易信任你，因为关键时刻你是稳的。'
+    ],
+    strength:['看清结构的能力','把想法变成行动的推动力','让人愿意跟随的可信度'],
+    blind:'你有时会把「我替大家想好了」当成关心，忘了先问一句对方想不想要。'
+  },
+  'A-P-O-U': {
+    no:'02', name:'冷静的开局者', en:'THE COOL STARTER',
+    line:'你不需要谁同意，才允许自己开始。',
+    desc:[
+      '你判断得清楚，也行动得快，而且不太需要别人替你确认。你看一件事，先看它的逻辑和代价；决定之后，通常是自己往前走，很少等一个「大家都觉得可以」的时刻。',
+      '在人群里你显得有主见，甚至有点锋利。但你并非不在意别人，只是你不愿意把选择权交给别人。你更相信：判断可以由自己下，后果也由自己担。'
+    ],
+    strength:['独立判断','启动速度','承担后果的魄力'],
+    blind:'你习惯自己扛，于是别人常常不知道你已经累了。'
+  },
+  'A-P-I-B': {
+    no:'03', name:'稳健的守护者', en:'THE STEADY KEEPER',
+    line:'你不声张，但你答应过的事一定会做到。',
+    desc:[
+      '你不太爱讲漂亮话，你更在意「这件事有没有落地」。你判断事情靠理性和经验，行动起来有条理，虽然不外露，却常常是一个圈子里最可靠的那一个。',
+      '你重视关系，但不擅长用语言表达。你的在意通常藏在具体行动里：记得住、接得住、不缺席。别人可能很久之后才发现，你一直在。'
+    ],
+    strength:['靠谱','稳定','把关系放在行动里'],
+    blind:'你容易把「不说」当成「不必说」，对方可能一直在等一句确认。'
+  },
+  'A-P-I-U': {
+    no:'04', name:'沉默的掌舵者', en:'THE SILENT HELMSMAN',
+    line:'你不解释，但方向一直握在你手里。',
+    desc:[
+      '你偏理性、偏推进，也不爱把过程摊开给人看。你更习惯独自把事情想清楚，然后在关键时刻给出一个已经成型的答案。',
+      '你保留自己的空间和节奏，不太喜欢别人介入你的方式。这种距离感让你显得沉稳，也让你显得不太好接近。你不是不需要人，只是你不需要被安排。'
+    ],
+    strength:['独立推进','情绪稳定','不被打扰的专注'],
+    blind:'你把距离当成保护，但别人可能把你的沉默读成拒绝。'
+  },
+  'A-F-O-B': {
+    no:'05', name:'通透的观察者', en:'THE CLEAR OBSERVER',
+    line:'你看得懂局面，也愿意让它自然发生。',
+    desc:[
+      '你理性，但不强硬。你擅长先看清一件事的来龙去脉，然后根据变化调整，而不是硬推一个计划。你说话不冲，却常常一句话点到要害。',
+      '你对人也有兴趣。你能一边分析，一边照顾到对方的感受，所以别人愿意跟你聊，因为你不评判，也不急着给答案。'
+    ],
+    strength:['洞察','灵活','让人放松的交流感'],
+    blind:'你看得太清楚，有时会因此不愿意下场，错过真正参与的机会。'
+  },
+  'A-F-O-U': {
+    no:'06', name:'敏锐的旁观者', en:'THE SHARP ONLOOKER',
+    line:'你在场，但你始终保留一步的距离。',
+    desc:[
+      '你习惯先观察，再判断。你能很快看出一个人的动机和一件事的破口，只是你不一定说出来。你灵活、不较劲，也更愿意待在旁边看局势怎么走。',
+      '你不太喜欢被卷进去，也不喜欢别人替你定义立场。你的独立不是冷，是你需要先想清楚自己站在哪里。'
+    ],
+    strength:['看人准','应变快','不被情绪带走'],
+    blind:'你太擅长旁观，于是别人很难确定你到底在不在乎。'
+  },
+  'A-F-I-B': {
+    no:'07', name:'温和的守夜人', en:'THE QUIET WATCHMAN',
+    line:'你不出声，但你一直在替大家看着那盏灯。',
+    desc:[
+      '你安静、理性，也柔软。你不太主动站到前面，却总能注意到别人忽略的细节：谁今天不太对，哪件事可能要出问题。',
+      '你顺着事情的变化走，不硬来。你不喜欢冲突，也不擅长表达需要，但你会在自己的位置上一直照料着，直到事情稳妥。'
+    ],
+    strength:['细心','耐力','不动声色的照顾'],
+    blind:'你照顾了所有人，却很少让别人有机会照顾你。'
+  },
+  'A-F-I-U': {
+    no:'08', name:'独立的分析者', en:'THE SOLO ANALYST',
+    line:'你不需要观众，也能把事情想得很清楚。',
+    desc:[
+      '你理性、安静、习惯独自处理。你喜欢把事情拆开来看，找到真正的原因，而不是停在表面情绪上。你不急，因为你相信想明白了自然会有答案。',
+      '你对关系的要求不高也不低：可以亲近，但不必时时在场。你更愿意用一段时间换一段真正有质量的相处。'
+    ],
+    strength:['深度思考','情绪自持','不随大流'],
+    blind:'你把「我自己能处理」说得太顺口，久了就真的没人再问。'
+  },
+  'S-P-O-B': {
+    no:'09', name:'明亮的引路人', en:'THE BRIGHT GUIDE',
+    line:'你走到哪里，哪里就亮一点。',
+    desc:[
+      '你跟着感觉走，也愿意把感觉变成行动。你表达直接、热烈，很容易让一个场子热起来。你不一定有计划，但你有一种「先做起来再说」的劲。',
+      '你重视人。你喜欢带着大家一起玩、一起试，你的感染力不是表演出来的，而是你真的很享受和别人一起经历事情。'
+    ],
+    strength:['感染力','行动力','把气氛变好的能力'],
+    blind:'你忙着照亮别人，容易忽略自己也需要被接住。'
+  },
+  'S-P-O-U': {
+    no:'10', name:'热烈的行动派', en:'THE ARDENT DOER',
+    line:'你想做的事，今天就做；不想做的，谁劝也没用。',
+    desc:[
+      '你靠直觉判断，靠冲动启动。你不太权衡太久，因为你觉得想太多反而会错过。你的身上有一种很鲜活的力量，让人羡慕也让人跟不上。',
+      '你不喜欢被框住。别人给你安排好的路，你未必愿意走；但你自己认定的方向，你会走得很猛。'
+    ],
+    strength:['生命力','决断','不被驯服的劲'],
+    blind:'你冲得太快，有时会撞上本可以绕开的墙。'
+  },
+  'S-P-I-B': {
+    no:'11', name:'温柔的践行者', en:'THE GENTLE DOER',
+    line:'你不太说，但你一直在做。',
+    desc:[
+      '你凭感觉行事，却不会张扬。你心里认定了什么，就用行动慢慢把它做出来，不解释也不邀功。你的存在感不来自音量，而来自那种「说得出就做得到」的踏实。',
+      '你在意身边的人，尤其是那些说不出口的人。你不太会讲道理，但你会在对方最需要的时候出现。'
+    ],
+    strength:['真诚','持久','不动声色的陪伴'],
+    blind:'你把付出当成本能，容易在关系里长期站在低一点的位置。'
+  },
+  'S-P-I-U': {
+    no:'12', name:'倔强的理想家', en:'THE STUBBORN IDEALIST',
+    line:'你有一个自己的世界，并且坚持按它的样子活。',
+    desc:[
+      '你凭感受判断，凭信念行动。你不擅长解释，也不需要认同；你只是知道，有些东西你不想放弃。',
+      '你独处得好，也不怕孤独。别人可能觉得你难懂，其实你只是把很重要的部分留给了自己，只有在真正信任的人面前才会打开。'
+    ],
+    strength:['信念感','自洽','不被打折的坚持'],
+    blind:'你把「不解释」当成骨气，久了也把愿意靠近的人挡在外面。'
+  },
+  'S-F-O-B': {
+    no:'13', name:'灵动的共情者', en:'THE LIVELY EMPATH',
+    line:'你能感觉到别人的情绪，也能让它变轻一点。',
+    desc:[
+      '你敏感、灵活、善于表达。你很容易接收到空气里的情绪变化，也很快知道该说什么、该做什么，让场面重新舒服起来。',
+      '你重视关系，几乎本能地照顾别人。你的温柔不是讨好，是你真的能感觉到对方此刻需要什么。'
+    ],
+    strength:['共情','应变','把关系变暖的能力'],
+    blind:'你常常先照顾别人，最后才想起问自己到底想要什么。'
+  },
+  'S-F-O-U': {
+    no:'14', name:'自由的探索者', en:'THE FREE EXPLORER',
+    line:'你随时准备出发，也随时准备改变主意。',
+    desc:[
+      '你活在感觉里，也活在变化里。你不喜欢被固定，喜欢新鲜、喜欢试、喜欢把事情变成一段经历而不是一个任务。',
+      '你表达直接，来去自由。你不黏人，也不喜欢被黏；你需要空间，但你也愿意在真正想要的时候，全力投入。'
+    ],
+    strength:['好奇心','适应力','把生活过成故事'],
+    blind:'你追着新鲜感跑，有些需要时间才开花的东西，容易被你放下。'
+  },
+  'S-F-I-B': {
+    no:'15', name:'安静的倾听者', en:'THE QUIET LISTENER',
+    line:'你不太说话，但你听得见别人没说出口的部分。',
+    desc:[
+      '你敏感、柔和、不爱抢话。你顺着气氛走，不评判、不打断，很多人愿意把心里的事交给你，因为你不会让它变成谈资。',
+      '你在意关系，但方式很轻：记得住、接得住、不追问。你的温柔是有分寸的，不给别人压力。'
+    ],
+    strength:['倾听','包容','让人安心的分寸感'],
+    blind:'你接收了太多别人的情绪，却很少把它交出去。'
+  },
+  'S-F-I-U': {
+    no:'16', name:'孤行的漫游者', en:'THE LONE WANDERER',
+    line:'你有自己的路，走得不快，但很稳。',
+    desc:[
+      '你凭感觉判断，也习惯一个人消化。你不喜欢被打扰，不喜欢被追问，更愿意在自己的节奏里慢慢把事想明白。',
+      '你不是不亲近人，只是你亲近的方式很安静：记得住对方说过的话，在需要的时候出现，然后退回自己的世界。'
+    ],
+    strength:['自足','敏感','不被外界带着跑'],
+    blind:'你把独处过成了习惯，有时会忘记主动也是一种回应。'
+  }
+};
+
+/* ============ 8 种隐藏人格 ============ */
+const HID = {
+  ctrl: {
+    no:'I', name:'掌控者', en:'THE CONTROLLER',
+    line:'你不是控制欲强，你只是不能接受事情悬在半空。',
+    portrait:[
+      '你对「不确定」的耐受度比别人低。计划被打乱时，你第一反应不是生气，而是迅速在脑子里重排一遍：还能怎么走。',
+      '你常常是那个默默接手的人。别人做不好，你不会指责，但你会自己补上。久了，很多事就默认成了你的事。'
+    ],
+    need:{ surface:'你希望事情按计划推进、按约定完成。', need:'你需要一种「局面在我手里」的确定感。', worry:'你担心一旦松手，事情就会散掉，而没人会像你一样在意。', guard:'所以你先安排好一切，再轻描淡写地说「都行」。' },
+    trigger:{ before:'你通常有条理、情绪平稳，习惯提前把可能的变数想到。', during:'变化一旦持续，你会变得急躁，话变少，开始亲自接手每一个环节。', after:'事情结束后你会复盘：如果一开始就按我的方式来，是不是不会这样。' },
+    defense:'你用「安排好」来对抗焦虑。把不确定变成清单，是你最熟悉的安定方式。',
+    relation:'你在关系里也容易当那个负责的人：安排行程、记得细节、解决问题。你不太说需要，因为你习惯了被需要。',
+    strength:'规划、组织、风险预判、在混乱里保持清醒。',
+    blind:'不是所有事都需要你负责；有些人的节奏慢一点，不代表会出错。',
+    practice:[
+      { k:'交出一件事', v:'挑一件不重要的事完全交给别人，不检查，不追问。' },
+      { k:'说出你的需要', v:'把「都行」换成「我其实希望……」，练一次就够。' },
+      { k:'允许悬空', v:'给一件事留 24 小时不确定期，看它会不会自己解决。' }
+    ],
+    pair:{ a:'当你的外在偏理性、偏推进，这份掌控会变成一种让人安心的秩序感——你知道每一步在哪，也愿意替大家承担。', b:'当你的外在偏感受、偏应变，这份掌控藏得更深：你嘴上说着随缘，心里其实早就排好了顺序。' }
+  },
+  perf: {
+    no:'II', name:'完美主义者', en:'THE PERFECTIONIST',
+    line:'你不是挑剔，你只是看得见「还差一点」的地方。',
+    portrait:[
+      '你的标准通常比别人的高。别人说「可以了」，你看到的是那条没对齐的线。',
+      '这种标准让你做得比大多数人好，也让你很难真正满意。你不是不累，你只是停不下来。'
+    ],
+    need:{ surface:'你希望结果达到你心里那个标准。', need:'你需要确认「我做的事是有价值的」。', worry:'你担心一旦允许自己不够好，就会一路滑下去。', guard:'所以你用更高的标准，先替别人把批评说完。' },
+    trigger:{ before:'你通常准备充分，甚至过度准备。', during:'临近交付时，你会反复修改细节，越改越觉得不够，时间被不断压缩。', after:'完成后你很少庆祝，更多是立刻发现新的问题。' },
+    defense:'你用「还不够好」来保护自己——只要我先否定自己，别人的否定就没那么疼。',
+    relation:'你在关系里也容易高标准：对伴侣、对朋友、对自己在对方心里的位置。你很少直接要求，但你会在心里默默扣分。',
+    strength:'质量意识、细节敏感、持续改进的能力。',
+    blind:'完成一件事，有时比把它做到完美更重要。',
+    practice:[
+      { k:'先定完成线', v:'开始前写下「做到什么程度就算完成」，到线就停。' },
+      { k:'低风险试错', v:'挑一件不重要的事，故意做到八成就交出去。' },
+      { k:'记录做对的', v:'每天写一条「今天做成了什么」，不只记差错。' }
+    ],
+    pair:{ a:'当你的外在偏理性、偏推进，这份完美主义会变成可靠的产品感：你交出去的东西，别人放心。', b:'当你的外在偏感受、偏应变，它更常向内：你不一定要求别人，但你会一个人在深夜反复修改。' }
+  },
+  approve: {
+    no:'III', name:'认可者', en:'THE SEEN',
+    line:'你不是在意别人怎么看，你只是希望自己的努力被看见。',
+    portrait:[
+      '你并不缺判断力，也不一定需要别人替你做决定。但外界的反馈对你仍然有意义——尤其是你认真投入过的事。',
+      '你习惯把自己放在一个相对独立的位置，不主动要夸奖。可当努力没有回应时，你的失落会比表现出来的明显。'
+    ],
+    need:{ surface:'你希望别人注意到你做了什么。', need:'你需要自己的价值被确认。', worry:'你担心自己的付出其实没有意义。', guard:'所以你先表现得不需要认可，免得显得太在意。' },
+    trigger:{ before:'你投入时很安静，不太声张，也不邀功。', during:'当反馈缺席，或重要的人给出否定，你会明显往下沉，表面却更平静。', after:'你会反复回放细节：是不是哪里做得不对，是不是我本来就不够好。' },
+    defense:'你用「我不在乎」保护自己，让期待落空时不那么难堪。',
+    relation:'你在关系里不太主动索取肯定，但你会记得对方有没有说过那句「你做得很好」。',
+    strength:'对反馈敏感、目标意识强、愿意持续变好。',
+    blind:'别人没有及时肯定你，不代表你的努力没有价值。',
+    practice:[
+      { k:'自己给一次确认', v:'完成后写一句给自己的评价，不等人来夸。' },
+      { k:'直接说出期待', v:'把「没事」换成「这件事我挺用心的」。' },
+      { k:'分离评价与价值', v:'记录一次「没人回应但我依然认可自己」的经历。' }
+    ],
+    pair:{ a:'当你的外在偏理性、偏推进，这份在意会被你包装成「我只是想把事做好」。', b:'当你的外在偏感受、偏应变，它更容易浮上来：一句轻描淡写的评价，你能记很久。' }
+  },
+  compete: {
+    no:'IV', name:'竞争者', en:'THE RIVAL',
+    line:'你不是爱比较，你只是受不了「本来可以是我」。',
+    portrait:[
+      '你对相对位置很敏感。谁进步了、谁被选中了、谁离目标更近，你会不由自主地知道。',
+      '这种敏感推着你往前走，也让你很难真正替别人高兴。你不是小气，你只是把自己放进了同一把尺子里。'
+    ],
+    need:{ surface:'你希望自己在重要的地方不落后。', need:'你需要确认「我不比任何人差」。', worry:'你担心被超过之后，就再也追不回来。', guard:'所以你先表现得不在意输赢。' },
+    trigger:{ before:'你平时斗志在线，习惯默默观察周围的人。', during:'被比较、机会被拿走、熟悉的人突然领先，你会明显紧起来，话变少或变得更锋利。', after:'你会给自己加码，也会反复回放那一次「本来可以是我」。' },
+    defense:'你用「我只是想赢自己」来解释那份不甘，让自己看起来更体面。',
+    relation:'你在关系里也会暗暗比较：谁付出得多，谁更被重视。你很少说，但你会记。',
+    strength:'进取、抗压、被激发出来的行动力。',
+    blind:'别人的进步，不等于你的退步。',
+    practice:[
+      { k:'换一把尺子', v:'每周只和上周的自己比一次。' },
+      { k:'真心祝贺一次', v:'挑一个你在意的人，把祝贺说出口。' },
+      { k:'写下你的独有', v:'列三件「只有我能做成」的事。' }
+    ],
+    pair:{ a:'当你的外在偏理性、偏推进，这份竞争心会变成极强的执行力：你把它转化成了成果。', b:'当你的外在偏感受、偏应变，它更常停在心里：你不一定去争，但你会一直知道差距在哪。' }
+  },
+  defend: {
+    no:'V', name:'防御者', en:'THE GUARDED',
+    line:'你不是不需要人，你只是不习惯把脆弱交出去。',
+    portrait:[
+      '你保护自己的方式很安静：受伤了不说，难过了先消失一会儿，等情绪收拾好再出现。',
+      '这不是冷漠，是你很早以前就学会的：把软的地方藏起来，比较安全。'
+    ],
+    need:{ surface:'你希望别人尊重你的边界。', need:'你需要在一段关系里保有「不被看穿」的安全感。', worry:'你担心一旦暴露脆弱，就会被轻视或被利用。', guard:'所以你先把自己收起来，用沉默代替解释。' },
+    trigger:{ before:'你通常克制、体面，情绪不外露。', during:'被批评、被误解、被看见脆弱时，你会迅速收回表达，甚至先切断联系。', after:'你会一个人消化，表面恢复得很快，但心里会留很久。' },
+    defense:'你更倾向用理智化和情绪压抑来处理难受：先分析，再压下去，最后说「没事」。',
+    relation:'你不是不愿意亲近，你是需要先确定对方值得。确认之前，你只给出一部分自己。',
+    strength:'边界感、情绪自持、在压力下不失控。',
+    blind:'保护自己，不一定要通过沉默完成。',
+    practice:[
+      { k:'说一句真的', v:'找一个人，说一次「那天我其实挺难受的」。' },
+      { k:'不消失', v:'难受时告诉对方「我需要一点时间」，而不是直接断联。' },
+      { k:'允许被看见', v:'挑一件小事，让别人帮你一次。' }
+    ],
+    pair:{ a:'当你的外在偏理性、偏推进，这份防御看起来像冷静和专业，很少有人发现你在忍。', b:'当你的外在偏感受、偏应变，它更像一层薄薄的壳：你其实很软，只是不肯先开口。' }
+  },
+  escape: {
+    no:'VI', name:'逃离者', en:'THE DRIFTER',
+    line:'你不是懒，你只是被那件事压得喘不过气。',
+    portrait:[
+      '面对长期压力，你的第一反应是往后退一点：先刷会儿手机，先做别的，先等状态好一些。',
+      '这确实能让你暂时好受，但事情还在原地。你心里清楚，所以你也一直在自责。'
+    ],
+    need:{ surface:'你希望压力能小一点，最好有人替你分担一部分。', need:'你需要一个缓冲区，让情绪先落地。', worry:'你担心自己真的做不到，所以干脆不开始。', guard:'所以你先转移注意力，把焦虑推远一点。' },
+    trigger:{ before:'你通常还算正常，只是会不自觉地拖延那件最重要的事。', during:'压力堆到一定程度，你会明显抽离：回避消息、回避决定、回避那个人。', after:'缓过来之后你会更焦虑，因为时间少了，事情还在。' },
+    defense:'你用回避和转移来降低当下的不适，代价是问题被留在原地。',
+    relation:'关系里出现难以解决的冲突时，你容易先退出对话，等情绪过去再说——有时就再也没说。',
+    strength:'对压力信号敏感、懂得给自己缓冲、不容易被一次性压垮。',
+    blind:'暂时放下可以，但别让回避成为唯一的办法。',
+    practice:[
+      { k:'只做五分钟', v:'不想开始的事，先做五分钟，允许随时停。' },
+      { k:'把问题写小', v:'把「必须做完」拆成三个具体动作。' },
+      { k:'说出来', v:'告诉一个人你在拖什么，被看见会减少一半阻力。' }
+    ],
+    pair:{ a:'当你的外在偏理性、偏推进，这份逃离藏得很深：你照样把事情做完，只是内心一直在往外跑。', b:'当你的外在偏感受、偏应变，它更直接：状态不好就真的停下来了。' }
+  },
+  attach: {
+    no:'VII', name:'依恋者', en:'THE ANCHORED',
+    line:'你不是黏人，你只是需要知道自己在对方心里还在。',
+    portrait:[
+      '你对关系里的细微变化很敏感：回消息慢了、语气淡了、称呼变了，你都会接收到。',
+      '你并不想控制对方，你只是需要一点确认——你还在，我也还在。'
+    ],
+    need:{ surface:'你希望关系稳定、有回应、有明确的位置。', need:'你需要被确认「我对你是重要的」。', worry:'你担心自己其实随时可以被替换。', guard:'所以你先表现得没那么在意，免得显得太需要。' },
+    trigger:{ before:'你投入时很稳，也很会照顾对方的节奏。', during:'关系一冷、回应一少、状态一不明，你会明显不安，开始反复检查细节。', after:'你要么主动追问，要么一个人反复推测，很难真的放下。' },
+    defense:'你用「我不在乎」或「我也很独立」来遮住那份需要。',
+    relation:'你在亲密关系里投入得深，也容易把对方的态度当成自己价值的证据。',
+    strength:'情感投入、关系维护、很强的共情力。',
+    blind:'重视关系的同时，也要保留自己的生活。',
+    practice:[
+      { k:'区分事实与推测', v:'回复慢不等于不在意，先把事实写下来。' },
+      { k:'说出具体需求', v:'与其等对方猜，不如说「我希望你回我一句」。' },
+      { k:'保留自己的部分', v:'每周留两件和关系无关的事。' }
+    ],
+    pair:{ a:'当你的外在偏理性、偏推进，这份依恋会被你管理得很好：你不闹，但你会一直在意。', b:'当你的外在偏感受、偏应变，它更明显：关系一波动，你整天的气氛都跟着变。' }
+  },
+  rebel: {
+    no:'VIII', name:'反叛者', en:'THE DISSENTER',
+    line:'你不是难搞，你只是不接受别人替你决定你是谁。',
+    portrait:[
+      '你对「被安排」极其敏感。哪怕建议是对的，只要方式带着强迫，你心里就会立刻立起一道墙。',
+      '你要的不是对抗，是自主：这件事可以由我自己判断，即使我最后选的和你说的一样。'
+    ],
+    need:{ surface:'你希望自己的选择被尊重。', need:'你需要「我的人生由我定义」的确认。', worry:'你担心一旦顺从，就会慢慢失去自己。', guard:'所以你先抵触，再决定要不要接受。' },
+    trigger:{ before:'你通常有自己的节奏，不太受外界影响。', during:'被规定、被定义、被要求「应该怎样」，你会明显绷紧，甚至故意走反方向。', after:'冷静下来你也会想：我反对的是这件事，还是被安排的感觉。' },
+    defense:'你用反抗来保护自我边界，有时也会因此错过真正有用的建议。',
+    relation:'你在关系里需要空间和尊重。对方越是想抓住你，你退得越快。',
+    strength:'自主判断、创造力、不被规训的清醒。',
+    blind:'自主选择，不意味着必须拒绝所有建议。',
+    practice:[
+      { k:'分清人和话', v:'先看内容对不对，再看方式让不让你舒服。' },
+      { k:'延迟反对', v:'想反驳时先等十分钟，再决定要不要说。' },
+      { k:'主动定义', v:'把「你别管我」换成「我想这样安排，你觉得呢」。' }
+    ],
+    pair:{ a:'当你的外在偏理性、偏推进，这份反叛更像一种原则：你有自己的标准，不轻易被说服。', b:'当你的外在偏感受、偏应变，它更情绪化：一被安排，你就想走反方向。' }
+  }
+};
+const HID_ORDER = ['ctrl','perf','approve','compete','defend','escape','attach','rebel'];
+
+/* ============ 配置 ============ */
+const PAYWALL = {
+  enabled: true,
+  price: '0.9',
+  api: '',
+  shopName: '',
+  shopUrl: '',
+  wechat: '',
+  qr: '',
+  authorHash: '1da3b138292020041a209c3e13c00f1c368a2af7d872847d64af4919e573efbb',
+  codeHashes: [
+    '4774e85a1c239ab7e9b77d264c9a66fa8b236f276604b11379ce6e7278c64719',
+    '4c529399dc908b3b50a80d1acd502c8b01bb7e3629a6c0a561edcf5a3fbb2d75',
+    '799261055b02db3c6a529c78db8bb6e7f747c4bea38c09924957cf4a403dce05',
+    'e63944583104169cdc5657459fcbc5003c66b49408ecc3746e9a245372476db0',
+    'f8401cdf7542d6b5c7cdc4afef9e01eb3fe3ba0518f7a3ddad8ef86cd9bbca54',
+    '048154bd23ba0c30e96370ce48d7e9fd9dfc2bab551b5c4c6613e44e77387467',
+    'c2a72a6cced7957d01be1e7a64972931727271ecd54e8aee5eee17ed7c6c987d',
+    '5146e14e3c1398d799dc8fa96586bb9c467c2eff1ac235e52d6d392d9812b627',
+    'f595280f94babcbc09dbb30ede88266740e7b12795ab7ed7850b2d6d7fdd0acd',
+    '198bdd00a72be8604c95e7e3dfbba806992c86643316c55e3bee78bd327ab96a',
+    '8750485edd11d35fc8d6b8088dfb140b18fcc1efbfc2edbbaebf03fd0d7bafc6',
+    'f3863f119b0cab8403b9ed005fde6281d854496df417151e9715a0f58defb60e',
+    '222b911ac58f0eb9f140bd02abb56f29b64f13f432e313e077aafb5ecdadbf33',
+    'fea7d5b7143f5593132734efdd24df1bdd700dda5629e84eef5b6369bb25d727',
+    '81ab73c809f26d8f661232ac51fc2c4320efe1a656e8d83ff7d1c6729c461783',
+    'a201f17253ebfcce80af34a59cdf286d77aff614bf47ece070d998a99ddf3b72',
+    '911c0ffa8fb72d3bc3f6c43cf3171e967cd490de5e25059b7872587a8a45b564',
+    '4cd325d4e6157b6c1f8f0e9443c20a5af36c006addd39ac24a1cf68a999582fd',
+    'dddb134d2253a5b0ff28eb1354efdb0434c9ea9142a605ef16d1774257a88464',
+    'be2c882669858e31203d0128ea04f2a953c302ad5ea7792e389f5d698b6dac4e',
+    'd70aa2a53d914e55b382b0e5d5bfb95a7ffa05322b0d3bb6daef16392889b50e',
+    '77306176d78ff8c2ede639435f549e7d855d19dd07dedfd66921f0153e6e60d4',
+    'b8afea90f1f8e282148772c94d69235ebf6dab964237f2a5c3b731d446964152',
+    'c8576edf18cadde393c7cbaad44b777b20a39d6bf22580bbb53416d263cda807',
+    '96633fb796276ae4d4a412af61fcc366e3bbc9fad46ccc861da9c023b4aae4b3',
+    'd3847e1a843fb9c8eb3fdcb67dfdd718b00afe3e8b8b577a2328085d63e2e3e9',
+    '42e0500e8924199d2c3e950519cfa19528fd0690f1e74affd2712d817dbb4e68',
+    '3e85d9a64d08e2bf9864a947ce4645cc7f88d14022bdcb9633b19a7c78321bbb',
+    '11c4743b900504ddf0699913a86842285802af0c7b8d9c254713ef3b75dc9620',
+    'fdb6daee5fe9dadb45a8a1397d647d58f4304be610658f3e7459ee32e2305712',
+    'ed20f2917eb446be3b311c0bc0b94e31e59ba2f0c9720ff04b3fcd42581fee9f',
+    '7cf71d6595858eb611c510d12e7872bb3edf425546f39c54f944ff1abe912efb',
+    'a92c5c6a070297de58b3177bbf0b6d287b8238850ca1db4970709a96614f1dc5',
+    '73d17d9a9b46186acc7ded1c2084694b7044828aa42933377b2986c3fe2e3095',
+    '64de7dd64af0a19cdd051e267a43cbc6dae95eb4b440673db08ecf4d49ac467b',
+    '0ca7475bfc70627e7573ca9b69fe34d884d529ec802b34f5514f500583b39598',
+    '8fc468972ea46d08dc9fde7c7509a0e652c9e92c64ceab562b74ed680754a4d4',
+    '080d34ce78312b003edd1727b89aae4ca93d56c49a0421897625b28eeb0afc8e',
+    '903c1dc4da25f7952bc133a04bb15c51ccf7f4345532d71c0510829836b3d6f4',
+    '195aa4caa14ca0edc36486d5a6e68041587193f9d71288856a13edce910c9747',
+    '8f439d8e993b5a4ad2d42d72b1ab86120102c49f47a7b1643a4c2491900c8bd8',
+    '172f44369c5aa6b8dd51d10be7998ba7acc1c26f512de3a113afb421a6bbdabe',
+    'e25c2cad9e9dfd82a3caeeb266a5eacfd3e6bc7b28476ab6aa120e72589b31b8',
+    '0d56c210ce14896fdcd36c0546324bdf5b95f7482d52eea6afe1c29f00037a1e',
+    'e7bef9b437999a364b666dfe6239aaf654c994209008148a54a5644644e29837',
+    '920e032b4ca7090cef5293c2613261633f2a382735b82e6b38e4a3a200d7b061',
+    '12578b474b9c0267ca8f8aecdd66df24ba9a4ceacf48b75400252cecff4539c6',
+    '8b18d39d1769d66aae39f740e9783d7c9a9ff13393c6f0a95e7ec84138e14c60',
+    '377ab97fc157ee5d8690fb08c164f02747452b75b8f45219a0a8a7bbee47cc1a',
+    '61d3673576db64092eb863da8aa2c739a1eab058aa19c89aa586c41f22b6531f',
+    '302b9888a827e610e4aa618c2c490d90f9e04fd732b76072a39bd8e82ca408ec',
+    '4b82775c6775aa01e6733b49a85d218e1546391bb8332937ff004491e3c4d438',
+    '535266b03e7190f15c8fadd4573dcb57ebba2bb739948b811acab012e97ec5b9',
+    '735f4480d7a0ba7e580e4c3fbb3f9af439132482ead06e23e39f36ff4c6f6d88',
+    '334093cc519f3c42adbf5c02446f966ab7f41ab79645034a7be8f2ab20549e0d',
+    '980f39d47586ba9d763907bc86e9e474b4caef9b8c81b482356000e50eeaed39',
+    '2fd20dae644a9d1b2e0e51076bd0658d6c679062bc1d11a75a767e9185f9c25c',
+    'dd6c2a6c4d086df4aecd3d03336e792482aaed13e0491b16a84e1b56dc135247',
+    '3d96e7b56aca2a5b108048d6af1c81e35b56d4ea648105345221ba83ccc070d7',
+    '087603670743b89d14e08213fc334218d2e3b2827fc2172aed8919d4dd864748',
+    '459574d66cd01ed8c28929c5eabf3599c4473a2b91eb569e00c54a8d0c714241',
+    '96355c2c87b689847a01cfb877b1e3594ad1004d2cb15874d0fb554719549abc',
+    '3030cdc05d447b857daf3ff5928541d5bd31011d792c4d581e6ba33ed0a91f14',
+    'b6473ba16dfbc03733dab21f213d3c7586f7691806487e8eee20c855b34e0bf4',
+    '71a806812dee5f22c508547507eb92d3df230b10a3cea4174462bf88eccfa1d2',
+    '1049deffebdee9f27846878c3f00124ab184fe48b931754e10403daeb96d71e7',
+    '8e56b705bedc9712bf3de3bb6b677295230c6041c0fc41d930319349fd145acb',
+    'f837dfcb3010fada1f7e41230fbc8ab0e4d61a8797b7b9477850fa42af969387',
+    '493c08f3673bb62260f47244aed1d44d5df157ed7af9e0d612a9559b404898a3',
+    'b65b1b17cb2142f332a840bc57d3a6a49ce083d89d6178100f7e876c465186ed',
+    'ecba8a63a3d1171d1931a5c0f3576741ee44f6fc5a2a9299279bba0d6b36a143',
+    'ccc33f5f39bf977bb6f98ef381e9913bad5747541dc093803448293e32200d7a',
+    '44763e1b708c7e5e060e2371e7afc94593d33cc6b567497326a61aed202e6e60',
+    '82d584e366dcfd18878e8e0bb9c3e515a5e0550b373b704d89eaaec7e3bde272',
+    'd18a65596eef4a778318b017261f191345b05930237769cfe55d84b66528da20',
+    '0a036aed18150dfacb61a277382061e8b9584cb212c670924b9d010deb5402dc',
+    'f8570fa30ed1989be6ab7491fa678f63584bafaa02e69be9ae7ca7fab6125ded',
+    '11302d1dd65a16352968ac4cbda0e1e1313be058e2a1230789bda5accf1f51c3',
+    'aabea1dcd6da6e33e79cf3fdc3c1a77edcc224703f730d8e3edce5962f26e801',
+    '9a098ca162abca857c74bbd9ee9c4f45b83de94a0b2e50e8f42d88f5ebb5deda',
+    '39cb65ca077be688dc4c6a95e0c5e416e18a150e9026f36b9a19e24ca1c91363',
+    'ca96466533763d2b3b61661c555da85a4c8a8a0c0876aa847aa21d1ac5c59e1e',
+    'f7284a9472e4995fe126ba70e08104880b04c7aef99a2d1d75aa555fea16433f',
+    '8a5041cfc2cb4631c2dd817167f5c12c1ed993aa9850aefc97d69df0fc21b704',
+    '5c74ed8498ac007faebd746a0558e0cee613138025229bd7007f7b0ff014c5a7',
+    '65d6de2b405b67443602119d9b9c028fa7d24c13a0d1851c23b80493868b16b8',
+    '8ee83a0a5329d029dece106021bc665c7cf4b2f103f976e560d6d257fb5762db',
+    '4d6836bb420bc1dfbaf323da3ba38ec0a8bfd36eef091dda882be4cfd6bc4dc0',
+    'aa74d240847f69beb9e4bfdaad84b31c0d68b436eb79b5451d41c022728d0aa9',
+    'b796d078b6cc58c9ce4c7ff53ab0c7a779d5758f77fcbfbb97b6c332cc5d27de',
+    '37994a2b7b80c8890ec454853724d847cf4a466608ca85be6d53254e6975c9e7',
+    'a8842335bc7392508946fa550755b8806acdad70115e646aec68cd8a7c1753ba',
+    '58805ab84bc0cb0787d6a1c9e9ea43c65d6b95a4100630cbb70aef0ce3012bed',
+    '59298a4f31ce025b117840f58bc334309f9cde37bcbed7c9cc7a73499e2b0217',
+    'e4dcd31a1ab45f64515874150df22abdbf2c0a6a6a3d69cd1222037179af92a9',
+    'a75cbf17e22b82d3df887aef45c9569fe5ef012f9e86f734178c4e26b310dc2d',
+    '6720b02256af5a34390b58e906d26e9dff7fa4c2b96b0675d12f0e2e83018551',
+    'dad474067db54ab0663600100e7f2320b787a876788acf172e9cfe9d5395f522',
+    'c0711c35c3a055510c51c56eaec4bd4b5e60e7e7b2a246f670ea11ee098feb82',
+    '4f975357bd9741fe1fe2d565c93f2a7d4114194b334d53396121e593b22fa688',
+    'e0a023f03c0e7bf4e6d1fdcdf7417f676294c55980fea43be02558dd23d30efb',
+    '113da928de143aef05135d1fce5eb6b38d45d4b736489067f081aee63a4b44c2',
+    '3e0dfd9e6dd3e9ea482677eea25c20258890c6d389d1fc2ffe5902c6e9dd3662',
+    '8f245a7ff48c01b4f2f6d4cc7226c072c94c62295a4a00e9c392e37ae00ebe2e',
+    '53fadb9f70fb7163eea9e4e8f7c4ed04149f1868c4f2ba0adf0eb5922fdaf2ac',
+    '8dc67c6f79725ea9d3ebc7d8d818771ce0d3ac7dcaf014df09da75c245b356bc',
+    '62068ea73c30ecf8ba50099ff686cfc82ad8d0768a8ec0e5c73221e979377507',
+    'cbe24a9d220efe9592e20d842ce3295b710e8af39193cb0277f945b6a18c305c',
+    'eae43358a1222cbfdc200eebdc60dfce869677f3bb8b6e6ee18167006dce5b21',
+    '1fd5dd87b204c836455cf88fbc5e99f945c0a6dfdf6495517553583188f56cc1',
+    'eef1c71e2499211b9e746429d5810bb74f2ee917338d26bb54824fc8068d76db',
+    '580cd31f8acd8c2d9682e88f102691f443258df8bf2c964a7b33a8dc9bb643a7',
+    '162675d3ea61a773a274b7ee9385fa16ed3466c8d6d1cae689534ce40af7b57d',
+    'c7dc3ac336d71f8d99cbea45a0667c1de48cb61e4d46fe0f566e549f23c596a1',
+    '1a02336c64cd3fd4af06274dbf802d6a88a3f35e0535f10a1a5accce8ff9fbfc',
+    'ea4ce5e2cfd5bdcb8343d9eb22239e59987caf079bbb81e4ba90164af710ea48',
+    'e08b4b0a43a344670e4845a472d720c08a3cb444cc62bf5684150452f64d9a8f',
+    '450b25c43d0255796771552c74efdae31e8b44d0103b1a02ab74a41c23447a2b',
+    '347440fd725fe69e64cbcaf59c5242c4bc4e5c659a959fb073e016633d4eb46e',
+    'd4bf4498b131733a5b16b7884a450bbe65665d09122c8155ab1158be5771e78e',
+    '674f4d3f8cd520a8d828a3cc423fbef24f6b415aea58d6c48d1b7f3d0022d213',
+    '14e80f55555bd6b1fa86f70999528c4e13b0d1874701baab5c710d58c607af4d',
+    '1dba5dc041a8002e6dcb1bb3f227896c6fe64ce27cc080af42cf3853627cc3b0',
+    '3c9f173f00b317356310e7818d71fe7e4b420ff21b28facc71a6498de4b480c6',
+    '7c5088afade34be7c05d38cb15f88e17a19c6ee65edfef9f7dd38f71821d0b34',
+    '3817e6f6e039ff0165124c64bbcc1ded24736bab234a2abc7f5de8cd5cc8c358',
+    '1e875f667341618ec07dbdc180548d038ae2da2afac07a3b47b9e42393b74e92',
+    'd2f84be6813ff678280c71e1703050730f6d6425238d3412ba2d1ee9d21f9afa',
+    '7908787a3b0b8354438192444c465fbc98c9459431b1da2728cb4b08813b1b91',
+    '72e7bf82e319151c31406ae4f88547c6844af76df84020c26872f30d2ecda115',
+    '73eccadd5f8e58c868881eb49b00af117606517951e03cd4600477c3cc201c0d',
+    'e38f32d01e1dd7da0860686655ee13906068387d6919ab9e652405a0778354a9',
+    'f466ea51d53ec41c4a332de6f97d9601efc2e3c383b5738befbfcc325bf8c825',
+    '6ff0f5662c83f16c04b120de5dc7c120d3616a2f7a21b14e2e313a82d1274a26',
+    '945ce3425334ffad7fc1db22a2931f093cd475acf98aecc6bb32a85113193342',
+    '0e39f45fa94b18a48a1d4d503d64c8010398d9f57c8988966b09f0538caee466',
+    'd7754c8e4c978f89d8000eb348356a4d0e6cf296a04c87d8a450bcc93c255bea',
+    'f9089e5c5ecc5b464393aa4f3e730d915efe136755b940afbf32eec96ec01fc0',
+    '5bd9b455b0b29a5e7d57da138b3778f6f3c7d63e1134cf9e39303db269228cc8',
+    '05629b895e3b442e755f9b0d60dbef8a3f259a83e5d8135ae6e2d66039214546',
+    '188b2995b4240f0ed021f04a91d3f967ea9eda461da1314f4d1d336d1ec9e37f',
+    '20be1c3af35c6ca18c051ec4624eff455965b0aa1c6cd0bde69f8e0efabaa9c5',
+    'f5cb9ba195cb48f6dc4a1284d393e78bfeb06e656a63ab82e57fb062744778f8',
+    '66d1dc50e06bfa1ca77b3d1b349b0fe154f1daffde50bfab7f0ba0cebf93d130',
+    '37d092154078fe1c81aad63f388a762e36fe1a68cddeca31fd249fd64b28db5f',
+    '9817ea1cb14e11325799a1d3ae04f8dfe730cefba222cf95d89cf5bba6b7eb94',
+    '3893e93dd808b1ceac2568b9bc86eea891952917a00dc51dd1bc118e7271785e',
+    '68d073cf53c09600ba2b8c8ebc96a00653f081b2f823594c454c8fee13153312',
+    '3c8689bd5e4293f65ad096c6523dcd789e0c159f61fdfa9e679ec77b02ff18dc',
+    '850044497aebe2f2517937a91aa4616b6439ab0ae4217025fd1819311b2326de',
+    '7068ca727e629ab07f18aa888e1a8272d7ca22f06ecd6a6e05f7195451624491',
+    '9f456afaddd4068eb8c61427f7d0674c65a6549662fa2f33aa45cd279787c2aa',
+    '04917308d6d034230a897ec0101489971d3bab95f814679ec66638e6166be07d',
+    'f94359172cef2927bbe97a06917f668301cbf4286276557d3a3705bfe0aacc6b',
+    '5987a0236ae60afdbdca89e8d9546df43b49f5720e858a5838bb975f4b3c81c9',
+    '8e6e8e21159eea808176e84fad390263fdc6ae553adb92235bcc1e10898772a0',
+    'acb1c4e451f954ac67b0b8e063cf7fa10df60ff32affa8d254d74ae8ba0d184c',
+    '6adac5225945f0357252ea8a1bc173cf7b5eb1ef36dc710a50ce7d1a17e38584',
+    '5f8812a6126dd01fbe9a8e6ff84db3db13c1645d5e85676f544323980cdbfeae',
+    'db48cf9136e6d5360b68e573c607e05c8ec59e31afd6c2d34f690b1c8592287f',
+    'deab23e4c7e6a48b11d63e7a95fcd7b9ddcdd25187155b5103639d46019c4fa4',
+    'f62f201102a99b61643f330a1acef51fb727854ff6635752fb5852edf01f18e9',
+    '51eaf1e682a07d34a477613c546c5b4097c1b14e73a43577ce9a2d9e7c0b60c2',
+    '8b3758afa36b74e2ffc4660965c88af50c1892cc9a79cae9999c64ca9572135a',
+    '31eb95e6667f7b2b3fe1399f97f9fc036d1be524fcd21f66feea286069a08cbf',
+    '18fa0b6b1f677eaeb5bec9fe2f4b4b4ecb01ccfae66571c6a31b6228cf8273af',
+    'bed195aa5fc485c669f0cd73bebc78fb1cf0914f451effee13dd7f81907639ce',
+    '6f74f3c7be038a0ea54a5106108e22c30d738059eb44d1046cd32559a0edbdb3',
+    '567cdf713a9220e4a83edad55ca1927153e2653e46e5bfed0efa274eaec57ec9',
+    '4147a93d7bc6726d584ef4d46ac141b331d40c5eb67334d9d7b29267d5ea5ade',
+    '6421fa90bf192e78e3bed47e28138e84aeb9066b38cdabb929f65938fee82831',
+    '5eeb4f67a0d99e84d549e3fbc27762fc35e79172713873f77ddd433c13768fe1',
+    'fd3c5ddb7153ee247d188e703c263072de7d6330687cb618ff69c37cad8cb7b2',
+    'f3814f4cc526bafa81a5de3777f3cf7351cb133e811e19668847024eee195457',
+    '816058454340724ac9f7de4e3f78121e974e78afbf2927548c38df55aef2801f',
+    '99cdd8df976289c351c2fdf4c31c46342b2fafa1d0ee42e451b31fa61ec3ece6',
+    'd52041bdeb29243147b6b6abfc93c3ddd2b3c7b6f59bf3ba6da6859b4bc9582e',
+    'e3b177236a15e849e42397a1be1c9bbb37ca4afeaa135d7352e95a81ae2ef317',
+    '50d718dc2ed169932719c54c2dfaa3fc7b8c21f3b7fb44bb1d6a8bd5d8a2614b',
+    'e206f4652479ee49c59705a34f835b40949e2ce9d8ee7d4e831148b2b9155ecd',
+    '4e91f1493a6f9facc3b0c26a2e2ab9d7b22e7a967e6d4247fbcd3365c92bb83b',
+    'b782e7c8736f83576933494aa9bd1f9c58d6d61c50df166dcdddd130074676d0',
+    'e596dfbc3d3ad20a0feb7e84c2216effea332017ae51a9b13fdbcc7b91120ac5',
+    '078e53189acd225ed903c5632474d4236dbef12ee99f76a91812355b4b29944a',
+    '40daccf633585635789a23709b365ad381a9fb3869fff89e1af0cdd307c5c395',
+    'a3f574607f273294a84dce9bdf3d689f66600f729656e0361920c4630ff82c0b',
+    'ebb484051a52c5641bba914d2909a02bdffea309b2bc9a4a1d58739637b10da3',
+    'd5b930830263c00face8182528fa917074ed7398edb031e6c587e27c50d14caa',
+    '73846710aa971596daf6f46bf3e3dfa67b464e99c35568594e9f5de85ecf4537',
+    '5ec5189a2069613780f33e20a1fce4b545d6bf7f95cc217947a44d66c6fcb944',
+    '5c7a3a3066f6e57e0dec3ed00fe3752e7eccb99d73c7489524fdb5b7bcc96d3a',
+    '0145784489b83c110a04c11ac5b72d8731f91338d10e8cb83592f3afd761e61d',
+    'e32bb1a7e98d8c412ded0015bb43d4b09af0ff99f4702ac73923ece8325e48c2',
+    'f57ad2ecd2ec72751f0bd024e9d7a08d7bc6ca31973db97e4676d1c8f5ff6621',
+    '5a130c1d621a79af7d9b964403623d228f854cc81876b1ddc9754d853ce01fd1',
+    'cb3a0086efa321160186fef12958232b8ab62f89c07268ec9efeefef02da17b8',
+    '12c0f62dbbb8ffc1bbb68cc5592240e9610f519254cda288ac781489aad11fec',
+    '048e7e8d6b920da241df5a104e365df3ef700b5394d8a9cd193c77e604761276',
+    '2a6e91d33e29fdaee78c50f7b75897a9a321bd2826f5b63decca52a62546f3fa',
+    'a781510d154f126bc9ea15dba5f614aecf221813b725049b54e616031264493b'
+  ]
+};
+
+const STORE_KEY = 'persona_progress_v1';
+const UNLOCK_KEY = 'persona_unlock_v1';
+const DEVICE_KEY = 'persona_device_v1';
+
+const state = { answers:{}, idx:0, result:null, unlocked:false, codeUsed:'' };
+
+/* ============ 工具 ============ */
+function $(id){ return document.getElementById(id); }
+function toast(msg, ms){
+  const t = $('toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toast._t); toast._t = setTimeout(()=>t.classList.remove('show'), ms||2200);
+}
+function showView(id){
+  [].forEach.call(document.querySelectorAll('.view'), v=>v.classList.remove('active'));
+  $(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+async function sha256Hex(str){
+  try{
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return [].map.call(new Uint8Array(buf), b=>b.toString(16).padStart(2,'0')).join('');
+  }catch(e){ return ''; }
+}
+function deviceId(){
+  let d = null;
+  try{ d = localStorage.getItem(DEVICE_KEY); }catch(e){}
+  if(!d){
+    d = 'd' + Math.random().toString(36).slice(2,10) + Date.now().toString(36);
+    try{ localStorage.setItem(DEVICE_KEY, d); }catch(e){}
+  }
+  return d;
+}
+
+/* ============ 进度 ============ */
+function saveProgress(){
+  try{
+    localStorage.setItem(STORE_KEY, JSON.stringify({ answers:state.answers, idx:state.idx }));
+  }catch(e){}
+}
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY); if(!raw) return false;
+    const p = JSON.parse(raw);
+    if(p && p.answers && typeof p.idx === 'number' && p.idx > 0){
+      state.answers = p.answers; state.idx = Math.min(p.idx, QS.length-1);
+      return true;
+    }
+  }catch(e){}
+  return false;
+}
+function loadUnlock(){
+  try{ return localStorage.getItem(UNLOCK_KEY) === '1'; }catch(e){ return false; }
+}
+function setUnlock(v, code){
+  state.unlocked = v;
+  if(v){ try{ localStorage.setItem(UNLOCK_KEY, '1'); if(code) localStorage.setItem(UNLOCK_KEY+'_code', code); }catch(e){} }
+}
+
+/* ============ 计分 ============ */
+function computeOuter(){
+  const sum = {}, cnt = {};
+  DIM_ORDER.forEach(d=>{ sum[d]=0; cnt[d]=0; });
+  QS.forEach(q=>{
+    if(q.phase !== 'outer') return;
+    const a = state.answers[q.n];
+    if(a === null || a === undefined) return;
+    let v = a;
+    if(q.k === 'scale' && q.rev) v = 6 - a;
+    sum[q.d] += v; cnt[q.d]++;
+  });
+  const pct = {};
+  DIM_ORDER.forEach(d=>{
+    const avg = cnt[d] ? sum[d]/cnt[d] : 3;
+    pct[d] = Math.max(0, Math.min(100, Math.round((avg-1)/4*100)));
+  });
+  return pct;
+}
+function typeKeyOf(pct){
+  return DIM_ORDER.map(d=>{
+    const dim = DIMS[d];
+    return pct[d] >= 50 ? dim.posCode : dim.negCode;
+  }).join('-');
+}
+function computeHidden(){
+  const score = {}, max = {};
+  HID_ORDER.forEach(k=>{ score[k]=0; max[k]=0; });
+  QS.forEach(q=>{
+    if(q.phase !== 'hidden') return;
+    const a = state.answers[q.n];
+    if(a === null || a === undefined) return;
+    if(q.k === 'scale'){
+      const list = Array.isArray(q.h) ? q.h : [q.h];
+      const val = (a-1)/4*3;
+      list.forEach(k=>{ score[k] += val; max[k] += 3; });
+    }else{
+      const chosen = q.opts.find(o=>o.t === a);
+      HID_ORDER.forEach(k=>{
+        const m = Math.max.apply(null, q.opts.map(o=>(o.s && o.s[k]) || 0));
+        max[k] += m;
+        score[k] += (chosen && chosen.s && chosen.s[k]) || 0;
+      });
+    }
+  });
+  const idx = {};
+  HID_ORDER.forEach(k=>{ idx[k] = max[k] ? Math.round(score[k]/max[k]*100) : 0; });
+  const sorted = HID_ORDER.map(k=>({ k:k, v:idx[k] })).sort((a,b)=>b.v-a.v);
+  return { idx:idx, sorted:sorted };
+}
+function finishTest(){
+  const outer = computeOuter();
+  const hidden = computeHidden();
+  const top = hidden.sorted[0], second = hidden.sorted[1];
+  const dual = (top.v - second.v) < 7 && top.v >= 52;
+  state.result = {
+    outer: outer,
+    type: typeKeyOf(outer),
+    hidden: hidden,
+    hid: top.k,
+    hid2: second.k,
+    dual: dual
+  };
+  try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+  renderReveal();
+  showView('v-reveal');
+}
+
+/* ============ 答题 ============ */
+function renderQ(){
+  const q = QS[state.idx];
+  if(!q) return;
+  $('qBar').style.width = ((state.idx)/QS.length*100) + '%';
+  $('qNow').textContent = String(q.n).padStart(2,'0');
+  $('qPhase').textContent = q.phase === 'outer' ? '外在人格' : '隐藏人格';
+  $('qPhaseEn').textContent = q.phase === 'outer' ? 'OUTER SELF' : 'HIDDEN LAYER';
+  $('qBack').disabled = state.idx === 0;
+
+  const cur = state.answers[q.n];
+  let html = '';
+  if(q.k === 'sit'){
+    html += '<p class="q-index">SITUATION ' + String(q.n).padStart(2,'0') + '</p>';
+    html += '<h2 class="q-text">' + q.q + '</h2>';
+    html += '<p class="q-hint">选一个最接近你真实反应的。</p>';
+    html += '<div class="opts">';
+    q.opts.forEach(o=>{
+      html += '<button class="opt' + (cur === o.t ? ' on' : '') + '" data-v="' + o.t + '">' +
+              '<span class="tag">' + o.t + '</span><span>' + o.label + '</span></button>';
+    });
+    html += '</div>';
+  }else{
+    html += '<p class="q-index">SCALE ' + String(q.n).padStart(2,'0') + '</p>';
+    html += '<h2 class="q-text">' + q.q + '</h2>';
+    html += '<p class="q-hint">按第一反应选，不必反复权衡。</p>';
+    html += '<div class="scale">';
+    html += '<div class="scale-ends"><span>不同意</span><span>同意</span></div>';
+    html += '<div class="scale-track">';
+    for(let i=1;i<=5;i++){
+      html += '<button class="tick' + (cur === i ? ' on' : '') + '" data-v="' + i + '"><i></i><span>' + SCALE_LABELS[i-1] + '</span></button>';
+    }
+    html += '</div>';
+    html += '<div class="scale-now">' + (cur ? '你的选择：<b>' + SCALE_LABELS[cur-1] + '</b>' : '&nbsp;') + '</div>';
+    html += '</div>';
+  }
+  $('qBody').innerHTML = html;
+
+  [].forEach.call($('qBody').querySelectorAll('[data-v]'), el=>{
+    el.addEventListener('click', ()=>{
+      const raw = el.getAttribute('data-v');
+      const val = q.k === 'sit' ? raw : Number(raw);
+      state.answers[q.n] = val;
+      saveProgress();
+      [].forEach.call($('qBody').querySelectorAll('[data-v]'), e=>e.classList.remove('on'));
+      el.classList.add('on');
+      setTimeout(nextQ, 320);
+    });
+  });
+}
+function nextQ(){
+  if(state.idx >= QS.length - 1){ finishTest(); return; }
+  state.idx++;
+  saveProgress();
+  renderQ();
+}
+
+/* ============ 揭晓 ============ */
+function renderReveal(){
+  const r = state.result, t = TYPES[r.type];
+  $('revName').textContent = t.name;
+  $('revEn').textContent = t.en + ' · NO.' + t.no;
+  $('revDims').innerHTML = DIM_ORDER.map(d=>{
+    const p = r.outer[d], dim = DIMS[d];
+    const label = p >= 50 ? dim.pos : dim.neg;
+    return '<div class="rev-dim"><span>' + dim.name + '</span><i><b style="width:' + p + '%"></b></i>' +
+           '<span style="flex:0 0 52px;text-align:right;color:rgba(244,239,230,.75)">' + label + '</span></div>';
+  }).join('');
+  $('revQuote').textContent = '「' + t.line + '」';
+  const sealed = '你的另一面也已经有了轮廓。它被密封在档案的第二层——你的隐藏人格、你真正想要的东西、你什么时候会变成另一个人。';
+  $('revSealed').textContent = sealed;
+}
+
+/* ============ 付费墙 ============ */
+function paywalled(){
+  return PAYWALL.enabled && (PAYWALL.codeHashes.length > 0 || PAYWALL.authorHash.length > 0);
+}
+function isLocked(){
+  return paywalled() && !state.unlocked;
+}
+function lockHTML(){
+  let buy = '';
+  if(PAYWALL.shopUrl || PAYWALL.wechat || PAYWALL.qr){
+    let inner = '<span class="lock-buy-k">如何获得解锁码</span>';
+    inner += '<p class="lock-buy-p">付款后把订单截图发我，我会把解锁码回给你。一个码解锁一份完整档案。</p>';
+    if(PAYWALL.qr) inner += '<img class="lock-qr" src="' + PAYWALL.qr + '" alt="收款码">';
+    if(PAYWALL.shopUrl) inner += '<a class="lock-shop" href="' + PAYWALL.shopUrl + '" target="_blank" rel="noopener">' + (PAYWALL.shopName || '去拍下这份档案') + '</a>';
+    if(PAYWALL.wechat) inner += '<button class="lock-copy" id="copyWx">复制微信号 · ' + PAYWALL.wechat + '</button>';
+    buy = '<div class="lock-buy">' + inner + '</div>';
+  }
+  return '<div class="lock"><div class="lock-card">' +
+    '<span class="lock-kicker">SEALED FILE · 隐藏档案已生成</span>' +
+    '<h3>你的另一面，<br>就密封在这份档案里。</h3>' +
+    '<p>隐藏人格与第二倾向、你真正想要的东西、人格反差、压力模式、情绪防御、关系模式、优势与盲区、成长方向——共十一个章节，全部在锁后面。</p>' +
+    '<p class="lock-note">¥' + PAYWALL.price + ' 一次性解锁 · 之后无限次回看</p>' +
+    '<div class="lock-input"><input id="codeInput" placeholder="输入解锁码" autocomplete="off" spellcheck="false"><button id="codeBtn">解锁</button></div>' +
+    buy +
+    '</div></div>';
+}
+async function redeem(){
+  const input = $('codeInput');
+  const raw = (input && input.value || '').trim().toUpperCase();
+  if(!raw){ toast('先输入解锁码'); return; }
+  if(raw.length < 6){ toast('这个码看起来不完整'); return; }
+  const btn = $('codeBtn');
+  if(btn){ btn.disabled = true; btn.textContent = '校验中'; }
+  const h = await sha256Hex(raw);
+  let ok = false;
+  if(h) ok = (!!PAYWALL.authorHash && h === PAYWALL.authorHash) || PAYWALL.codeHashes.indexOf(h) > -1;
+  if(PAYWALL.api){
+    try{
+      const res = await fetch(PAYWALL.api, {
+        method:'POST', headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify({ code: raw, device: deviceId() })
+      });
+      const j = await res.json().catch(()=>({}));
+      if(j && j.ok) ok = true;
+      else if(j && j.reason === 'used') { toast('这个码已经在别的设备上用过了'); return; }
+    }catch(e){}
+  }
+  if(btn){ btn.disabled = false; btn.textContent = '解锁'; }
+  if(!ok){ toast('这个码不对，检查一下有没有漏字符'); return; }
+  setUnlock(true, raw);
+  toast('已解锁，往下就是你的完整档案');
+  renderReport();
+}
+function bindUnlock(){
+  const btn = $('codeBtn'); if(btn) btn.addEventListener('click', redeem);
+  const inp = $('codeInput'); if(inp) inp.addEventListener('keydown', e=>{ if(e.key === 'Enter') redeem(); });
+  const cw = $('copyWx'); if(cw) cw.addEventListener('click', ()=>{
+    const wx = PAYWALL.wechat;
+    if(navigator.clipboard && wx){
+      navigator.clipboard.writeText(wx).then(()=>toast('微信号已复制')).catch(()=>toast('复制失败，手动记一下：' + wx));
+    }else{ toast('微信号：' + wx); }
+  });
+}
+
+/* ============ 报告 ============ */
+function fmtDate(){
+  const d = new Date();
+  return d.getFullYear() + '.' + String(d.getMonth()+1).padStart(2,'0') + '.' + String(d.getDate()).padStart(2,'0');
+}
+function renderReport(){
+  const r = state.result;
+  if(!r){ return; }
+  const t = TYPES[r.type], h = HID[r.hid], h2 = HID[r.hid2];
+  const locked = isLocked();
+
+  const dimRows = DIM_ORDER.map(d=>{
+    const p = r.outer[d], dim = DIMS[d];
+    const label = p >= 50 ? dim.pos : dim.neg;
+    return '<div><div class="dim-top"><span class="dim-name">' + dim.name + '<em>' + dim.en + '</em></span>' +
+           '<span class="dim-val">' + label + ' · ' + p + '%</span></div>' +
+           '<div class="dim-track"><i style="width:' + p + '%"></i></div></div>';
+  }).join('');
+
+  const barRows = r.hidden.sorted.map(x=>
+    '<div class="bar-row"><span class="bar-name">' + HID[x.k].name + '</span>' +
+    '<span class="bar-track"><i style="width:' + x.v + '%"></i></span>' +
+    '<span class="bar-val">' + x.v + '</span></div>'
+  ).join('');
+
+  const hidHead = r.dual
+    ? '<p class="kicker">你的隐藏倾向是双重型</p><h2 class="hid-name">' + h.name + ' <span>×</span> ' + h2.name + '</h2>'
+    : '<p class="kicker">你的隐藏人格是</p><h2 class="hid-name">' + h.name + '</h2>';
+
+  const hidNote = r.dual
+    ? '两种倾向在你身上同时存在，' + h.name + '更靠前，' + h2.name + '紧随其后。下面的分析以' + h.name + '为主，但另一条线也在你身上。'
+    : '这是你藏得最深的一层。它不是你装出来的样子，而是你在没人看着的时候，比较真实的样子。';
+
+  const structured = r.outer.analysis >= 50 && r.outer.drive >= 50;
+  const pairLine = structured ? h.pair.a : h.pair.b;
+
+  const outerStrength = t.strength.map(s=>'<li>' + s + '</li>').join('');
+  const practiceList = h.practice.map((p,i)=>
+    '<div class="practice"><em>0' + (i+1) + '</em><div><b>' + p.k + '</b><p>' + p.v + '</p></div></div>'
+  ).join('');
+
+  const html =
+  '<div class="rep-head">' +
+    '<div class="rep-topline"><span>PERSONALITY ARCHIVE</span><span>NO.' + t.no + ' / 2026</span></div>' +
+    '<h1 class="rep-name">' + t.name + '</h1>' +
+    '<p class="rep-en">' + t.en + ' · 双面人格档案</p>' +
+    '<p class="rep-quote">「' + t.line + '」</p>' +
+    '<div class="rep-meta"><span>GENERATED ' + fmtDate() + '</span><span>36 ITEMS · 4 DIMENSIONS</span></div>' +
+  '</div>' +
+  '<div class="rep-wrap">' +
+
+    '<section class="sec"><div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">你展现出来的自己</h2><span class="sec-en">OUTER SELF</span></div>' +
+      '<div class="prose"><p>' + t.desc[0] + '</p><p>' + t.desc[1] + '</p></div>' +
+      '<div class="dims" style="margin-top:26px">' + dimRows + '</div>' +
+    '</section>' +
+
+    '<div class="paid-zone' + (locked ? ' locked' : '') + '">' +
+      lockHTML() +
+      '<div class="paid-body">' +
+
+        '<div class="band-dark"><div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">隐藏人格揭晓</h2><span class="sec-en">HIDDEN LAYER</span></div>' +
+          hidHead +
+          '<p class="hid-quote">「' + h.line + '」</p>' +
+          '<div class="prose" style="margin-top:20px"><p>' + h.portrait[0] + '</p><p>' + h.portrait[1] + '</p>' +
+          '<p style="color:rgba(244,239,230,.5);font-size:12.5px">' + hidNote + '</p></div>' +
+          '<div class="bars" style="margin-top:30px">' + barRows + '</div>' +
+          '<p class="hid-tip">以上是八种倾向在你身上的相对分布，满分 100。它不是概率，是同一个人格维度内部的相对强弱。</p>' +
+        '</div>' +
+
+        '<section class="sec"><div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">你真正想要的是什么</h2><span class="sec-en">CORE NEED</span></div>' +
+          '<div class="block"><em>表层行为</em><p>' + h.need.surface + '</p></div>' +
+          '<div class="block"><em>心理需求</em><p>' + h.need.need + '</p></div>' +
+          '<div class="block"><em>潜在担忧</em><p>' + h.need.worry + '</p></div>' +
+          '<div class="block"><em>保护方式</em><p>' + h.need.guard + '</p></div>' +
+        '</section>' +
+
+        '<section class="sec"><div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">你说的，和你实际在意的</h2><span class="sec-en">CONTRAST</span></div>' +
+          '<div class="contrast">' +
+            '<div class="contrast-col"><p class="contrast-k">OUTER · 你表现出来的</p><ul><li>' + t.line + '</li><li>' + t.strength[0] + '</li><li>' + h.need.guard + '</li></ul></div>' +
+            '<div class="contrast-col"><p class="contrast-k">HIDDEN · 你可能在意的</p><ul><li>' + h.need.surface + '</li><li>' + h.need.need + '</li><li>' + h.need.worry + '</li></ul></div>' +
+          '</div>' +
+          '<div class="prose" style="margin-top:14px"><p>这两栏不是「假的我」和「真的我」。它们都是你，只是出现在不同的场合：一栏给所有人看，另一栏只在少数时刻浮上来。</p></div>' +
+        '</section>' +
+
+        '<div class="band"><div class="sec-head"><span class="sec-num">05</span><h2 class="sec-title">你什么时候会变成另一个人</h2><span class="sec-en">PRESSURE</span></div>' +
+          '<div class="block"><em>触发之前</em><p>' + h.trigger.before + '</p></div>' +
+          '<div class="block"><em>正在发生</em><p>' + h.trigger.during + '</p></div>' +
+          '<div class="block"><em>事情之后</em><p>' + h.trigger.after + '</p></div>' +
+        '</div>' +
+
+        '<section class="sec"><div class="sec-head"><span class="sec-num">06</span><h2 class="sec-title">你怎么保护自己</h2><span class="sec-en">DEFENCE</span></div>' +
+          '<div class="prose"><p>' + h.defense + '</p><p>这只是一种倾向，不是诊断。它曾经帮你熬过一些时刻，也可能在某些时候，让你和真正想要的东西隔了一层。</p></div>' +
+        '</section>' +
+
+        '<section class="sec"><div class="sec-head"><span class="sec-num">07</span><h2 class="sec-title">关系里的另一面</h2><span class="sec-en">RELATION</span></div>' +
+          '<div class="prose"><p>' + h.relation + '</p></div>' +
+        '</section>' +
+
+        '<div class="band-dark"><div class="sec-head"><span class="sec-num">08</span><h2 class="sec-title">你身上真正的优势</h2><span class="sec-en">STRENGTH</span></div>' +
+          '<div class="prose"><p>这些能力不是夸你，是它们和你的结构本来就长在一起。</p></div>' +
+          '<ul class="slist">' + outerStrength + '<li>' + h.strength + '</li></ul>' +
+        '</div>' +
+
+        '<section class="sec"><div class="sec-head"><span class="sec-num">09</span><h2 class="sec-title">你可能没注意到的地方</h2><span class="sec-en">BLIND SPOT</span></div>' +
+          '<div class="prose"><p>' + t.blind + '</p><p>' + h.blind + '</p></div>' +
+        '</section>' +
+
+        '<section class="sec"><div class="sec-head"><span class="sec-num">10</span><h2 class="sec-title">让两面共处的方式</h2><span class="sec-en">GROWTH</span></div>' +
+          '<div class="practices">' + practiceList + '</div>' +
+        '</section>' +
+
+        '<div class="final"><p class="label">11 · YOUR PERSONALITY PAIR</p><h3>' + t.name + ' × ' + h.name + '</h3>' +
+          '<p class="pair-text">' + pairLine + '</p>' +
+          '<p class="pair-text">你身上最常见的拉扯是：你希望自己是' + t.line.replace('。','') + '，而你的另一面一直在提醒你——' + h.line.replace('。','') + '</p>' +
+        '</div>' +
+
+        '<section class="sec"><div class="sec-head"><span class="sec-num">12</span><h2 class="sec-title">双面人格宣言</h2><span class="sec-en">DECLARATION</span></div>' +
+          '<div class="prose"><p>你并不是一个只有单一面貌的人。</p>' +
+          '<p>你可以' + DIMS.analysis.pos + '，也可以' + DIMS.analysis.neg + '；可以' + DIMS.drive.pos + '，也可以' + DIMS.drive.neg + '。这些部分并不互相矛盾，也不需要你把其中任何一面彻底消除。</p>' +
+          '<p>认识自己，不是把自己变成一个更容易解释的标签，而是允许自己拥有更复杂、更真实的部分。</p></div>' +
+        '</section>' +
+
+        '<div class="share"><h4>把这份档案留下来</h4>' +
+          '<p>生成一张只属于你的身份卡。长按保存，或者发给那个最懂你另一面的人。</p>' +
+          '<div class="share-actions"><button class="btn-dark" id="posterBtn">生成档案卡</button>' +
+          '<button class="btn-ghost" id="copyLinkBtn">复制链接</button></div>' +
+        '</div>' +
+
+      '</div>' +
+    '</div>' +
+
+    '<div class="foot"><p>本测试为娱乐性质的人格倾向探索，结果基于你的自述反应，不构成心理诊断或专业评估。</p>' +
+      '<p style="margin-top:10px"><button class="btn-text" id="retryBtn" style="padding:0">重新测一次</button></p>' +
+      '<span class="mark">PERSONALITY ARCHIVE · NO.003</span></div>' +
+  '</div>';
+
+  $('repRoot').innerHTML = html;
+
+  /* 进度条动画 */
+  setTimeout(()=>{
+    [].forEach.call($('repRoot').querySelectorAll('.dim-track i,.bar-track i'), el=>{
+      const w = el.style.width; el.style.width = '0'; requestAnimationFrame(()=>{ el.style.width = w; });
+    });
+  }, 60);
+
+  const pb = $('posterBtn'); if(pb) pb.addEventListener('click', ()=>openPoster());
+  const cl = $('copyLinkBtn'); if(cl) cl.addEventListener('click', ()=>{
+    const url = location.href.split('#')[0];
+    if(navigator.clipboard){ navigator.clipboard.writeText(url).then(()=>toast('链接已复制')).catch(()=>toast('复制失败，手动复制地址栏')); }
+    else{ toast('手动复制地址栏链接'); }
+  });
+  const rb = $('retryBtn'); if(rb) rb.addEventListener('click', ()=>{
+    state.answers = {}; state.idx = 0; state.result = null;
+    try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+    showView('v-cover');
+  });
+  bindUnlock();
+}
+
+/* ============ 海报 ============ */
+function drawSpaced(g, text, x, y, spacing, color, size, weight){
+  g.fillStyle = color;
+  g.font = (weight || 400) + ' ' + size + 'px "Noto Sans SC","PingFang SC",sans-serif';
+  g.textAlign = 'left';
+  let cx = x;
+  for(const ch of text){
+    g.fillText(ch, cx, y);
+    cx += g.measureText(ch).width + spacing;
+  }
+}
+function wrapLines(g, text, maxW){
+  const lines = []; let line = '';
+  for(const ch of text){
+    const test = line + ch;
+    if(g.measureText(test).width > maxW && line){ lines.push(line); line = ch; }
+    else{ line = test; }
+  }
+  if(line) lines.push(line);
+  return lines;
+}
+function buildPoster(){
+  const r = state.result, t = TYPES[r.type];
+  const W = 720, H = 1280;
+  const c = document.createElement('canvas');
+  c.width = W; c.height = H;
+  const g = c.getContext('2d');
+
+  g.fillStyle = '#0B1118'; g.fillRect(0,0,W,H);
+
+  const rad = g.createRadialGradient(W/2, 300, 30, W/2, 300, 660);
+  rad.addColorStop(0,'rgba(192,160,98,0.15)');
+  rad.addColorStop(0.55,'rgba(192,160,98,0.04)');
+  rad.addColorStop(1,'rgba(192,160,98,0)');
+  g.fillStyle = rad; g.fillRect(0,0,W,H);
+
+  g.strokeStyle = 'rgba(192,160,98,.34)'; g.lineWidth = 1;
+  g.strokeRect(40, 40, W-80, H-80);
+  g.strokeStyle = 'rgba(192,160,98,.14)';
+  g.strokeRect(52, 52, W-104, H-104);
+
+  drawSpaced(g, 'PERSONALITY ARCHIVE', 84, 104, 3.2, 'rgba(244,239,230,.62)', 15, 400);
+  drawSpaced(g, 'NO.' + t.no + ' / 2026', W-84, 104, 2.4, 'rgba(192,160,98,.9)', 13, 500);
+
+  g.strokeStyle = 'rgba(192,160,98,.28)'; g.lineWidth = 1;
+  g.beginPath(); g.moveTo(84, 130); g.lineTo(W-84, 130); g.stroke();
+
+  /* 竖排名 */
+  const name = t.name;
+  const size = name.length <= 4 ? 88 : (name.length === 5 ? 78 : 70);
+  const gap = size * 1.28;
+  const totalH = gap * (name.length - 1);
+  let ny = 300 - totalH/2 + size*0.2;
+  g.textAlign = 'center';
+  g.fillStyle = '#F4EFE6';
+  g.font = '600 ' + size + 'px "Noto Serif SC","Songti SC",serif';
+  for(const ch of name){
+    g.fillText(ch, W/2, ny);
+    ny += gap;
+  }
+  const nameBottom = ny - gap + size*0.35;
+
+  g.textAlign = 'center';
+  g.font = '400 15px "Noto Sans SC",sans-serif';
+  const enWidth = g.measureText(t.en).width + 3.6 * (t.en.length - 1);
+  drawSpaced(g, t.en, (W - enWidth)/2, nameBottom + 46, 3.6, 'rgba(216,192,138,.82)', 15, 400);
+
+  /* 分隔 */
+  const sy = nameBottom + 96;
+  g.strokeStyle = 'rgba(192,160,98,.32)'; g.lineWidth = 1;
+  g.beginPath(); g.moveTo(W/2-60, sy); g.lineTo(W/2+60, sy); g.stroke();
+
+  /* 金句 */
+  g.textAlign = 'center';
+  g.font = '400 26px "Noto Serif SC","Songti SC",serif';
+  g.fillStyle = 'rgba(244,239,230,.86)';
+  const qLines = wrapLines(g, '「' + t.line + '」', 480);
+  let qy = sy + 62;
+  qLines.forEach(l=>{ g.fillText(l, W/2, qy); qy += 44; });
+
+  /* 四维 */
+  const dimY = qy + 40;
+  const dimLabels = DIM_ORDER.map(d=>{
+    const p = r.outer[d], dim = DIMS[d];
+    return (p >= 50 ? dim.pos : dim.neg);
+  }).join('  ·  ');
+  g.font = '400 16px "Noto Sans SC",sans-serif';
+  g.fillStyle = 'rgba(244,239,230,.5)';
+  g.fillText(dimLabels, W/2, dimY);
+
+  /* 底部 */
+  g.strokeStyle = 'rgba(192,160,98,.22)'; g.lineWidth = 1;
+  g.beginPath(); g.moveTo(84, H-150); g.lineTo(W-84, H-150); g.stroke();
+
+  g.textAlign = 'center';
+  g.font = '400 14px "Noto Sans SC",sans-serif';
+  g.fillStyle = 'rgba(244,239,230,.42)';
+  g.fillText('你看到的这一面，只是一半。', W/2, H-96);
+  g.font = '400 13px "Noto Sans SC",sans-serif';
+  g.fillStyle = 'rgba(192,160,98,.7)';
+  g.fillText('attractionprofile.github.io/attraction-profile/persona/', W/2, H-64);
+
+  return c.toDataURL('image/png');
+}
+async function openPoster(){
+  if(!state.result) return;
+  toast('正在生成档案卡…', 1400);
+  try{ if(document.fonts && document.fonts.ready){ await document.fonts.ready; } }catch(e){}
+  try{
+    const url = buildPoster();
+    $('posterImg').src = url;
+    $('posterLayer').classList.add('show');
+  }catch(e){
+    toast('生成失败，换个浏览器试试');
+  }
+}
+
+/* ============ 启动 ============ */
+(function init(){
+  state.unlocked = loadUnlock();
+  const has = loadProgress();
+  const startBtn = $('startBtn');
+  if(has && startBtn){
+    startBtn.textContent = '继续建档';
+    $('qNow').textContent = String(state.idx + 1).padStart(2, '0');
+  }
+  startBtn.addEventListener('click', ()=>{
+    if(!has){ state.idx = 0; }
+    showView('v-quiz');
+    renderQ();
+  });
+  $('qBack').addEventListener('click', ()=>{
+    if(state.idx > 0){ state.idx--; saveProgress(); renderQ(); }
+  });
+  $('toReport').addEventListener('click', ()=>{
+    renderReport();
+    showView('v-report');
+  });
+  $('posterClose').addEventListener('click', ()=>{
+    $('posterLayer').classList.remove('show');
+  });
+})();
+</script>
+</body>
+</html>
