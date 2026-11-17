@@ -114,6 +114,12 @@ img{display:block;max-width:100%}
   font-size:10.5px;line-height:1.9;color:rgba(244,239,230,.42);
   margin-top:14px;text-align:center;letter-spacing:.04em;
 }
+.cover-resume{
+  display:block;width:100%;margin-top:12px;padding:12px 0;
+  background:none;border:1px solid rgba(192,160,98,.34);
+  font-size:11.5px;letter-spacing:.12em;color:rgba(216,192,138,.85);
+}
+.cover-resume[hidden]{display:none}
 
 /* ===== 答题 ===== */
 #v-quiz{background:var(--paper);padding:0 0 20px}
@@ -544,7 +550,8 @@ body{
   <div class="cover-cta">
     <div class="cover-meta"><span>36 ITEMS</span><span>16 × 8 TYPES</span><span>5–7 MIN</span></div>
     <button class="btn-gold" id="startBtn" style="margin-top:24px">开始建档</button>
-    <p class="cover-note">18 道情境 + 18 道程度 · 中途退出，进度会保留</p>
+    <button class="cover-resume" id="resumeBtn" hidden>继续上次答题 · 第 <span id="resumeAt">1</span> 题</button>
+    <p class="cover-note">18 道情境 + 18 道程度 · 点开始即重新建档</p>
   </div>
 </section>
 
@@ -1772,7 +1779,7 @@ function renderReport(){
 
     '<div class="foot"><p>本测试为娱乐性质的人格倾向探索，结果基于你的自述反应，不构成心理诊断或专业评估。</p>' +
       '<p style="margin-top:10px"><button class="btn-text" id="retryBtn" style="padding:0">重新测一次</button></p>' +
-      '<span class="mark">PERSONALITY ARCHIVE · NO.003</span></div>' +
+      '<span class="mark">PERSONALITY ARCHIVE · NO.003 · B1117C</span></div>' +
   '</div>';
 
   $('repRoot').innerHTML = html;
@@ -1939,12 +1946,18 @@ async function openPoster(){
   state.unlocked = loadUnlock();
   const has = loadProgress();
   const startBtn = $('startBtn');
-  if(has && startBtn){
-    startBtn.textContent = '继续建档';
-    $('qNow').textContent = String(state.idx + 1).padStart(2, '0');
+  if(has && state.idx > 0){
+    $('resumeBtn').hidden = false;
+    $('resumeAt').textContent = state.idx + 1;
   }
   startBtn.addEventListener('click', ()=>{
-    if(!has){ state.idx = 0; }
+    state.answers = {}; state.idx = 0; state.result = null;
+    try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+    $('resumeBtn').hidden = true;
+    showView('v-quiz');
+    renderQ();
+  });
+  $('resumeBtn').addEventListener('click', ()=>{
     showView('v-quiz');
     renderQ();
   });
