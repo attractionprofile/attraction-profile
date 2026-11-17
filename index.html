@@ -1008,8 +1008,8 @@ function renderReport() {
   const lockBlock = locked
     ? '<div class="lock"><div class="lock-card">' +
         '<span class="lock-kicker">深度解析 · 尚未解锁</span>' +
-        '<h3>深度解析还没打开</h3>' +
-        '<p>你的五维图谱、三处最迷人的地方、你容易被误解的地方、你容易吸引什么样的人、给你的一句话，以及那张可以存下来的档案卡。</p>' +
+        '<h3>完整解析还没打开</h3>' +
+        '<p>你的核心解析、五维图谱、三处最迷人的地方、你容易被误解的地方、你容易吸引什么样的人、给你的一句话，以及那张可以存下来的档案卡。</p>' +
         '<button class="btn-main" id="unlockBtn">解锁深度解析 · ' + PAYWALL.price + ' 元</button>' +
         '<p class="lock-note">' +
           (PAYWALL.api
@@ -1035,14 +1035,14 @@ function renderReport() {
     '</div>' +
     '<div class="wrap">' +
 
+      '<div class="paid-zone' + (locked ? ' locked' : '') + '">' +
+      lockBlock +
+      '<div class="paid-body">' +
+
       '<section class="sec">' +
         '<div class="sec-head"><span class="sec-num">01</span><h3 class="sec-title">你的核心吸引力</h3></div>' +
         '<div class="prose">' + t.portrait.map(p => '<p>' + p + '</p>').join("") + '</div>' +
       '</section>' +
-
-      '<div class="paid-zone' + (locked ? ' locked' : '') + '">' +
-      lockBlock +
-      '<div class="paid-body">' +
 
       '<section class="band band-gray"><div class="band-inner">' +
         '<div class="sec">' +
