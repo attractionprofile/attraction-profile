@@ -551,6 +551,7 @@ body{
     <div class="cover-meta"><span>36 ITEMS</span><span>16 × 8 TYPES</span><span>5–7 MIN</span></div>
     <button class="btn-gold" id="startBtn" style="margin-top:24px">开始建档</button>
     <button class="cover-resume" id="resumeBtn" hidden>继续上次答题 · 第 <span id="resumeAt">1</span> 题</button>
+    <button class="cover-resume" id="lastBtn" hidden>查看上次档案 · <span id="lastName"></span></button>
     <p class="cover-note">18 道情境 + 18 道程度 · 点开始即重新建档</p>
   </div>
 </section>
@@ -1362,6 +1363,7 @@ const PAYWALL = {
 };
 
 const STORE_KEY = 'persona_progress_v1';
+const RESULT_KEY = 'persona_result_v1';
 const UNLOCK_KEY = 'persona_unlock_v1';
 const DEVICE_KEY = 'persona_device_v1';
 
@@ -1413,6 +1415,21 @@ function loadProgress(){
     }
   }catch(e){}
   return false;
+}
+function saveResult(){
+  try{ localStorage.setItem(RESULT_KEY, JSON.stringify({ answers:state.answers, result:state.result })); }catch(e){}
+}
+function loadLastResult(){
+  try{
+    const raw = localStorage.getItem(RESULT_KEY); if(!raw) return null;
+    const p = JSON.parse(raw);
+    if(p && p.result && p.result.type && TYPES[p.result.type] && p.result.outer){
+      state.answers = p.answers || {};
+      state.result = p.result;
+      return p.result;
+    }
+  }catch(e){}
+  return null;
 }
 function loadUnlock(){
   try{ return localStorage.getItem(UNLOCK_KEY) === '1'; }catch(e){ return false; }
@@ -1493,6 +1510,7 @@ function finishTest(){
     dual: dual
   };
   try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+  saveResult();
   renderReveal();
   showView('v-reveal');
 }
@@ -1799,7 +1817,9 @@ function renderReport(){
   });
   const rb = $('retryBtn'); if(rb) rb.addEventListener('click', ()=>{
     state.answers = {}; state.idx = 0; state.result = null;
-    try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+    try{ localStorage.removeItem(STORE_KEY); localStorage.removeItem(RESULT_KEY); }catch(e){}
+    const lb = $('lastBtn'); if(lb) lb.hidden = true;
+    const rsb = $('resumeBtn'); if(rsb) rsb.hidden = true;
     showView('v-cover');
   });
   bindUnlock();
@@ -1945,21 +1965,30 @@ async function openPoster(){
 (function init(){
   state.unlocked = loadUnlock();
   const has = loadProgress();
+  const last = loadLastResult();
   const startBtn = $('startBtn');
-  if(has && state.idx > 0){
+  if(last){
+    $('lastName').textContent = TYPES[last.type].name;
+    $('lastBtn').hidden = false;
+  } else if(has && state.idx > 0){
     $('resumeBtn').hidden = false;
     $('resumeAt').textContent = state.idx + 1;
   }
   startBtn.addEventListener('click', ()=>{
     state.answers = {}; state.idx = 0; state.result = null;
-    try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+    try{ localStorage.removeItem(STORE_KEY); localStorage.removeItem(RESULT_KEY); }catch(e){}
     $('resumeBtn').hidden = true;
+    $('lastBtn').hidden = true;
     showView('v-quiz');
     renderQ();
   });
   $('resumeBtn').addEventListener('click', ()=>{
     showView('v-quiz');
     renderQ();
+  });
+  $('lastBtn').addEventListener('click', ()=>{
+    if(state.unlocked){ renderReport(); showView('v-report'); }
+    else{ renderReveal(); showView('v-reveal'); }
   });
   $('qBack').addEventListener('click', ()=>{
     if(state.idx > 0){ state.idx--; saveProgress(); renderQ(); }
