@@ -178,6 +178,14 @@ h1,h2,h3,h4{margin:0}
 .lock-input input::placeholder{color:#6E6E6E;font-size:13px;letter-spacing:.04em}
 .lock-input button{min-height:48px;padding:0 18px;border:1px solid rgba(255,255,255,.26);color:#FFF;font-size:12px;letter-spacing:.12em}
 .lock-input button:active{background:rgba(255,255,255,.12)}
+.lock-buy{margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,.14);text-align:left}
+.lock-buy-k{display:block;font-size:9.5px;letter-spacing:.24em;color:#E0311C;margin-bottom:12px}
+.lock-buy-p{font-size:12px;line-height:1.9;color:#9C9C9C;margin-bottom:14px}
+.lock-qr{width:132px;height:132px;display:block;margin-bottom:12px;background:#FFF;border-radius:3px}
+.lock-shop{display:flex;align-items:center;justify-content:center;min-height:50px;border:1px solid rgba(255,255,255,.3);color:#FFF;font-size:13px;letter-spacing:.14em;margin-bottom:10px;text-decoration:none}
+.lock-shop:active{background:rgba(255,255,255,.1)}
+.lock-copy{display:block;width:100%;min-height:50px;border:1px solid rgba(255,255,255,.3);color:#FFF;font-size:13px;letter-spacing:.1em;background:transparent;font-family:var(--sans)}
+.lock-copy:active{background:rgba(255,255,255,.1)}
 
 .sec{padding:44px 0 0}
 .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:22px;padding-top:16px;border-top:1px solid var(--line)}
@@ -549,6 +557,11 @@ const PAYWALL = {
   price: "0.88",
   contact: "",
   api: "",
+  /* 购买入口：填上任意一项，锁卡片里就会出现「怎么拿到解锁码」区块 */
+  shopName: "闲鱼",
+  shopUrl: "",
+  wechat: "",
+  qr: "",
   authorHash: "64fd87161efdb51b071bf3dd17ed91aef3de19a963fcdce4b145892b91cbf964",
   codeHashes: [
     "677a69900157c2cd7be4276ba52e7b25397c81606b7e75099f290c826e4d400d",
@@ -1005,6 +1018,16 @@ function renderReport() {
     const d = new Date();
     return d.getFullYear() + "." + String(d.getMonth() + 1).padStart(2, "0") + "." + String(d.getDate()).padStart(2, "0");
   })();
+  const buyBox = (PAYWALL.shopUrl || PAYWALL.wechat || PAYWALL.qr)
+    ? '<div class="lock-buy">' +
+        '<span class="lock-buy-k">怎么拿到解锁码</span>' +
+        (PAYWALL.qr ? '<img class="lock-qr" src="' + PAYWALL.qr + '" alt="收款二维码">' : '') +
+        '<p class="lock-buy-p">拍下后把订单号发我，我马上发你一份专属解锁码。一码一人，别外传。</p>' +
+        (PAYWALL.shopUrl ? '<a class="lock-shop" href="' + PAYWALL.shopUrl + '" target="_blank" rel="noopener">去' + PAYWALL.shopName + '拍下</a>' : '') +
+        (PAYWALL.wechat ? '<button class="lock-copy" id="copyWx">复制微信号 ' + PAYWALL.wechat + '</button>' : '') +
+      '</div>'
+    : '';
+
   const lockBlock = locked
     ? '<div class="lock"><div class="lock-card">' +
         '<span class="lock-kicker">深度解析 · 尚未解锁</span>' +
@@ -1017,6 +1040,7 @@ function renderReport() {
             : '付款后向作者获取解锁码，解锁后这台设备会记住，不用再输。') +
         '</p>' +
         '<div class="lock-input"><input id="unlockInput" placeholder="输入解锁码" autocomplete="off"><button id="unlockGo">打开</button></div>' +
+        buyBox +
       '</div></div>'
     : '';
 
@@ -1142,6 +1166,19 @@ function bindUnlock() {
     toast(PAYWALL.contact ? "付款后联系作者获取解锁码：" + PAYWALL.contact : "输入付款后拿到的解锁码");
     el("unlockInput").focus();
   });
+  const cw = el("copyWx");
+  if (cw) {
+    cw.addEventListener("click", () => {
+      const txt = PAYWALL.wechat;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(txt)
+          .then(() => toast("微信号已复制，去微信搜我"))
+          .catch(() => toast("微信号：" + txt));
+      } else {
+        toast("微信号：" + txt);
+      }
+    });
+  }
 }
 
 /* ========== 分享 ========== */
