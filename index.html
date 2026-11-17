@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>你身上最致命的吸引力是什么？</title>
+<meta name="description" content="20 道自我认知题，五个核心维度，十种吸引力类型。你真正吸引人的地方，可能和你想的不太一样。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23141414'/%3E%3Crect x='14' y='14' width='36' height='36' fill='none' stroke='%23F1EFEA' stroke-width='2'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23D8382A'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://miaoda.feishu.cn">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@400;600;700&amp;family=Noto+Sans+SC:wght@300;400;500&amp;display=swap">
+<style>
+:root{
+  --paper:#FFFFFF;
+  --paper2:#EDEDEB;
+  --ink:#0B0B0B;
+  --red:#E0311C;
+  --muted:#6B6B6B;
+  --faint:#9C9C9C;
+  --line:rgba(11,11,11,.14);
+  --line-soft:rgba(11,11,11,.065);
+  --serif:"Noto Serif SC","Songti SC","STSong","SimSun",serif;
+  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;color:var(--ink)}
+body{font-family:var(--sans);font-size:15px;line-height:1.8;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;overflow-x:hidden;
+  background-color:#F2F1EE;
+  background-image:
+    radial-gradient(130% 620px at 50% 0%, #FFFFFF 0%, rgba(255,255,255,.72) 55%, rgba(255,255,255,0) 100%),
+    radial-gradient(rgba(11,11,11,.042) .5px, rgba(0,0,0,0) .6px);
+  background-size:100% 720px, 3px 3px;
+  background-repeat:no-repeat, repeat;
+}
+img{display:block;max-width:100%}
+button{font-family:inherit;font-size:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+p{margin:0}
+h1,h2,h3,h4{margin:0}
+#app{min-height:100dvh;position:relative}
+.view{display:none;min-height:100dvh}
+.view.active{display:block;animation:viewIn .5s cubic-bezier(.2,.8,.2,1) both}
+@keyframes viewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.wrap{width:100%;max-width:600px;margin:0 auto;padding:0 24px}
+.label{font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.rule{height:1px;background:var(--line);border:0}
+
+/* ===== 封面 ===== */
+#v-cover{background:transparent}
+.view.active#v-cover{display:flex;flex-direction:column}
+.cover-top{display:flex;justify-content:space-between;align-items:center;padding:20px 24px 14px;border-bottom:1px solid var(--line)}
+.cover-top .label{color:var(--ink);letter-spacing:.3em}
+.cover-top .issue{font-size:10.5px;letter-spacing:.18em;color:var(--muted)}
+.cover-photo{position:relative;flex:1;min-height:50vh;overflow:hidden;background:var(--paper2)}
+.cover-photo img{width:100%;height:100%;object-fit:cover;object-position:center 24%}
+.cover-copy{padding:26px 24px 30px;max-width:600px;margin:0 auto;width:100%}
+.cover-kicker{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.cover-kicker i{display:block;width:9px;height:9px;background:var(--red)}
+.cover-kicker span{font-size:10.5px;letter-spacing:.22em;color:var(--muted)}
+.cover-title{font-family:var(--serif);font-size:clamp(37px,10.6vw,60px);line-height:1.22;font-weight:600;letter-spacing:.02em;margin-bottom:18px}
+.cover-title span{display:block}
+.cover-sub{font-size:14.5px;line-height:1.95;color:#454545;max-width:20em;margin-bottom:26px}
+.cover-cta{display:flex;align-items:center;gap:12px}
+.cover-cta .btn-main{width:100%}
+.btn-main{display:inline-flex;align-items:center;justify-content:center;min-height:56px;padding:0 32px;background:var(--ink);color:var(--paper);font-size:14px;font-weight:500;letter-spacing:.22em;transition:background .2s}
+.btn-main:active{background:#000}
+.btn-ghost{display:inline-flex;align-items:center;justify-content:center;min-height:56px;padding:0 22px;border:1px solid var(--ink);color:var(--ink);font-size:13px;letter-spacing:.14em;transition:background .2s,color .2s}
+.btn-ghost:active{background:var(--ink);color:var(--paper)}
+.cover-meta{display:flex;gap:0;margin-top:28px;border-top:1px solid var(--line);padding-top:16px}
+.cover-meta div{flex:1;text-align:left}
+.cover-meta div + div{border-left:1px solid var(--line);padding-left:16px}
+.cover-meta b{display:block;font-family:var(--serif);font-size:24px;font-weight:600;line-height:1.3}
+.cover-meta span{display:block;font-size:10.5px;letter-spacing:.16em;color:var(--muted);margin-top:3px}
+.cover-foot{background:#0B0B0B;margin-top:auto}
+.cover-foot .in{max-width:600px;margin:0 auto;padding:13px 24px;display:flex;justify-content:space-between;gap:12px;font-size:9.5px;letter-spacing:.28em;color:#FFF}
+
+/* ===== 答题 ===== */
+#v-quiz{padding-bottom:38px;background:transparent}
+.q-head{position:sticky;top:0;z-index:5;padding:20px 24px 0;background:rgba(247,246,244,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);max-width:600px;margin:0 auto}
+.q-headrow{display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:14px}
+.q-page{font-family:var(--serif);font-size:15px;letter-spacing:.06em;color:var(--muted)}
+.q-page b{font-size:27px;color:var(--ink);font-weight:600;letter-spacing:.02em}
+.q-part{font-size:10.5px;letter-spacing:.16em;color:var(--muted);text-align:right;line-height:1.5}
+.q-track{height:1px;background:var(--line-soft)}
+.q-track i{display:block;height:100%;background:var(--red);width:0;transition:width .45s cubic-bezier(.3,0,.2,1)}
+.q-body{padding:38px 0 0;max-width:600px;margin:0 auto;animation:qIn .45s cubic-bezier(.2,.8,.2,1) both}
+@keyframes qIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.q-index{font-size:10.5px;letter-spacing:.3em;color:var(--red);margin-bottom:14px}
+.q-text{font-family:var(--serif);font-size:clamp(21px,5.8vw,27px);line-height:1.66;font-weight:600;letter-spacing:.01em;min-height:5em;margin-bottom:32px}
+.scale{padding-top:8px}
+.scale-ends{display:flex;justify-content:space-between;margin-bottom:10px}
+.scale-ends span{font-size:10.5px;letter-spacing:.1em;color:var(--muted)}
+.scale-track{display:flex;align-items:flex-end;gap:6px;height:62px;border-bottom:1px solid var(--line);padding-bottom:0}
+.tick{flex:1;height:100%;display:flex;align-items:flex-end;padding:0;background:none}
+.tick i{display:block;width:100%;background:#DEDEDB;transition:background .18s,transform .18s;transform-origin:bottom}
+.tick:nth-child(1) i{height:16px}
+.tick:nth-child(2) i{height:27px}
+.tick:nth-child(3) i{height:38px}
+.tick:nth-child(4) i{height:49px}
+.tick:nth-child(5) i{height:60px}
+.tick:hover i{background:#C6C6C2}
+.tick.on i{background:var(--ink)}
+.scale-now{margin-top:16px;font-size:13px;letter-spacing:.08em;color:var(--faint);min-height:1.6em;transition:color .2s}
+.scale-now.on{color:var(--ink)}
+.scale-now.on b{color:var(--red);font-weight:500}
+.q-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:34px;padding-top:18px;border-top:1px solid var(--line-soft);max-width:600px;margin-left:auto;margin-right:auto}
+.q-rail{position:fixed;left:11px;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font-size:9px;letter-spacing:.34em;color:#B4B1AB;z-index:0;pointer-events:none;line-height:1}
+.q-back{font-size:11.5px;letter-spacing:.12em;color:var(--muted);padding:10px 0;min-height:44px}
+.q-back:disabled{opacity:.28;cursor:default}
+.q-tip{font-size:10.5px;color:var(--faint);letter-spacing:.06em;text-align:right}
+
+/* ===== 揭晓 ===== */
+#v-reveal{display:none;place-items:center;padding:64px 24px;background:#0B0B0B;color:#FFF}
+.view.active#v-reveal{display:grid}
+.reveal-stage{width:100%;max-width:460px;text-align:center}
+.reveal-anim{display:block}
+.reveal-anim.hide{display:none}
+.counter{display:flex;justify-content:center;gap:6px;margin-bottom:36px}
+.counter i{display:block;width:8px;height:8px;background:#3A3A3A}
+.counter i:nth-child(-n+3){background:var(--red)}
+.reveal-state{font-size:11px;letter-spacing:.26em;color:#9C9C9C;min-height:2em}
+.reveal-ready{display:none;animation:qIn .7s cubic-bezier(.2,.8,.2,1) .1s both}
+.reveal-ready.show{display:block}
+.reveal-no{font-size:10.5px;letter-spacing:.3em;color:#E0311C;margin-bottom:20px}
+.reveal-name{font-family:var(--serif);font-size:clamp(48px,14vw,76px);line-height:1.14;font-weight:700;letter-spacing:.04em;margin-bottom:10px;color:#FFF}
+.reveal-en{font-size:10.5px;letter-spacing:.34em;color:#8C8C8C;margin-bottom:26px}
+.reveal-quote{font-family:var(--serif);font-size:16px;line-height:1.95;color:#C9C6C0;max-width:19em;margin:0 auto 34px;padding:22px 0;border-top:1px solid rgba(255,255,255,.16);border-bottom:1px solid rgba(255,255,255,.16)}
+.reveal-ready .btn-main{background:#FFF;color:#0B0B0B}
+.reveal-ready .btn-main:active{background:#E6E4DF}
+.reveal-note{margin-top:14px;font-size:10.5px;color:#6E6E6E;letter-spacing:.06em}
+
+/* ===== 报告 ===== */
+#v-report{background:transparent;padding-bottom:40px}
+
+/* 出血色块：白 / 灰 / 反白，形成刊物翻页的节奏 */
+.band{position:relative;left:50%;transform:translateX(-50%);width:100vw;padding:46px 24px 42px}
+.band-inner{max-width:600px;margin:0 auto}
+.band-gray{background:#E9E7E2}
+.band-dark{background:#0B0B0B;color:#FFF}
+.band .sec{padding-top:0}
+.band .sec-head{padding-top:0;border-top:0;margin-bottom:18px}
+.band .sec + .sec{padding-top:42px}
+.band-dark .sec-head{border-top-color:rgba(255,255,255,.2)}
+.band-dark .sec-title{color:#FFF}
+.band-dark .block-text{color:#D6D3CE}
+.band-dark .block-label{color:#8C8C8C}
+.band-dark .sec-num{color:#E0311C}
+.res-photo{position:relative;height:68vh;min-height:420px;overflow:hidden;background:var(--paper2)}
+.res-photo img{width:100%;height:100%;object-fit:cover;object-position:center 20%}
+.res-photo::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--red)}
+.res-head{max-width:600px;margin:0 auto;padding:22px 24px 0}
+.res-topline{display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.res-topline span:first-child{font-size:10.5px;letter-spacing:.3em;color:var(--ink)}
+.res-topline span:last-child{font-size:10.5px;letter-spacing:.24em;color:var(--muted)}
+.res-name{font-family:var(--serif);font-size:clamp(44px,13vw,70px);line-height:1.14;font-weight:700;letter-spacing:.04em;margin:18px 0 8px}
+.res-en{font-size:10.5px;letter-spacing:.3em;color:var(--muted);margin-bottom:20px}
+.res-quote{font-family:var(--serif);font-size:15.5px;line-height:1.95;color:#333;padding-left:16px;border-left:2px solid var(--red);margin-bottom:18px}
+.res-dims{display:flex;flex-wrap:wrap;gap:8px 14px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.res-dims span{font-size:11px;letter-spacing:.14em;color:var(--muted)}
+.res-dims b{font-size:11px;letter-spacing:.14em;color:var(--ink);font-weight:500}
+
+.sec{padding:44px 0 0}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:22px;padding-top:16px;border-top:1px solid var(--line)}
+.sec-num{font-family:var(--serif);font-size:13px;letter-spacing:.1em;color:var(--red)}
+.sec-title{font-family:var(--serif);font-size:19px;font-weight:600;letter-spacing:.03em}
+.prose p{font-size:14.8px;line-height:2.1;color:#333;margin-bottom:15px;text-align:justify}
+.prose p:last-child{margin-bottom:0}
+
+.dims{margin-top:6px}
+.dim{padding:13px 0;border-bottom:1px solid var(--line-soft)}
+.dim-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.dim-name{font-size:13px;letter-spacing:.1em;color:var(--ink)}
+.dim-name em{font-style:normal;font-size:10px;letter-spacing:.1em;color:var(--muted);margin-left:8px}
+.dim-val{font-family:var(--serif);font-size:19px;letter-spacing:.02em;color:var(--ink)}
+.dim-track{height:4px;background:#E3E3E1;overflow:hidden}
+.dim-track i{display:block;height:100%;background:var(--ink);width:0;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.dim.top .dim-track i{background:var(--red)}
+.dim.top .dim-val{color:var(--red)}
+.dim-note{font-size:10.5px;line-height:1.9;color:var(--faint);margin-top:16px}
+
+.charms{margin-top:4px}
+.charm{display:flex;gap:18px;padding:16px 0;border-bottom:1px solid var(--line-soft)}
+.charm em{font-style:normal;font-family:var(--serif);font-size:13px;color:var(--red);line-height:1.9;min-width:22px}
+.charm span{font-family:var(--serif);font-size:17px;line-height:1.66;color:var(--ink);letter-spacing:.01em}
+
+.block{padding-top:12px}
+.block-label{font-size:10px;letter-spacing:.22em;color:var(--muted);margin-bottom:10px}
+.block-text{font-size:14.8px;line-height:2.05;color:#333}
+
+.final{margin-top:48px;padding:40px 0 36px;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);text-align:center}
+.final .label{display:block;margin-bottom:20px;color:var(--red)}
+.final h3{font-family:var(--serif);font-size:clamp(21px,6vw,27px);line-height:1.85;font-weight:600;letter-spacing:.02em;max-width:20em;margin:0 auto}
+.final .mark{margin-top:22px;font-size:10.5px;letter-spacing:.28em;color:var(--faint)}
+
+.share{margin-top:48px;padding-top:30px;border-top:1px solid var(--line)}
+.share-title{font-family:var(--serif);font-size:16px;letter-spacing:.06em;margin-bottom:8px}
+.share-desc{font-size:11.5px;color:var(--muted);line-height:1.9;margin-bottom:22px}
+.share-actions{display:flex;flex-direction:column;gap:10px}
+.foot{margin-top:38px;padding-top:22px;border-top:1px solid var(--line-soft);display:flex;justify-content:space-between;align-items:flex-end;gap:16px}
+.foot p{font-size:10px;color:var(--faint);line-height:1.95;max-width:20em}
+.foot .mark{font-size:9.5px;letter-spacing:.22em;color:var(--faint);text-align:right;white-space:nowrap;line-height:1.9}
+
+/* 海报层 */
+#posterLayer{position:fixed;inset:0;z-index:60;background:rgba(20,20,20,.92);display:none;overflow-y:auto;padding:34px 20px 44px}
+#posterLayer.show{display:block;animation:viewIn .3s ease both}
+.poster-inner{max-width:400px;margin:0 auto}
+.poster-img{width:100%;display:block;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.poster-tip{text-align:center;font-size:11px;color:#B9B4AA;margin:16px 0;line-height:1.9}
+.poster-actions{display:flex;flex-direction:column;gap:10px}
+.poster-actions .btn-main{background:var(--paper);color:var(--ink)}
+.poster-actions .btn-ghost{background:transparent;color:var(--paper);border-color:rgba(241,239,234,.4)}
+.btn-close{position:fixed;top:16px;right:16px;width:44px;height:44px;display:grid;place-items:center;color:#D9D4C9;font-size:18px;z-index:61;border:1px solid rgba(241,239,234,.3);border-radius:50%;background:rgba(20,20,20,.6)}
+
+#toast{position:fixed;left:50%;bottom:36px;transform:translate(-50%,14px);background:var(--ink);color:var(--paper);font-size:12.5px;line-height:1.5;padding:12px 20px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:80;max-width:calc(100vw - 40px);text-align:center;letter-spacing:.04em}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* 素材索引：仅用于发布打包识别，运行时不渲染、不下载 */
+.asset-index{display:none}
+.asset-index .ai1{background-image:url("assets/01_gentle.jpg")}
+.asset-index .ai2{background-image:url("assets/02_contrast.jpg")}
+.asset-index .ai3{background-image:url("assets/03_quiet.jpg")}
+.asset-index .ai4{background-image:url("assets/04_bright.jpg")}
+.asset-index .ai5{background-image:url("assets/05_resonance.jpg")}
+.asset-index .ai6{background-image:url("assets/06_boundary.jpg")}
+.asset-index .ai7{background-image:url("assets/07_sunlight.jpg")}
+.asset-index .ai8{background-image:url("assets/08_edge.jpg")}
+.asset-index .ai9{background-image:url("assets/09_spark.jpg")}
+.asset-index .ai10{background-image:url("assets/10_free.jpg")}
+
+@media (min-width:768px){
+  .cover-photo{min-height:500px}
+  .cover-copy,.q-head,.q-body,.q-foot,.res-head,.wrap{max-width:660px}
+  .res-photo{height:560px}
+  .q-body{padding-top:52px}
+  .q-text{min-height:3.4em}
+  .share-actions{flex-direction:row}
+  .share-actions .btn-main,.share-actions .btn-ghost{flex:1}
+  .band-inner{max-width:660px}
+  .final{padding:48px 30px 44px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;transition-duration:.001ms!important}
+}
+</style>
+</head>
+<body>
+<div id="app">
+<!-- ===== 封面 ===== -->
+<section id="v-cover" class="view active" aria-label="封面">
+  <div class="cover-top">
+    <span class="label">Attraction Profile</span>
+    <span class="issue">ISSUE 01 / 2026</span>
+  </div>
+  <div class="cover-photo"><img src="assets/00_cover.jpg" alt="侧光下的半身人像"></div>
+  <div class="cover-copy">
+    <div class="cover-kicker"><i></i><span>20 STEPS · 3—4 MINUTES</span></div>
+    <h1 class="cover-title"><span>你身上最致命的</span><span>吸引力是什么？</span></h1>
+    <p class="cover-sub">不是问你多受欢迎。我们想知道的是：别人和你相处过之后，会记住你的哪一点。</p>
+    <div class="cover-cta">
+      <button class="btn-main" id="startBtn">开始测试</button>
+    </div>
+    <div class="cover-meta">
+      <div><b>20</b><span>自我描述题</span></div>
+      <div><b>5</b><span>核心维度</span></div>
+      <div><b>10</b><span>吸引力类型</span></div>
+    </div>
+  </div>
+  <footer class="cover-foot">
+    <div class="in"><span>THE ART OF ATTRACTION</span><span>ISSUE 01</span></div>
+  </footer>
+</section>
+
+<!-- ===== 答题 ===== -->
+<section id="v-quiz" class="view" aria-label="测试题">
+  <div class="q-rail" id="qRail" aria-hidden="true">PRESENCE</div>
+  <div class="q-head">
+    <div class="q-headrow">
+      <span class="q-page"><b id="qNow">01</b> / 20</span>
+      <span class="q-part" id="qPart">第一部分 · 第一印象</span>
+    </div>
+    <div class="q-track"><i id="qBar"></i></div>
+  </div>
+  <div class="wrap">
+    <div class="q-body" id="qBody"></div>
+    <div class="q-foot">
+      <button class="q-back" id="qBack">上一题</button>
+      <span class="q-tip">按第一反应选择，不必纠结</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 揭晓 ===== -->
+<section id="v-reveal" class="view" aria-label="类型揭晓">
+  <div class="reveal-stage">
+    <div class="reveal-anim" id="revealAnim">
+      <div class="counter"><i></i><i></i><i></i><i></i><i></i></div>
+      <p class="reveal-state" id="revealState">正在计算五个维度</p>
+    </div>
+    <div class="reveal-ready" id="revealReady">
+      <p class="reveal-no" id="rvNo">Attraction Archive · No.03</p>
+      <h2 class="reveal-name" id="rvName">清冷引力</h2>
+      <p class="reveal-en" id="rvEn">The Quiet Magnetism</p>
+      <p class="reveal-quote" id="rvQuote"></p>
+      <button class="btn-main" id="openReport" style="width:100%">打开完整吸引力档案</button>
+      <p class="reveal-note">体验版 · 完整档案已全部开放</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 报告 ===== -->
+<section id="v-report" class="view" aria-label="吸引力档案">
+  <div id="repRoot"></div>
+</section>
+</div>
+<div id="posterLayer" aria-hidden="true">
+  <button class="btn-close" id="posterClose" aria-label="关闭">×</button>
+  <div class="poster-inner">
+    <img class="poster-img" id="posterImg" alt="你的吸引力档案海报">
+    <p class="poster-tip">长按图片保存到相册；也可以复制链接，发给朋友一起测。</p>
+    <div class="poster-actions">
+      <button class="btn-main" id="posterSave">保存海报</button>
+      <button class="btn-ghost" id="posterShare">把链接发给朋友</button>
+    </div>
+  </div>
+</div>
+<div id="toast" role="status"></div>
+<script src="https://fastly.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<script>
+/* ========== 五个维度 ========== */
+const DIM_ORDER = ["presence", "empathy", "expression", "independence", "vitality"];
+const DIMS = {
+  presence: { name: "气场感", en: "PRESENCE", desc: "存在感、沉稳、氛围、个人气质" },
+  empathy: { name: "共情力", en: "EMPATHY", desc: "细腻、理解、温柔、情绪感知" },
+  expression: { name: "表达力", en: "EXPRESSION", desc: "表达、幽默、感染、反差" },
+  independence: { name: "边界感", en: "INDEPENDENCE", desc: "独立、分寸、自信、神秘" },
+  vitality: { name: "生命力", en: "VITALITY", desc: "活力、热情、好奇、自由" }
+};
+
+/* ========== 十种吸引力类型 ========== */
+const T = {
+  "presence-empathy": {
+    no: "01", name: "温柔磁场", en: "THE GENTLE FIELD",
+    quote: "「让人不自觉想要靠近的温度。」",
+    img: "assets/01_gentle.jpg",
+    portrait: [
+      "你不一定是房间里最响的那个人，但你会是让人放松下来的那一个。",
+      "你能在别人开口之前察觉一点什么，也知道什么时候不必追问。你的在意通常很轻，轻到对方事后才发现。",
+      "你的吸引力不靠展示，而靠一种稳定的在场感：和你待在一起，人会不自觉把肩膀放下来。"
+    ],
+    charm: ["让人放松的在场感", "不冒犯的体贴", "稳定的情绪温度"],
+    mis: "你习惯先照顾别人的感受，久了，别人会以为你什么都能接受——包括那些你其实并不愿意的事。",
+    attract: "你容易被同样细腻、也愿意回应的人吸引；而对只顾自己表达的人，你往往很快失去耐心。",
+    line: "你的温柔不是没有边界，只是你很少把它拿出来当武器。"
+  },
+  "presence-expression": {
+    no: "02", name: "反差焦点", en: "THE DOUBLE TAKE",
+    quote: "「第一眼是印象，第二眼才是真正的你。」",
+    img: "assets/02_contrast.jpg",
+    portrait: [
+      "你身上有一种让人判断失误的特质。别人很快会对你形成一个印象，然后在不经意间发现，那个印象并不完整。",
+      "你不是刻意神秘，你只是不会一次性把自己交出去。你的表达有自己的节奏：安静的时候是真的安静，打开的时候也是真的打开。",
+      "这种前后不一致，反而成了你最容易被记住的地方。"
+    ],
+    charm: ["让人想继续了解的层次", "意料之外的幽默感", "清楚的个人风格"],
+    mis: "别人可能觉得你难懂、忽冷忽热。其实你只是没有对所有人使用同一种状态。",
+    attract: "你容易吸引好奇心强、愿意多看你两眼的人；对只接受单一印象的人，你不太解释。",
+    line: "你不需要被一眼看懂，你只需要被对的人多看几次。"
+  },
+  "presence-independence": {
+    no: "03", name: "清冷引力", en: "THE QUIET MAGNETISM",
+    quote: "「你不需要迎合谁，自有自己的引力。」",
+    img: "assets/03_quiet.jpg",
+    portrait: [
+      "你身上有一种不太容易被定义的气质。你不会为了融入所有人的世界而改变自己，也不习惯把生活完全交给别人的期待。",
+      "你可以很好地与人相处，但这并不意味着任何人都能轻易走进你的内心。你的分寸感不是训练出来的，更像是天生的。",
+      "你真正吸引人的地方，或许不是你做了什么，而是你始终保留着自己的节奏。"
+    ],
+    charm: ["不轻易迎合别人的独立感", "与人相处时自然的分寸感", "不急于证明自己的从容"],
+    mis: "有时你只是需要自己的空间，别人却可能把这种距离感理解成冷淡。",
+    attract: "对有自己想法、欣赏独立个性的人，你的特质尤其有吸引力；愿意慢慢了解一个人的人，也更容易发现你的另一面。",
+    line: "不必为了让所有人喜欢你，而把自己变成一个没有棱角的人。"
+  },
+  "presence-vitality": {
+    no: "04", name: "明亮主场", en: "THE BRIGHT ROOM",
+    quote: "「你出现的地方，很难一直平静。」",
+    img: "assets/04_bright.jpg",
+    portrait: [
+      "你走进一个空间，气氛会轻微地变一下——不是因为你声量大，而是你身上有一种「事情可以发生」的预期。",
+      "你不太怕成为被看见的人，也愿意先开口、先提议、先迈出那一步。别人和你在一起时，容易被你的行动力带着往前走。",
+      "你的吸引力是一种现场的、当下的东西：照片里不一定最明显，但人在场时很难忽略。"
+    ],
+    charm: ["把场子带起来的能量", "不怕被看见的坦然", "让人想跟着行动"],
+    mis: "你只是习惯把气氛往前推，别人有时会误以为你不需要安静，也不会累。",
+    attract: "你容易被愿意出门、愿意尝试的人围绕；对永远在观望的人，你很快就会觉得没意思。",
+    line: "你带来的不是热闹，而是一种「现在发生也不错」的许可。"
+  },
+  "empathy-expression": {
+    no: "05", name: "灵魂共振", en: "THE RESONANCE",
+    quote: "「你总能让人觉得，终于有人听懂了。」",
+    img: "assets/05_resonance.jpg",
+    portrait: [
+      "你有一种很少见的能力：既能感觉到对方没说出口的部分，也能把它准确地讲出来。",
+      "和你说话的人常有这种体验——本来只是随便聊聊，最后却讲了很多平时不会讲的事。你不是在追问，你是在回应。",
+      "你的吸引力不在第一眼，而在对话进行到第三十分钟之后。"
+    ],
+    charm: ["能接住情绪的倾听", "把复杂感受说清楚的能力", "让人愿意讲真话的安全感"],
+    mis: "你太会理解别人，别人就容易忽略你也需要被理解；而你又很少主动索取。",
+    attract: "你容易被表达欲强、心里有话的人吸引；对只想要表面热闹的关系，你很快会退出来。",
+    line: "你最大的魅力，是让别人第一次觉得自己的感受是准确的。"
+  },
+  "empathy-independence": {
+    no: "06", name: "温柔边界", en: "THE WARM BOUNDARY",
+    quote: "「我懂你的感受，但我也有自己的世界。」",
+    img: "assets/06_boundary.jpg",
+    portrait: [
+      "你能理解很多事，但不代表你会接受所有事。这两件事在你身上分得很清楚。",
+      "你会认真听、认真地在意，但你不会因为对方的情绪就改掉自己的原则。你的拒绝通常不锋利，却很确定。",
+      "和你相处的人会慢慢发现：你给的温度是真的，你的距离也是真的。"
+    ],
+    charm: ["有温度的清醒", "不伤人的拒绝", "稳定而清晰的分寸"],
+    mis: "你的克制有时会被读成疏离。其实你只是不愿意用情绪交换来证明关系。",
+    attract: "你容易吸引成熟、能尊重边界的人；对需要不断索取确认的人，你会慢慢退开。",
+    line: "你能给的不多也不少，刚好是一段关系该有的分量。"
+  },
+  "empathy-vitality": {
+    no: "07", name: "治愈感染力", en: "THE SUNLIGHT EFFECT",
+    quote: "「你不仅能接住情绪，也能带来新的快乐。」",
+    img: "assets/07_sunlight.jpg",
+    portrait: [
+      "你不只会说「别难过」，你更常做的是把对方拉起来，去做点别的。",
+      "你能感觉到气氛低下去，也有能力把它重新点起来：一个提议、一顿饭、一次说走就走。",
+      "你的吸引力是一种带有行动力的温柔——不只是理解，而是真的让人的处境好一点。"
+    ],
+    charm: ["把低落接住再转暖", "自然带动的行动力", "不刻意的乐观"],
+    mis: "你习惯负责让大家开心，久了别人会忘记，你也会有不想笑的时候。",
+    attract: "你容易被需要能量的人靠近；也要小心，别让所有人都把你当成充电站。",
+    line: "你的温柔是有手脚的，它会真的把事情变好一点。"
+  },
+  "expression-independence": {
+    no: "08", name: "锋芒魅力", en: "THE SHARP EDGE",
+    quote: "「你有自己的声音，也不害怕被听见。」",
+    img: "assets/08_edge.jpg",
+    portrait: [
+      "你说话有明确的立场，不太用「可能」「也许」「都行」来给自己留后路。",
+      "你不害怕被听见，也不为了被喜欢而修改观点。你的表达干净、有边界，甚至带一点不容置疑的锋利。",
+      "这种清楚在人群里其实稀缺——很多人不是没有想法，是不敢说得这么明白。"
+    ],
+    charm: ["清楚不含糊的表达", "不讨好的立场", "让人信服的确定感"],
+    mis: "别人容易把你的确定读成强势，把坚持读成不肯让步。",
+    attract: "你容易被欣赏观点、喜欢直来直去的人吸引；对总是含糊其辞的关系，你没有耐心。",
+    line: "你的魅力在于，你说的话不需要加「可能」。"
+  },
+  "expression-vitality": {
+    no: "09", name: "灵动火花", en: "THE SPARK",
+    quote: "「和你相处，很难没有新鲜感。」",
+    img: "assets/09_spark.jpg",
+    portrait: [
+      "你脑子里总有一些没试过的念头，而且你真的会去试。",
+      "你表达的方式里有玩心：会调侃、会突然认真、会把一件普通的事讲得有意思。别人和你在一起，容易忘记时间。",
+      "你的吸引力是一种轻快的能量，不压人，但很难被替代。"
+    ],
+    charm: ["把日常讲出意思的能力", "不断冒出的新点子", "不端着的鲜活"],
+    mis: "你换得快、兴致来得猛，别人有时会怀疑你是不是不够认真。",
+    attract: "你容易被同样爱玩、爱试的人吸引；对要求一切按计划进行的关系，你会闷。",
+    line: "你不是三分钟热度，你只是不愿意让生活一直重复。"
+  },
+  "independence-vitality": {
+    no: "10", name: "自由引力", en: "THE FREE VECTOR",
+    quote: "「你有自己的方向，所以不需要谁来定义。」",
+    img: "assets/10_free.jpg",
+    portrait: [
+      "你身上有一种不需要别人批准的状态。你有自己的节奏、自己的计划、自己想去的地方。",
+      "你能一个人把生活过得完整：会出门、会尝试、会给自己安排值得期待的事，而不是等谁来填满。",
+      "你的吸引力来自这种完整——不是没有人陪，而是有没有人陪，你都不会散掉。"
+    ],
+    charm: ["不依赖谁也能过好的完整感", "愿意主动探索的行动力", "不解释自己选择的坦然"],
+    mis: "你的独立容易被读成「不需要任何人」。其实你只是不愿意用依赖去换关系。",
+    attract: "你容易被同样独立、也不急着占有的人吸引；对想把你固定住的关系，你会本能地后退。",
+    line: "你不是不想要人陪，你只是不想为了有人陪，把自己交出去。"
+  }
+};
+
+/* ========== 20 道题 ==========
+   每维度 4 题，Q4 / Q8 / Q12 / Q16 为反向计分题 */
+const QS = [
+  { p: "第一部分 · 第一印象", d: "presence", rev: false, q: "在一个有很多陌生人的场合，即使我不主动说话，也能比较自然地融入其中。" },
+  { p: "第一部分 · 第一印象", d: "presence", rev: false, q: "我不太需要刻意讨好别人，也能让人感受到我的个人特点。" },
+  { p: "第一部分 · 第一印象", d: "presence", rev: false, q: "别人有时会觉得我比实际表现出来的更加有个性，甚至有一点难以捉摸。" },
+  { p: "第一部分 · 第一印象", d: "presence", rev: true, q: "在人群中，我经常担心自己不够突出，容易刻意调整自己的表现来获得关注。" },
+
+  { p: "第二部分 · 如何建立连接", d: "empathy", rev: false, q: "即使别人没有明确表达，我通常也能察觉到他们情绪上的变化。" },
+  { p: "第二部分 · 如何建立连接", d: "empathy", rev: false, q: "别人向我倾诉时，我会认真关注他们真正想表达的东西，而不只是急着给出建议。" },
+  { p: "第二部分 · 如何建立连接", d: "empathy", rev: false, q: "我能够记住别人不经意提到的小事，并在之后的相处中自然地表现出来。" },
+  { p: "第二部分 · 如何建立连接", d: "empathy", rev: true, q: "即使身边的人明显情绪低落，我通常也很难察觉，除非对方主动告诉我。" },
+
+  { p: "第三部分 · 如何展现自己", d: "expression", rev: false, q: "和熟悉的人在一起时，我能够自然地展现幽默、有趣或者活泼的一面。" },
+  { p: "第三部分 · 如何展现自己", d: "expression", rev: false, q: "我能够比较清楚地表达自己的想法，即使和别人意见不同，也不太容易词不达意。" },
+  { p: "第三部分 · 如何展现自己", d: "expression", rev: false, q: "我身上可能存在一些反差，比如外表看起来比较安静，熟悉之后却完全是另一种状态。" },
+  { p: "第三部分 · 如何展现自己", d: "expression", rev: true, q: "即使我有自己的想法和感受，也经常觉得表达出来很麻烦，最后选择不说。" },
+
+  { p: "第四部分 · 你的边界", d: "independence", rev: false, q: "对于自己不愿意做的事情，即使别人提出请求，我也能够在必要时拒绝。" },
+  { p: "第四部分 · 你的边界", d: "independence", rev: false, q: "我不会因为某个人不喜欢我，就轻易改变自己原本认可的原则。" },
+  { p: "第四部分 · 你的边界", d: "independence", rev: false, q: "即使没有人陪伴或者关注，我也能够安排好自己的生活，并从中获得满足感。" },
+  { p: "第四部分 · 你的边界", d: "independence", rev: true, q: "当别人不认同我的时候，我很容易怀疑自己，甚至改变原本的想法。" },
+
+  { p: "第五部分 · 你的生命力", d: "vitality", rev: false, q: "遇到感兴趣的新事物时，我通常愿意主动尝试，而不是只停留在想象中。" },
+  { p: "第五部分 · 你的生命力", d: "vitality", rev: false, q: "和我相处的人有时会受到我的感染，愿意一起尝试新鲜的事情。" },
+  { p: "第五部分 · 你的生命力", d: "vitality", rev: false, q: "比起一直等待机会出现，我更愿意主动创造机会。" },
+  { p: "第五部分 · 你的生命力", d: "vitality", rev: false, q: "即使计划突然被打乱，我通常也能够调整状态，重新找到值得期待的事情。" }
+];
+
+const SCALE = ["非常不符合", "不太符合", "说不清 / 看情况", "比较符合", "非常符合"];
+
+/* ========== 状态 ========== */
+const state = { answers: new Array(QS.length).fill(null), idx: 0, result: null };
+const el = id => document.getElementById(id);
+function show(view) {
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+  el(view).classList.add("active");
+  window.scrollTo({ top: 0, behavior: "auto" });
+}
+let toastTimer = null;
+function toast(msg) {
+  const t = el("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
+}
+
+/* ========== 答题 ========== */
+function renderQuestion() {
+  const i = state.idx;
+  const item = QS[i];
+  el("qNow").textContent = String(i + 1).padStart(2, "0");
+  el("qPart").textContent = item.p;
+  el("qRail").textContent = DIMS[item.d].en;
+  el("qBar").style.width = (i / QS.length * 100) + "%";
+  el("qBack").disabled = i === 0;
+
+  const chosen = state.answers[i];
+  el("qBody").innerHTML =
+    '<p class="q-index">Q' + String(i + 1).padStart(2, "0") + '</p>' +
+    '<h2 class="q-text">' + item.q + '</h2>' +
+    '<div class="scale">' +
+      '<div class="scale-ends"><span>非常不符合</span><span>非常符合</span></div>' +
+      '<div class="scale-track" id="scaleTrack">' +
+        [1, 2, 3, 4, 5].map(v => '<button class="tick' + (chosen === v ? " on" : "") + '" data-v="' + v + '" aria-label="' + SCALE[v - 1] + '"><i></i></button>').join("") +
+      '</div>' +
+      '<p class="scale-now' + (chosen ? " on" : "") + '" id="scaleNow">' +
+        (chosen ? '你的选择：<b>' + SCALE[chosen - 1] + '</b>' : '点一下最接近你的那一格') +
+      '</p>' +
+    '</div>';
+
+  el("qBody").querySelectorAll(".tick").forEach(btn => {
+    btn.addEventListener("click", () => {
+      if (btn.dataset.lock) return;
+      el("qBody").querySelectorAll(".tick").forEach(b => b.dataset.lock = "1");
+      el("qBody").querySelectorAll(".tick").forEach(b => b.classList.remove("on"));
+      btn.classList.add("on");
+      state.answers[state.idx] = Number(btn.dataset.v);
+      const now = el("scaleNow");
+      now.classList.add("on");
+      now.innerHTML = '你的选择：<b>' + SCALE[Number(btn.dataset.v) - 1] + '</b>';
+
+      setTimeout(() => {
+        if (state.idx < QS.length - 1) {
+          state.idx++;
+          renderQuestion();
+        } else {
+          finish();
+        }
+      }, 280);
+    });
+  });
+}
+
+function finish() {
+  state.result = computeResult();
+  show("v-reveal");
+  el("revealAnim").classList.remove("hide");
+  el("revealReady").classList.remove("show");
+  el("revealState").textContent = "正在计算五个维度";
+  setTimeout(() => { el("revealState").textContent = "正在比对 20 道题里的你"; }, 750);
+  setTimeout(() => {
+    el("revealAnim").classList.add("hide");
+    const t = T[state.result.typeKey];
+    el("rvNo").textContent = "Attraction Archive · No." + t.no;
+    el("rvName").textContent = t.name;
+    el("rvEn").textContent = t.en;
+    el("rvQuote").textContent = t.quote;
+    el("revealReady").classList.add("show");
+  }, 2100);
+}
+
+/* ========== 计分 ========== */
+function computeResult() {
+  const sum = {}, cnt = {};
+  DIM_ORDER.forEach(k => { sum[k] = 0; cnt[k] = 0; });
+  QS.forEach((item, i) => {
+    const raw = state.answers[i] || 3;
+    const eff = item.rev ? 6 - raw : raw;
+    sum[item.d] += eff;
+    cnt[item.d]++;
+  });
+
+  const list = DIM_ORDER.map(k => {
+    const avg = sum[k] / cnt[k];
+    return {
+      id: k,
+      avg: avg,
+      percent: Math.round((avg - 1) / 4 * 100),
+      level: levelOf(avg)
+    };
+  });
+  list.sort((a, b) => b.avg - a.avg || DIM_ORDER.indexOf(a.id) - DIM_ORDER.indexOf(b.id));
+
+  const top = list[0], second = list[1];
+  const pair = [top.id, second.id].sort((a, b) => DIM_ORDER.indexOf(a) - DIM_ORDER.indexOf(b));
+  return {
+    list: list,
+    top: top,
+    second: second,
+    third: list[2],
+    typeKey: pair.join("-"),
+    tie: Math.abs(top.avg - second.avg) < 0.05
+  };
+}
+
+function levelOf(avg) {
+  if (avg >= 4.25) return "突出特质";
+  if (avg >= 3.5) return "比较鲜明";
+  if (avg >= 2.5) return "正在形成";
+  return "尚未显现";
+}
+
+/* ========== 入口 ========== */
+el("startBtn").addEventListener("click", () => {
+  state.idx = 0;
+  state.answers = new Array(QS.length).fill(null);
+  renderQuestion();
+  show("v-quiz");
+});
+el("qBack").addEventListener("click", () => {
+  if (state.idx > 0) { state.idx--; renderQuestion(); }
+});
+el("openReport").addEventListener("click", () => { renderReport(); show("v-report"); });
+
+/* ========== 报告渲染 ========== */
+function renderReport() {
+  const res = state.result;
+  const t = T[res.typeKey];
+  const topDim = DIMS[res.top.id];
+  const secondDim = DIMS[res.second.id];
+  const thirdDim = DIMS[res.third.id];
+
+  const dims = DIM_ORDER.map(k => {
+    const row = res.list.find(x => x.id === k);
+    const isTop = k === res.top.id;
+    return '<div class="dim' + (isTop ? " top" : "") + '">' +
+      '<div class="dim-top"><span class="dim-name">' + DIMS[k].name + '<em>' + row.level + '</em></span>' +
+      '<span class="dim-val">' + row.percent + '</span></div>' +
+      '<div class="dim-track"><i data-w="' + row.percent + '"></i></div>' +
+      '</div>';
+  }).join("");
+
+  const charms = t.charm.map((c, i) =>
+    '<div class="charm"><em>0' + (i + 1) + '</em><span>' + c + '</span></div>'
+  ).join("");
+
+  el("repRoot").innerHTML =
+    '<div class="res-photo"><img src="' + t.img + '" alt="' + t.name + '的人物摄影"></div>' +
+    '<div class="res-head">' +
+      '<div class="res-topline"><span>ATTRACTION ARCHIVE</span><span>NO.' + t.no + '</span></div>' +
+      '<h1 class="res-name">' + t.name + '</h1>' +
+      '<p class="res-en">' + t.en + '</p>' +
+      '<p class="res-quote">' + t.quote + '</p>' +
+      '<div class="res-dims">' +
+        '<span>主要吸引力 <b>' + topDim.name + ' × ' + secondDim.name + '</b></span>' +
+        '<span>次要特质 <b>' + thirdDim.name + '</b></span>' +
+      '</div>' +
+    '</div>' +
+    '<div class="wrap">' +
+
+      '<section class="sec">' +
+        '<div class="sec-head"><span class="sec-num">01</span><h3 class="sec-title">你的核心吸引力</h3></div>' +
+        '<div class="prose">' + t.portrait.map(p => '<p>' + p + '</p>').join("") + '</div>' +
+      '</section>' +
+
+      '<section class="band band-gray"><div class="band-inner">' +
+        '<div class="sec">' +
+          '<div class="sec-head"><span class="sec-num">02</span><h3 class="sec-title">你的五维特质</h3></div>' +
+          '<div class="dims">' + dims + '</div>' +
+          '<p class="dim-note">分数由每个维度的 4 道题换算，最高 100。它只用于判定类型和呈现强弱，不是心理学常模。' +
+          (res.tie ? '你的前两项几乎持平，所以这个类型里，两种特质的分量很接近。' : '') +
+          '</p>' +
+        '</div>' +
+      '</div></section>' +
+
+      '<section class="sec">' +
+        '<div class="sec-head"><span class="sec-num">03</span><h3 class="sec-title">你最有魅力的地方</h3></div>' +
+        '<div class="charms">' + charms + '</div>' +
+      '</section>' +
+
+      '<section class="band band-dark"><div class="band-inner">' +
+        '<div class="sec">' +
+          '<div class="sec-head"><span class="sec-num">04</span><h3 class="sec-title">你容易被误解的地方</h3></div>' +
+          '<div class="block"><p class="block-text">' + t.mis + '</p></div>' +
+        '</div>' +
+        '<div class="sec">' +
+          '<div class="sec-head"><span class="sec-num">05</span><h3 class="sec-title">你容易吸引什么样的人</h3></div>' +
+          '<div class="block"><p class="block-text">' + t.attract + '</p></div>' +
+        '</div>' +
+      '</div></section>' +
+
+      '<div class="final">' +
+        '<span class="label">给你的一句话</span>' +
+        '<h3>' + t.line + '</h3>' +
+        '<div class="mark">ATTRACTION PROFILE · NO.' + t.no + '</div>' +
+      '</div>' +
+
+      '<div class="share">' +
+        '<h4 class="share-title">把这份档案带走</h4>' +
+        '<p class="share-desc">生成一张吸引力海报，或者把测试发给朋友，看看他们眼中最迷人的部分是什么。</p>' +
+        '<div class="share-actions">' +
+          '<button class="btn-main" id="makePoster">生成吸引力海报</button>' +
+          '<button class="btn-ghost" id="copyLink">复制链接</button>' +
+        '</div>' +
+        '<div class="share-actions" style="margin-top:10px">' +
+          '<button class="btn-ghost" id="retake" style="flex:1">重新测一次</button>' +
+          '<button class="btn-ghost" id="toCover" style="flex:1">回到封面</button>' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="foot">' +
+        '<p>本测试为娱乐性自我描述分类，不构成心理学量表。五维得分仅用于本测试内部的类型判定。</p>' +
+        '<span class="mark">THE ART<br>OF ATTRACTION</span>' +
+      '</div>' +
+    '</div>';
+
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      document.querySelectorAll(".dim-track i").forEach(bar => {
+        bar.style.width = bar.dataset.w + "%";
+      });
+    }, 60);
+  });
+
+  el("makePoster").addEventListener("click", openPoster);
+  el("copyLink").addEventListener("click", () => shareOrCopy(true));
+  el("retake").addEventListener("click", () => {
+    state.idx = 0;
+    state.answers = new Array(QS.length).fill(null);
+    renderQuestion();
+    show("v-quiz");
+  });
+  el("toCover").addEventListener("click", () => show("v-cover"));
+}
+
+/* ========== 分享 ========== */
+function pageUrl() {
+  return location.origin + location.pathname + location.search;
+}
+function shareOrCopy(copyOnly) {
+  const url = pageUrl();
+  const t = T[state.result.typeKey];
+  const text = "我测出来是「" + t.name + "」，你会是哪种吸引力？";
+  if (!copyOnly && navigator.share) {
+    navigator.share({ title: "你身上最致命的吸引力是什么？", text: text, url: url }).catch(() => { });
+    return;
+  }
+  const done = () => toast("链接已复制，发给朋友就行");
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(done).catch(() => fallbackCopy(url, done));
+  } else {
+    fallbackCopy(url, done);
+  }
+}
+function fallbackCopy(text, done) {
+  const ta = document.createElement("textarea");
+  ta.value = text;
+  ta.style.position = "fixed";
+  ta.style.opacity = "0";
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand("copy"); done(); } catch (e) { toast("请长按地址栏复制链接"); }
+  document.body.removeChild(ta);
+}
+
+/* ========== 海报 ========== */
+function loadImage(src) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => resolve(null);
+    img.src = src;
+  });
+}
+function wrapLines(ctx, text, maxWidth, maxLines) {
+  const lines = [];
+  let line = "";
+  for (const ch of text) {
+    const test = line + ch;
+    if (ctx.measureText(test).width > maxWidth && line) {
+      lines.push(line);
+      line = ch;
+      if (lines.length === maxLines) break;
+    } else {
+      line = test;
+    }
+  }
+  if (lines.length < maxLines && line) lines.push(line);
+  return lines;
+}
+
+let posterCanvas = null;
+
+async function buildPoster() {
+  const res = state.result;
+  const t = T[res.typeKey];
+  const W = 720, H = 1280;
+  const cv = document.createElement("canvas");
+  cv.width = W; cv.height = H;
+  const ctx = cv.getContext("2d");
+
+  try {
+    await document.fonts.load('700 90px "Noto Serif SC"');
+    await document.fonts.load('400 24px "Noto Serif SC"');
+    await document.fonts.load('400 15px "Noto Sans SC"');
+  } catch (e) { }
+  await document.fonts.ready.catch(() => { });
+
+  ctx.fillStyle = "#F2F1EE";
+  ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = "#0B0B0B";
+  ctx.fillRect(0, 0, W, 100);
+
+  // 顶部标签
+  ctx.fillStyle = "#FFFFFF";
+  ctx.font = '500 15px "Noto Sans SC", sans-serif';
+  ctx.textAlign = "left";
+  ctx.fillText("ATTRACTION PROFILE", 60, 66);
+  ctx.textAlign = "right";
+  ctx.fillStyle = "#A9A6A0";
+  ctx.fillText("NO." + t.no, W - 60, 66);
+
+  // 红色标线
+  ctx.fillStyle = "#E0311C";
+  ctx.fillRect(60, 108, W - 120, 3);
+
+  // 人物摄影
+  const photo = await loadImage(t.img);
+  if (photo) {
+    const px = 60, py = 134, pw = 600, ph = 360;
+    const sRatio = Math.max(pw / photo.width, ph / photo.height);
+    const sw = pw / sRatio, sh = ph / sRatio;
+    const sx = (photo.width - sw) / 2;
+    const sy = (photo.height - sh) * 0.2;
+    ctx.drawImage(photo, sx, sy, sw, sh, px, py, pw, ph);
+  }
+
+  // 类型名
+  ctx.textAlign = "left";
+  ctx.fillStyle = "#0B0B0B";
+  ctx.font = '700 92px "Noto Serif SC", serif';
+  ctx.fillText(t.name, 56, 566);
+
+  // 英文名
+  ctx.fillStyle = "#6B6B6B";
+  ctx.font = '400 17px "Noto Sans SC", sans-serif';
+  ctx.fillText(t.en, 60, 620);
+
+  // 金句
+  ctx.fillStyle = "#333333";
+  ctx.font = '400 26px "Noto Serif SC", serif';
+  const qLines = wrapLines(ctx, t.quote, 600, 2);
+  qLines.forEach((ln, i) => ctx.fillText(ln, 60, 690 + i * 42));
+
+  // 五维
+  const baseY = 800;
+  const barX = 60, barW = 460;
+  res.list.slice().sort((a, b) => DIM_ORDER.indexOf(a.id) - DIM_ORDER.indexOf(b.id)).forEach((item, i) => {
+    const y = baseY + i * 46;
+    const isTop = item.id === res.top.id;
+    ctx.fillStyle = isTop ? "#0B0B0B" : "#6B6B6B";
+    ctx.font = '400 15px "Noto Sans SC", sans-serif';
+    ctx.textAlign = "left";
+    ctx.fillText(DIMS[item.id].name, 60, y + 4);
+
+    ctx.fillStyle = "#E3E3E1";
+    ctx.fillRect(150, y - 3, barW, 3);
+    ctx.fillStyle = isTop ? "#E0311C" : "#0B0B0B";
+    ctx.fillRect(150, y - 3, barW * item.percent / 100, 3);
+
+    ctx.fillStyle = isTop ? "#E0311C" : "#6B6B6B";
+    ctx.font = '400 14px "Noto Serif SC", serif';
+    ctx.textAlign = "right";
+    ctx.fillText(String(item.percent), W - 60, y + 4);
+  });
+
+  // 底部分隔线
+  ctx.fillStyle = "rgba(11,11,11,.16)";
+  ctx.fillRect(60, 1070, W - 120, 1);
+
+  // 二维码
+  let qrImg = null;
+  if (typeof qrcode === "function") {
+    try {
+      const qr = qrcode(0, "M");
+      qr.addData(pageUrl());
+      qr.make();
+      qrImg = await loadImage(qr.createDataURL(8, 2));
+    } catch (e) { qrImg = null; }
+  }
+  if (qrImg) {
+    ctx.drawImage(qrImg, 60, 1096, 92, 92);
+    ctx.textAlign = "left";
+    ctx.fillStyle = "#0B0B0B";
+    ctx.font = '400 17px "Noto Sans SC", sans-serif';
+    ctx.fillText("扫码测测你的吸引力", 172, 1132);
+    ctx.fillStyle = "#6B6B6B";
+    ctx.font = '400 14px "Noto Sans SC", sans-serif';
+    ctx.fillText("20 道题 · 3—4 分钟", 172, 1158);
+  } else {
+    ctx.textAlign = "left";
+    ctx.fillStyle = "#6B6B6B";
+    ctx.font = '400 15px "Noto Sans SC", sans-serif';
+    ctx.fillText("把这份档案发给朋友，一起测", 60, 1132);
+  }
+
+  ctx.textAlign = "right";
+  ctx.fillStyle = "#9C9C9C";
+  ctx.font = '400 13px "Noto Sans SC", sans-serif';
+  ctx.fillText("THE ART OF ATTRACTION", W - 60, 1132);
+  ctx.fillText("你身上最致命的吸引力是什么？", W - 60, 1158);
+
+  posterCanvas = cv;
+  return cv.toDataURL("image/png");
+}
+
+async function openPoster() {
+  const dataUrl = await buildPoster();
+  el("posterImg").src = dataUrl;
+  el("posterLayer").classList.add("show");
+  el("posterLayer").setAttribute("aria-hidden", "false");
+}
+function closePoster() {
+  el("posterLayer").classList.remove("show");
+  el("posterLayer").setAttribute("aria-hidden", "true");
+}
+el("posterClose").addEventListener("click", closePoster);
+el("posterLayer").addEventListener("click", e => {
+  if (e.target === el("posterLayer")) closePoster();
+});
+el("posterSave").addEventListener("click", () => {
+  if (!posterCanvas) return;
+  posterCanvas.toBlob(blob => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "吸引力_" + T[state.result.typeKey].name + ".png";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 3000);
+    toast("已保存，去相册或下载里找找");
+  }, "image/png");
+});
+el("posterShare").addEventListener("click", () => shareOrCopy(false));
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && el("posterLayer").classList.contains("show")) closePoster();
+});
+</script>
+</body>
+</html>
