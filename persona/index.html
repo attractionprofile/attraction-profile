@@ -1987,8 +1987,7 @@ async function openPoster(){
     renderQ();
   });
   $('lastBtn').addEventListener('click', ()=>{
-    if(state.unlocked){ renderReport(); showView('v-report'); }
-    else{ renderReveal(); showView('v-reveal'); }
+    renderReport(); showView('v-report');
   });
   $('qBack').addEventListener('click', ()=>{
     if(state.idx > 0){ state.idx--; saveProgress(); renderQ(); }
