@@ -378,6 +378,42 @@ img{display:block;max-width:100%}
 .poster-actions .btn-dark{background:var(--paper);color:var(--night)}
 .poster-actions .btn-ghost{color:var(--paper);border-color:rgba(244,239,230,.35)}
 
+/* ===== v2：鎏金质感 / 一题一屏 ===== */
+.cover-bg{position:absolute;inset:0;z-index:0;overflow:hidden}
+.cover-bg img{width:100%;height:100%;object-fit:cover;object-position:50% 38%;opacity:.66;filter:saturate(.96) contrast(1.04)}
+.cover-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,17,24,.42) 0%,rgba(11,17,24,.7) 36%,rgba(11,17,24,.93) 100%)}
+.cover-frame{position:absolute;inset:15px;border:1px solid rgba(192,160,98,.32);z-index:3;pointer-events:none}
+.cover-frame::before{content:"";position:absolute;inset:7px;border:1px solid rgba(192,160,98,.12)}
+.cover-frame::after{content:"";position:absolute;left:50%;top:-1px;transform:translateX(-50%);width:74px;height:2px;background:linear-gradient(90deg,transparent,#C0A062,transparent)}
+.cover-title{background:linear-gradient(155deg,#FBF6EA 10%,#D8C08A 48%,#F1E8D4 82%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#D8C08A}
+.cover-seal{display:flex;align-items:center;gap:10px;margin:0 0 22px;color:rgba(192,160,98,.8);font-size:9px;letter-spacing:.26em}
+.cover-seal b{width:34px;height:1px;background:rgba(192,160,98,.5);display:block}
+
+@keyframes qIn{from{opacity:0;transform:translate3d(34px,0,0)}to{opacity:1;transform:none}}
+@keyframes optIn{from{opacity:0;transform:translate3d(0,12px,0)}to{opacity:1;transform:none}}
+.q-body.anim .q-index,.q-body.anim .q-text,.q-body.anim .q-hint,.q-body.anim .opts,.q-body.anim .scale{animation:qIn .42s cubic-bezier(.22,.9,.28,1) both}
+.q-body.anim .opt,.q-body.anim .tick{animation:optIn .42s cubic-bezier(.22,.9,.28,1) both}
+
+#interlude{position:fixed;inset:0;z-index:70;background:#0B1118;color:#F4EFE6;
+display:flex;flex-direction:column;justify-content:center;align-items:center;padding:44px 28px;text-align:center;
+opacity:0;pointer-events:none;transition:opacity .32s ease}
+#interlude.show{opacity:1;pointer-events:auto}
+#interlude::before{content:"";position:absolute;inset:0;background:radial-gradient(72% 52% at 50% 42%,rgba(192,160,98,.17),transparent 66%)}
+#interlude::after{content:"";position:absolute;inset:18px;border:1px solid rgba(192,160,98,.24)}
+.ik{position:relative;z-index:2;font-size:9px;letter-spacing:.32em;color:#C0A062;margin-bottom:26px}
+#interlude h2{position:relative;z-index:2;font-family:var(--serif);font-size:26px;line-height:1.75;font-weight:600;margin-bottom:18px;letter-spacing:.05em}
+#interlude p{position:relative;z-index:2;font-size:13px;line-height:2;color:rgba(244,239,230,.64);max-width:330px;margin-bottom:34px}
+#interlude button{position:relative;z-index:2;width:100%;max-width:320px}
+
+.rep-head .ph{position:absolute;inset:0;z-index:0}
+.rep-head .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 38%;opacity:.42}
+.rep-head .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,17,24,.5),rgba(11,17,24,.94))}
+.hid-photo{margin:-6px -22px 24px;height:200px;overflow:hidden;position:relative}
+.hid-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 42%;opacity:.86}
+.hid-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,17,24,0),rgba(11,17,24,.55))}
+.rev-photo{width:132px;height:168px;margin:0 auto 26px;overflow:hidden;border:1px solid rgba(192,160,98,.42);position:relative;z-index:2}
+.rev-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+
 @media (min-width:768px){
   .cover-title{font-size:56px}
   .q-text{font-size:25px}
@@ -393,8 +429,11 @@ img{display:block;max-width:100%}
 
 <!-- ===== 视图：封面 ===== -->
 <section class="view active" id="v-cover">
+  <div class="cover-bg"><img src="assets/cover.jpg" alt=""></div>
+  <div class="cover-frame"></div>
   <div class="cover-top"><span>PERSONALITY ARCHIVE</span><span>NO.003 / 2026</span></div>
   <div class="cover-main">
+    <div class="cover-seal"><b></b>SEALED · 36 ITEMS<b></b></div>
     <p class="cover-kicker">THE DOUBLE SELF</p>
     <h1 class="cover-title"><span>双面</span><span>人格档案</span></h1>
     <p class="cover-en">A DUAL PERSONALITY ARCHIVE</p>
@@ -426,6 +465,7 @@ img{display:block;max-width:100%}
 <section class="view" id="v-reveal">
   <div class="reveal-in">
     <p class="reveal-k">OUTER PERSONALITY · CONFIRMED</p>
+    <div class="rev-photo"><img id="revPhoto" src="assets/cover.jpg" alt=""></div>
     <p class="reveal-small">你的外在人格是</p>
     <h1 class="reveal-name" id="revName"></h1>
     <p class="reveal-en" id="revEn"></p>
@@ -444,6 +484,13 @@ img{display:block;max-width:100%}
 <section class="view" id="v-report">
   <div id="repRoot"></div>
 </section>
+
+<div id="interlude">
+  <p class="ik">OUTER ARCHIVE · SEALED</p>
+  <h2>外在档案已封存</h2>
+  <p>接下来的这一部分不看你的表现，只看你在没人看着的时候，最可能怎么反应。不用挑「对」的答案。</p>
+  <button class="btn-gold" id="interBtn">进入第二部分</button>
+</div>
 
 <div id="toast"></div>
 
@@ -1381,11 +1428,20 @@ function renderQ(){
       setTimeout(nextQ, 320);
     });
   });
+
+  const body = $('qBody');
+  body.classList.remove('anim');
+  void body.offsetWidth;
+  body.classList.add('anim');
+  [].forEach.call(body.querySelectorAll('.opt,.tick'), (el,i)=>{
+    el.style.animationDelay = (0.04 + i*0.03) + 's';
+  });
 }
 function nextQ(){
   if(state.idx >= QS.length - 1){ finishTest(); return; }
   state.idx++;
   saveProgress();
+  if(state.idx === 16){ $('interlude').classList.add('show'); return; }
   renderQ();
 }
 
@@ -1393,6 +1449,7 @@ function nextQ(){
 function renderReveal(){
   const r = state.result, t = TYPES[r.type];
   $('revName').textContent = t.name;
+  const rp = $('revPhoto'); if(rp) rp.src = 'assets/t' + t.no + '.jpg';
   $('revEn').textContent = t.en + ' · NO.' + t.no;
   $('revDims').innerHTML = DIM_ORDER.map(d=>{
     const p = r.outer[d], dim = DIMS[d];
@@ -1511,7 +1568,7 @@ function renderReport(){
   ).join('');
 
   const html =
-  '<div class="rep-head">' +
+  '<div class="rep-head"><div class="ph"><img src="assets/t' + t.no + '.jpg" alt=""></div>' +
     '<div class="rep-topline"><span>PERSONALITY ARCHIVE</span><span>NO.' + t.no + ' / 2026</span></div>' +
     '<h1 class="rep-name">' + t.name + '</h1>' +
     '<p class="rep-en">' + t.en + ' · 双面人格档案</p>' +
@@ -1530,6 +1587,7 @@ function renderReport(){
       '<div class="paid-body">' +
 
         '<div class="band-dark"><div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">隐藏人格揭晓</h2><span class="sec-en">HIDDEN LAYER</span></div>' +
+          '<div class="hid-photo"><img src="assets/h_' + r.hid + '.jpg" alt=""></div>' +
           hidHead +
           '<p class="hid-quote">「' + h.line + '」</p>' +
           '<div class="prose" style="margin-top:20px"><p>' + h.portrait[0] + '</p><p>' + h.portrait[1] + '</p>' +
@@ -1649,7 +1707,15 @@ function wrapLines(g, text, maxW){
   if(line) lines.push(line);
   return lines;
 }
-function buildPoster(){
+function loadImg(src){
+  return new Promise(res=>{
+    const i = new Image();
+    i.onload = ()=>res(i);
+    i.onerror = ()=>res(null);
+    i.src = src;
+  });
+}
+function buildPoster(photo){
   const r = state.result, t = TYPES[r.type];
   const W = 720, H = 1280;
   const c = document.createElement('canvas');
@@ -1657,6 +1723,17 @@ function buildPoster(){
   const g = c.getContext('2d');
 
   g.fillStyle = '#0B1118'; g.fillRect(0,0,W,H);
+
+  if(photo){
+    const sc = Math.max(W/photo.width, H/photo.height);
+    const dw = photo.width*sc, dh = photo.height*sc;
+    g.drawImage(photo, (W-dw)/2, (H-dh)/2, dw, dh);
+    const grd = g.createLinearGradient(0,0,0,H);
+    grd.addColorStop(0,'rgba(11,17,24,.52)');
+    grd.addColorStop(0.42,'rgba(11,17,24,.34)');
+    grd.addColorStop(1,'rgba(11,17,24,.86)');
+    g.fillStyle = grd; g.fillRect(0,0,W,H);
+  }
 
   const rad = g.createRadialGradient(W/2, 300, 30, W/2, 300, 660);
   rad.addColorStop(0,'rgba(192,160,98,0.15)');
@@ -1736,13 +1813,13 @@ async function openPoster(){
   if(!state.result) return;
   toast('正在生成档案卡…', 1400);
   try{ if(document.fonts && document.fonts.ready){ await document.fonts.ready; } }catch(e){}
-  try{
-    const url = buildPoster();
-    $('posterImg').src = url;
-    $('posterLayer').classList.add('show');
-  }catch(e){
-    toast('生成失败，换个浏览器试试');
-  }
+  const t = TYPES[state.result.type];
+  const photo = await loadImg('assets/t' + t.no + '.jpg');
+  let url = null;
+  try{ url = buildPoster(photo); }catch(e){ try{ url = buildPoster(null); }catch(e2){ url = null; } }
+  if(!url){ toast('生成失败，换个浏览器试试'); return; }
+  $('posterImg').src = url;
+  $('posterLayer').classList.add('show');
 }
 
 /* ============ 启动 ============ */
@@ -1768,6 +1845,10 @@ async function openPoster(){
   });
   $('posterClose').addEventListener('click', ()=>{
     $('posterLayer').classList.remove('show');
+  });
+  $('interBtn').addEventListener('click', ()=>{
+    $('interlude').classList.remove('show');
+    renderQ();
   });
 })();
 </script>
