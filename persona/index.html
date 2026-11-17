@@ -10,8 +10,8 @@
 <link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap">
 <style>
 :root{
-  --night:#0B1118;
-  --night2:#101923;
+  --night:#14304A;
+  --night2:#1A3D5C;
   --ink:#172029;
   --paper:#F4EFE6;
   --paper2:#EAE2D4;
@@ -382,7 +382,7 @@ img{display:block;max-width:100%}
 /* ===== v2：鎏金质感 / 一题一屏 ===== */
 .cover-bg{position:absolute;inset:0;z-index:0;overflow:hidden}
 .cover-bg img{width:100%;height:100%;object-fit:cover;object-position:50% 38%;opacity:.66;filter:saturate(.96) contrast(1.04)}
-.cover-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,17,24,.42) 0%,rgba(11,17,24,.7) 36%,rgba(11,17,24,.93) 100%)}
+.cover-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,48,74,.38) 0%,rgba(20,48,74,.64) 36%,rgba(16,40,62,.9) 100%)}
 .cover-frame{position:absolute;inset:15px;border:1px solid rgba(192,160,98,.32);z-index:3;pointer-events:none}
 .cover-frame::before{content:"";position:absolute;inset:7px;border:1px solid rgba(192,160,98,.12)}
 .cover-frame::after{content:"";position:absolute;left:50%;top:-1px;transform:translateX(-50%);width:74px;height:2px;background:linear-gradient(90deg,transparent,#C0A062,transparent)}
@@ -395,7 +395,7 @@ img{display:block;max-width:100%}
 .q-body.anim .q-index,.q-body.anim .q-text,.q-body.anim .q-hint,.q-body.anim .opts,.q-body.anim .scale{animation:qIn .42s cubic-bezier(.22,.9,.28,1) both}
 .q-body.anim .opt,.q-body.anim .tick{animation:optIn .42s cubic-bezier(.22,.9,.28,1) both}
 
-#interlude{position:fixed;inset:0;z-index:70;background:#0B1118;color:#F4EFE6;
+#interlude{position:fixed;inset:0;z-index:70;background:#14304A;color:#F4EFE6;
 display:flex;flex-direction:column;justify-content:center;align-items:center;padding:44px 28px;text-align:center;
 opacity:0;pointer-events:none;transition:opacity .32s ease}
 #interlude.show{opacity:1;pointer-events:auto}
@@ -408,7 +408,7 @@ opacity:0;pointer-events:none;transition:opacity .32s ease}
 
 .rep-head .ph{position:absolute;inset:0;z-index:0}
 .rep-head .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 38%;opacity:.42}
-.rep-head .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,17,24,.5),rgba(11,17,24,.94))}
+.rep-head .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,48,74,.35),rgba(18,42,66,.9))}
 .hid-photo{margin:-6px -22px 24px;height:200px;overflow:hidden;position:relative}
 .hid-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 42%;opacity:.86}
 .hid-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,17,24,0),rgba(11,17,24,.55))}
@@ -418,11 +418,11 @@ opacity:0;pointer-events:none;transition:opacity .32s ease}
 /* ===== v3：全站深蓝鎏金 ===== */
 body{
   background:
-    radial-gradient(90% 55% at 50% -8%, rgba(192,160,98,.16), transparent 62%),
-    radial-gradient(60% 45% at 96% 102%, rgba(58,88,132,.22), transparent 60%),
-    repeating-linear-gradient(0deg, rgba(192,160,98,.045) 0 1px, transparent 1px 54px),
-    repeating-linear-gradient(90deg, rgba(192,160,98,.045) 0 1px, transparent 1px 54px),
-    #080E15;
+    radial-gradient(95% 60% at 50% -10%, rgba(118,168,228,.28), transparent 64%),
+    radial-gradient(70% 50% at 94% 106%, rgba(192,160,98,.16), transparent 62%),
+    repeating-linear-gradient(0deg, rgba(198,220,246,.038) 0 1px, transparent 1px 56px),
+    repeating-linear-gradient(90deg, rgba(198,220,246,.038) 0 1px, transparent 1px 56px),
+    linear-gradient(180deg,#173650 0%,#132B44 46%,#102338 100%);
   background-attachment:fixed;
   color:#F4EFE6;
 }
@@ -466,7 +466,7 @@ body{
 .sec-num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid rgba(192,160,98,.45);border-radius:50%;font-size:9.5px;color:#D8C08A;flex:0 0 auto}
 .prose p{color:rgba(244,239,230,.84)}
 .band{background:rgba(192,160,98,.055);border-top:1px solid rgba(192,160,98,.18);border-bottom:1px solid rgba(192,160,98,.18)}
-.band-dark{background:rgba(5,9,14,.6);border-top:1px solid rgba(192,160,98,.24);border-bottom:1px solid rgba(192,160,98,.24)}
+.band-dark{background:rgba(14,38,60,.5);border-top:1px solid rgba(192,160,98,.24);border-bottom:1px solid rgba(192,160,98,.24)}
 .band-dark .prose p{color:rgba(244,239,230,.8)}
 .band-dark .sec-en{color:rgba(192,160,98,.34)}
 .block{background:rgba(255,255,255,.035);border-color:rgba(192,160,98,.2)}
@@ -1423,8 +1423,15 @@ function computeOuter(){
     if(q.phase !== 'outer') return;
     const a = state.answers[q.n];
     if(a === null || a === undefined) return;
-    let v = a;
-    if(q.k === 'scale' && q.rev) v = 6 - a;
+    let v;
+    if(q.k === 'sit'){
+      const chosen = q.opts.find(o=>o.t === a);
+      v = chosen ? chosen.v : 3;
+    }else{
+      v = Number(a);
+      if(q.rev) v = 6 - v;
+    }
+    if(isNaN(v)) v = 3;
     sum[q.d] += v; cnt[q.d]++;
   });
   const pct = {};
@@ -1827,7 +1834,7 @@ function buildPoster(photo){
   c.width = W; c.height = H;
   const g = c.getContext('2d');
 
-  g.fillStyle = '#0B1118'; g.fillRect(0,0,W,H);
+  g.fillStyle = '#14304A'; g.fillRect(0,0,W,H);
 
   if(photo){
     const sc = Math.max(W/photo.width, H/photo.height);
